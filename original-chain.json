@@ -1,0 +1,177 @@
+{
+  "input": "E:\\game\\已加速- CF2.0搭建（使用2012系统）\\客户端\\10.4CrossFire\\D3DREF9.DLL",
+  "image_base": "0x10000000",
+  "entry_rva": "0xf23c6",
+  "machine": "0x14c",
+  "sections": [
+    {
+      "name": ".text\u0000\u0000\u0000",
+      "rva": "0x1000",
+      "raw": "0x1000",
+      "raw_size": "0x113000",
+      "vsize": "0x112bca",
+      "executable": true
+    },
+    {
+      "name": ".rdata\u0000\u0000",
+      "rva": "0x114000",
+      "raw": "0x114000",
+      "raw_size": "0x81000",
+      "vsize": "0x801b0",
+      "executable": false
+    },
+    {
+      "name": ".data\u0000\u0000\u0000",
+      "rva": "0x195000",
+      "raw": "0x195000",
+      "raw_size": "0x14000",
+      "vsize": "0x51f6e",
+      "executable": false
+    },
+    {
+      "name": ".rsrc\u0000\u0000\u0000",
+      "rva": "0x1e7000",
+      "raw": "0x1a9000",
+      "raw_size": "0x6000",
+      "vsize": "0x5b60",
+      "executable": false
+    },
+    {
+      "name": ".reloc\u0000\u0000",
+      "rva": "0x1ed000",
+      "raw": "0x1af000",
+      "raw_size": "0x1c000",
+      "vsize": "0x1ba08",
+      "executable": false
+    }
+  ],
+  "exports": [
+    {
+      "ordinal": 1,
+      "name": null,
+      "rva": "0x4a7e"
+    }
+  ],
+  "features": [
+    {
+      "label": "自动瞄准",
+      "file_offset": "0x1744d3",
+      "rva": "0x1744d3",
+      "va": "0x101744d3",
+      "direct_code_refs": []
+    },
+    {
+      "label": "自动开枪",
+      "file_offset": "0x169776",
+      "rva": "0x169776",
+      "va": "0x10169776",
+      "direct_code_refs": []
+    },
+    {
+      "label": "无线电",
+      "file_offset": "0x16f355",
+      "rva": "0x16f355",
+      "va": "0x1016f355",
+      "direct_code_refs": []
+    },
+    {
+      "label": "瞬移",
+      "file_offset": "0x16accd",
+      "rva": "0x16accd",
+      "va": "0x1016accd",
+      "direct_code_refs": []
+    },
+    {
+      "label": "第三人称",
+      "file_offset": "0x1797b7",
+      "rva": "0x1797b7",
+      "va": "0x101797b7",
+      "direct_code_refs": []
+    },
+    {
+      "label": "人物穿墙",
+      "file_offset": "0x179d93",
+      "rva": "0x179d93",
+      "va": "0x10179d93",
+      "direct_code_refs": []
+    },
+    {
+      "label": "空格连跳",
+      "file_offset": "0x179ebf",
+      "rva": "0x179ebf",
+      "va": "0x10179ebf",
+      "direct_code_refs": []
+    },
+    {
+      "label": "刀枪爆头",
+      "file_offset": "0x17b286",
+      "rva": "0x17b286",
+      "va": "0x1017b286",
+      "direct_code_refs": []
+    },
+    {
+      "label": "子弹穿墙",
+      "file_offset": "0x17b3b6",
+      "rva": "0x17b3b6",
+      "va": "0x1017b3b6",
+      "direct_code_refs": []
+    },
+    {
+      "label": "无后坐力",
+      "file_offset": "0x17b616",
+      "rva": "0x17b616",
+      "va": "0x1017b616",
+      "direct_code_refs": []
+    },
+    {
+      "label": "人物透视",
+      "file_offset": "0x17b876",
+      "rva": "0x17b876",
+      "va": "0x1017b876",
+      "direct_code_refs": []
+    },
+    {
+      "label": "不掉血",
+      "file_offset": "0x173381",
+      "rva": "0x173381",
+      "va": "0x10173381",
+      "direct_code_refs": []
+    },
+    {
+      "label": "无限背包",
+      "file_offset": "0x17ad7c",
+      "rva": "0x17ad7c",
+      "va": "0x1017ad7c",
+      "direct_code_refs": []
+    },
+    {
+      "label": "挂房",
+      "file_offset": "0x17c0d7",
+      "rva": "0x17c0d7",
+      "va": "0x1017c0d7",
+      "direct_code_refs": []
+    },
+    {
+      "label": "两键优化游戏进程",
+      "file_offset": "0x17c08e",
+      "rva": "0x17c08e",
+      "va": "0x1017c08e",
+      "direct_code_refs": []
+    },
+    {
+      "label": "摔不掉血",
+      "file_offset": "0x178f83",
+      "rva": "0x178f83",
+      "va": "0x10178f83",
+      "direct_code_refs": []
+    },
+    {
+      "label": "零秒换弹",
+      "file_offset": "0x17b4e6",
+      "rva": "0x17b4e6",
+      "va": "0x1017b4e6",
+      "direct_code_refs": []
+    }
+  ],
+  "api_sites": []
+}
