@@ -13,6 +13,7 @@ public:
  void ReleaseOwned(InputOwner owner);
  static LRESULT CALLBACK HookProc(int code,WPARAM wp,LPARAM lp); static LRESULT CALLBACK MouseHookProc(int code,WPARAM wp,LPARAM lp);
 private:
+ bool HandleFeatureHotkey(DWORD vk);
  InputRouter()=default; HHOOK hook_{},mouseHook_{}; mutable std::mutex mu_; std::array<bool,256> physical_{}; std::unordered_map<WORD,InputOwner> keys_;
 };
 }

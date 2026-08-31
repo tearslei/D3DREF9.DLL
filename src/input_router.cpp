@@ -3,11 +3,21 @@
 #include "instant_sniper.h"
 #include "home_panel.h"
 #include "aim_controller.h"
+#include "feature_manager.h"
 namespace d3dref9 {
 InputRouter& InputRouter::Instance(){static InputRouter r;return r;}
+bool InputRouter::HandleFeatureHotkey(DWORD vk){
+ DWORD mod=Physical(VK_F7)?VK_F7:(Physical(VK_F9)?VK_F9:(Physical(VK_F10)?VK_F10:0));
+ if(!mod) return false; Feature f=Feature::Count;
+ if(mod==VK_F7){ if(vk=='Y')f=Feature::OptimizeProcess; else if(vk=='3')f=Feature::RoomStay; else if(vk=='5')f=Feature::OldNoDamage; else if(vk=='6')f=Feature::PlayerEsp; else if(vk=='8')f=Feature::NoRecoil; else if(vk=='9')f=Feature::InstantReload; else if(vk=='0')f=Feature::BulletWall; else if(vk=='Q')f=Feature::AimAutoFire; }
+ else if(mod==VK_F9){ if(vk=='1')f=Feature::Headshot; else if(vk=='D')f=Feature::BunnyHop; else if(vk=='E')f=Feature::PlayerNoclip; else if(vk=='J')f=Feature::InfiniteBackpack; else if(vk=='L')f=Feature::ThirdPerson; else if(vk=='V')f=Feature::FallNoDamage; }
+ else if(mod==VK_F10){ if(vk=='X')f=Feature::Radio; else if(vk=='W')f=Feature::TeleportGround; }
+ if(f==Feature::Count || !FeatureMeta(f).visible) return false; Features().Toggle(f); return true;
+}
+
 bool InputRouter::Install(){if(hook_&&mouseHook_)return true;HMODULE mod=nullptr;GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,(LPCWSTR)(void*)&HookProc,&mod);hook_=SetWindowsHookExW(WH_KEYBOARD_LL,HookProc,mod,0);mouseHook_=SetWindowsHookExW(WH_MOUSE_LL,MouseHookProc,mod,0);return hook_&&mouseHook_;}
 void InputRouter::Uninstall(){if(hook_){UnhookWindowsHookEx(hook_);hook_=nullptr;}if(mouseHook_){UnhookWindowsHookEx(mouseHook_);mouseHook_=nullptr;} ReleaseOwned(InputOwner::Macro);ReleaseOwned(InputOwner::Sniper);ReleaseOwned(InputOwner::Internal);}
-void InputRouter::OnKey(DWORD vk,bool down,bool injected){if(vk<physical_.size()&&!injected){std::lock_guard<std::mutex>l(mu_);physical_[vk]=down;} if(!injected){ if(down&&vk==VK_HOME)HomePanel::Instance().Toggle(); MacroEngine::Instance().OnKey(vk,down); InstantSniper::Instance().OnKey(vk,down); AimController::Instance().OnKey(vk,down,InstantSniper::Instance().SniperMode()); }}
+void InputRouter::OnKey(DWORD vk,bool down,bool injected){if(vk<physical_.size()&&!injected){std::lock_guard<std::mutex>l(mu_);physical_[vk]=down;} if(!injected){ if(down&&vk==VK_HOME)HomePanel::Instance().Toggle(); if(down)HandleFeatureHotkey(vk); MacroEngine::Instance().OnKey(vk,down); InstantSniper::Instance().OnKey(vk,down); AimController::Instance().OnKey(vk,down,InstantSniper::Instance().SniperMode()); }}
 bool InputRouter::Physical(DWORD vk)const{if(vk>=physical_.size())return false;std::lock_guard<std::mutex>l(mu_);return physical_[vk];}
 void InputRouter::KeyScan(WORD scan,bool down,InputOwner owner){INPUT in{};in.type=INPUT_KEYBOARD;in.ki.wScan=scan;in.ki.dwFlags=KEYEVENTF_SCANCODE|(down?0:KEYEVENTF_KEYUP);SendInput(1,&in,sizeof(in));std::lock_guard<std::mutex>l(mu_);if(down)keys_[scan]=owner;else keys_.erase(scan);}
 void InputRouter::MouseMove(int dx,int dy){INPUT in{};in.type=INPUT_MOUSE;in.mi.dx=dx;in.mi.dy=dy;in.mi.dwFlags=MOUSEEVENTF_MOVE;SendInput(1,&in,sizeof(in));}
