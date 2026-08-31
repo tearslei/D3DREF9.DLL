@@ -1,0 +1,17 @@
+# Build outputs
+build/
+*.obj
+*.o
+*.pdb
+*.ilk
+*.lib
+*.exp
+*.dll
+
+# IDE/user files
+.vs/
+*.user
+*.suo
+
+# Local logs
+*.log
