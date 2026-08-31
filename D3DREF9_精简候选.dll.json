@@ -1,0 +1,215 @@
+{
+  "input": "E:\\game\\已加速- CF2.0搭建（使用2012系统）\\客户端\\10.4CrossFire\\D3DREF9.DLL",
+  "output": "D3DREF9_精简候选.dll",
+  "patched_calls": [
+    {
+      "rva": "0x8e50a",
+      "dll": "ADVAPI32.dll",
+      "api": "RegOpenKeyExA",
+      "kind": "call"
+    },
+    {
+      "rva": "0x8e52e",
+      "dll": "ADVAPI32.dll",
+      "api": "RegQueryValueA",
+      "kind": "call"
+    },
+    {
+      "rva": "0x8e54c",
+      "dll": "ADVAPI32.dll",
+      "api": "RegCloseKey",
+      "kind": "call"
+    },
+    {
+      "rva": "0x8e5f8",
+      "dll": "SHELL32.dll",
+      "api": "ShellExecuteA",
+      "kind": "call"
+    },
+    {
+      "rva": "0x8e6e5",
+      "dll": "KERNEL32.dll",
+      "api": "WinExec",
+      "kind": "call"
+    },
+    {
+      "rva": "0x99e7f",
+      "dll": "WS2_32.dll",
+      "api": "WSACleanup",
+      "kind": "call"
+    },
+    {
+      "rva": "0xacd8e",
+      "dll": "WS2_32.dll",
+      "api": "WSAAsyncSelect",
+      "kind": "call"
+    },
+    {
+      "rva": "0xacd95",
+      "dll": "WS2_32.dll",
+      "api": "closesocket",
+      "kind": "call"
+    },
+    {
+      "rva": "0xacdd2",
+      "dll": "WS2_32.dll",
+      "api": "ioctlsocket",
+      "kind": "call"
+    },
+    {
+      "rva": "0xace20",
+      "dll": "WS2_32.dll",
+      "api": "recvfrom",
+      "kind": "call"
+    },
+    {
+      "rva": "0xaceed",
+      "dll": "WS2_32.dll",
+      "api": "ioctlsocket",
+      "kind": "call"
+    },
+    {
+      "rva": "0xad014",
+      "dll": "WS2_32.dll",
+      "api": "accept",
+      "kind": "call"
+    },
+    {
+      "rva": "0xad043",
+      "dll": "WS2_32.dll",
+      "api": "WSAAsyncSelect",
+      "kind": "call"
+    },
+    {
+      "rva": "0xad059",
+      "dll": "WS2_32.dll",
+      "api": "getpeername",
+      "kind": "call"
+    },
+    {
+      "rva": "0xad1d3",
+      "dll": "WS2_32.dll",
+      "api": "ioctlsocket",
+      "kind": "call"
+    },
+    {
+      "rva": "0xad330",
+      "dll": "WS2_32.dll",
+      "api": "WSACleanup",
+      "kind": "jmp"
+    },
+    {
+      "rva": "0xef4aa",
+      "dll": "WININET.dll",
+      "api": "InternetCloseHandle",
+      "kind": "call"
+    },
+    {
+      "rva": "0xef4eb",
+      "dll": "WININET.dll",
+      "api": "InternetCloseHandle",
+      "kind": "call"
+    },
+    {
+      "rva": "0xf1220",
+      "dll": "WS2_32.dll",
+      "api": "WSAStartup",
+      "kind": "jmp"
+    },
+    {
+      "rva": "0xf1226",
+      "dll": "WS2_32.dll",
+      "api": "WSACleanup",
+      "kind": "jmp"
+    },
+    {
+      "rva": "0xf122c",
+      "dll": "WS2_32.dll",
+      "api": "select",
+      "kind": "jmp"
+    },
+    {
+      "rva": "0xf1232",
+      "dll": "WS2_32.dll",
+      "api": "send",
+      "kind": "jmp"
+    },
+    {
+      "rva": "0xf1238",
+      "dll": "WS2_32.dll",
+      "api": "closesocket",
+      "kind": "jmp"
+    },
+    {
+      "rva": "0xf123e",
+      "dll": "WS2_32.dll",
+      "api": "recv",
+      "kind": "jmp"
+    },
+    {
+      "rva": "0x10b93c",
+      "dll": "ADVAPI32.dll",
+      "api": "RegSetValueExA",
+      "kind": "call"
+    },
+    {
+      "rva": "0x10b945",
+      "dll": "ADVAPI32.dll",
+      "api": "RegCloseKey",
+      "kind": "call"
+    },
+    {
+      "rva": "0x10e595",
+      "dll": "ADVAPI32.dll",
+      "api": "RegOpenKeyExA",
+      "kind": "call"
+    },
+    {
+      "rva": "0x10e62b",
+      "dll": "ADVAPI32.dll",
+      "api": "RegCreateKeyExA",
+      "kind": "call"
+    },
+    {
+      "rva": "0x10e632",
+      "dll": "ADVAPI32.dll",
+      "api": "RegCloseKey",
+      "kind": "call"
+    }
+  ],
+  "scrubbed_strings": [
+    {
+      "offset": "0x122d76",
+      "value": "https://mp3.t57.cn:7087/kwlink_d.php?id=207449126"
+    },
+    {
+      "offset": "0x11822a",
+      "value": "www.zhenniu.biz"
+    },
+    {
+      "offset": "0x17be7d",
+      "value": "www.zhenniu.biz"
+    },
+    {
+      "offset": "0x1184f9",
+      "value": "zhenniu.biz"
+    },
+    {
+      "offset": "0x11820a",
+      "value": "www.xzgogo.com"
+    },
+    {
+      "offset": "0x17be5d",
+      "value": "www.xzgogo.com"
+    },
+    {
+      "offset": "0x138260",
+      "value": "CrossProxy.exe"
+    },
+    {
+      "offset": "0x1382ca",
+      "value": "CrossSSOHolder.exe"
+    }
+  ],
+  "cave_rva": "0x113bca"
+}
