@@ -11,6 +11,20 @@ $ErrorActionPreference = 'Stop'
 $targetName = 'crossfire'
 $launchBat = Join-Path $ClientDir 'A点我启动游戏.bat'
 
+# crossfire.exe 是 x86；远程线程入口地址必须来自同位数 PowerShell。
+# 从 64 位 PowerShell 手工运行时自动转到 SysWOW64 的 32 位 PowerShell。
+if ([IntPtr]::Size -ne 4) {
+  $ps32 = Join-Path $env:WINDIR 'SysWOW64\WindowsPowerShell\v1.0\powershell.exe'
+  if (-not (Test-Path -LiteralPath $ps32)) {
+    throw '未找到 32 位 PowerShell；x86 crossfire.exe 必须使用 32 位 PowerShell 执行加载脚本。'
+  }
+  $forward = @('-NoProfile','-ExecutionPolicy','Bypass','-File',$PSCommandPath,
+    '-ClientDir',$ClientDir,'-DllPath',$DllPath,'-WaitSeconds',$WaitSeconds)
+  if ($Launch) { $forward += '-Launch' }
+  & $ps32 @forward
+  exit $LASTEXITCODE
+}
+
 if (-not (Test-Path -LiteralPath $DllPath)) {
   throw "DLL 不存在：$DllPath`n先运行 .\build.ps1 编译。"
 }
