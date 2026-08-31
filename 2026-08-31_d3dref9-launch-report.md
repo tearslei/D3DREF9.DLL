@@ -37,3 +37,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File '.\启动-自治DLL.ps1' -La
 - 尚未在 CF 实机中确认注入返回值和面板显示。
 - 原 `D3DREF9.DLL` 的 ordinal 1 调用约定仍未还原。
 - 游戏地址相关的透视、无后坐力、生命、穿墙等 handler 仍未接入；当前工程不能宣称这些功能可用。
+
+## 原 DLL 精简候选
+
+已生成 `D3DREF9_精简候选.dll`（原文件副本，SHA-256：`9359CE4A23EB808BA13327EB2A55711B27985994B276A202439CAF386A2C0BD2`）。静态补丁覆盖 29 个已定位的网络、注册表、`ShellExecuteA`、`WinExec` 调用点，并清除已知 IOC 字符串；原导入表仍保留，且未做 CF 实机加载测试。该文件是测试候选，不是已经验证的全功能成品。
