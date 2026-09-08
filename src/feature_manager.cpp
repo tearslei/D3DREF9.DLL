@@ -2,7 +2,7 @@
 #include "game_handlers.h"
 namespace d3dref9 {
 static const std::array<FeatureInfo,(size_t)Feature::Count> kMeta = {{
- {L"两键优化游戏进程",false,false},{L"房间挂房不卡",false,false},
+ {L"两键优化游戏进程",false,false},{L"房间挂房不卡",false,false},{L"游戏旧不掉血",false,true},
  {L"刷无线电",true,false},{L"人物透视",true,false},{L"无后坐力",true,false},{L"零秒换弹",true,false},{L"子弹穿墙",true,false},{L"刀枪爆头",true,false},{L"第三人称",true,false},{L"空格连跳",true,false},{L"人物穿墙",true,false},{L"瞬移通地",true,false},
  // 普通自瞄/自动开火必须由左 Alt+Z 显式开启；启动时保持关闭。
  {L"摔不掉血",false,false},{L"自动瞄准+自动开枪",false,false}}};
@@ -12,6 +12,7 @@ void FeatureManager::ApplyStartup(){ std::lock_guard<std::mutex> l(mu_); for(siz
 void FeatureManager::ApplyDelayedStartup(){ Set(Feature::OptimizeProcess,true); }
 void FeatureManager::ApplyStartupHandlers(){
     Set(Feature::RoomStay,true);
+    Set(Feature::OldNoDamage,true);
     Set(Feature::FallNoDamage,true);
 }
 bool FeatureManager::Toggle(Feature f){

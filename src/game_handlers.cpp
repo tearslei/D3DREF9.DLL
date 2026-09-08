@@ -15,6 +15,8 @@ namespace {
 constexpr uintptr_t kImageBase = 0x00400000u;
 // Offsets recovered from TCII2.0 source (TCII变态版本(加追敌和跳舞).e).
 constexpr uintptr_t kPlayerPtr = 0x16B3FD0u;
+// TCII legacy no-damage pointer: *(cshell + 0x16F2C04) + 468 = damage gate.
+constexpr uintptr_t kOldNoDamagePtrRva = 0x16F2C04u;
 constexpr uintptr_t kWeaponPtr = 0x1E70F30u;
 constexpr uintptr_t kLobby = 0x171BC00u;
 constexpr uintptr_t kCrossfireEspAbs = 0x011D536Cu;
@@ -678,6 +680,11 @@ void GameHandlers::SetStatic(Feature f, bool on) {
     }
 }
 void GameHandlers::TickDynamic(Feature f, bool) {
+    if (f == Feature::OldNoDamage) {
+        const auto root = Read32(S(kOldNoDamagePtrRva));
+        if (root) WriteFeature32(f, root + 468u, 0u);
+        return;
+    }
     auto pl = CurrentPlayer();
     // TCII keeps two player layouts.  The newer layout marks the live state
     // at +1320 and uses +1456 for the fall-damage immunity flag; the legacy

@@ -2,7 +2,7 @@
 #include "common.h"
 namespace d3dref9 {
 enum class Feature : uint32_t {
- OptimizeProcess, RoomStay,
+ OptimizeProcess, RoomStay, OldNoDamage,
  Radio, PlayerEsp, NoRecoil, InstantReload, BulletWall, Headshot, ThirdPerson,
  BunnyHop, PlayerNoclip, TeleportGround,
  FallNoDamage, AimAutoFire, Count

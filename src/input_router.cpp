@@ -35,7 +35,7 @@ bool InputRouter::HandleFeatureHotkey(DWORD vk){
  const auto held=[this](DWORD key){return Physical(key)||(GetAsyncKeyState(static_cast<int>(key))&0x8000)!=0;};
  DWORD mod=held(VK_F7)?VK_F7:(held(VK_F9)?VK_F9:(held(VK_F10)?VK_F10:0));
  if(!mod) return false; Feature f=Feature::Count;
- if(mod==VK_F7){ if(vk=='Y')f=Feature::OptimizeProcess; else if(vk=='3')f=Feature::RoomStay; else if(vk=='6')f=Feature::PlayerEsp; else if(vk=='8')f=Feature::NoRecoil; else if(vk=='9')f=Feature::InstantReload; else if(vk=='0')f=Feature::BulletWall; }
+ if(mod==VK_F7){ if(vk=='Y')f=Feature::OptimizeProcess; else if(vk=='3')f=Feature::RoomStay; else if(vk=='5')f=Feature::OldNoDamage; else if(vk=='6')f=Feature::PlayerEsp; else if(vk=='8')f=Feature::NoRecoil; else if(vk=='9')f=Feature::InstantReload; else if(vk=='0')f=Feature::BulletWall; }
  else if(mod==VK_F9){
      if(vk=='H'){ HomePanel::Instance().Toggle(); return true; }
      if(vk=='1')f=Feature::Headshot; else if(vk=='D')f=Feature::BunnyHop; else if(vk=='E')f=Feature::PlayerNoclip; else if(vk=='L')f=Feature::ThirdPerson; else if(vk=='V')f=Feature::FallNoDamage;
