@@ -1,0 +1,31 @@
+{
+  "timestamp_utc": "2026-09-07T01:17:46Z",
+  "live_process": {
+    "pid": 17452,
+    "module": "crossfire.exe"
+  },
+  "client_current_not_replaced": {
+    "path": "E:\\game\\已加速- CF2.0搭建（使用2012系统）\\客户端\\10.4CrossFire\\D3DREF9.DLL",
+    "size": 80384,
+    "sha256": "1AB23BF7C1FB81E2E63C22DD86002B56A1924FE345D6BB34BD7E4F5A814A8F7A"
+  },
+  "new_build": {
+    "path": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\D3DREF9.DLL",
+    "size": 88576,
+    "sha256": "227AF20940206711789B68F9145EF0750262460DC88F39FF5BA61E4D0D0B6D65"
+  },
+  "verified_runtime": {
+    "players_root": "0x11703F58",
+    "local_index_raw": 0,
+    "local_slot": 1,
+    "entity_record_stride": "0xD80",
+    "render_object_coordinate_offset": "0x2098",
+    "d3d_wrapper_absolute": "0x011BF438",
+    "d3d_device": "0x147666A0",
+    "viewport": [
+      1280,
+      720
+    ]
+  },
+  "status": "built_and_smoke_tested_not_deployed_while_crossfire_is_running"
+}

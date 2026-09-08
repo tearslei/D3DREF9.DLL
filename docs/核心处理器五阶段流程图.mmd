@@ -1,0 +1,22 @@
+flowchart TD
+    A[退出 CF 并备份原 DLL] --> B[部署 Win32/x86 ordinal 1 壳]
+    B --> C[正常启动 CF]
+    C --> D[进入实际对局并保持可见目标 30 秒]
+    D --> E[只读采集实体 CSV 与 Hook 日志]
+    E --> F{Gate A: 实体/坐标/骨骼有效?}
+    F -- 否 --> D
+    F -- 是 --> G[读取 VIEW/PROJECTION/VIEWPORT]
+    G --> H[相机旋转、目标移动、分辨率变化]
+    H --> I{Gate B: 矩阵与屏幕投影稳定?}
+    I -- 否 --> G
+    I -- 是 --> J[记录 Present/EndScene/DrawIndexedPrimitive]
+    J --> K{Gate C: DrawCall 与实体关联?}
+    K -- 否 --> J
+    K -- 是 --> L[接入敌我判断与目标筛选]
+    L --> M[接入透视、自瞄、自动开枪]
+    M --> N[普通模式 P 三档 / 瞬狙五部位最近点]
+    N --> O[逐项关闭→开启→触发→关闭回归]
+    O --> P{所有功能恢复基线?}
+    P -- 否 --> Q[记录失败项并回滚]
+    Q --> L
+    P -- 是 --> R[生成成品候选与最终报告]

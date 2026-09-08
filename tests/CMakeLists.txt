@@ -1,0 +1,4 @@
+cmake_minimum_required(VERSION 3.20)
+project(d3dref9_load_probe LANGUAGES CXX)
+add_executable(d3dref9_load_probe load_probe.cpp)
+target_compile_definitions(d3dref9_load_probe PRIVATE UNICODE _UNICODE WIN32_LEAN_AND_MEAN)

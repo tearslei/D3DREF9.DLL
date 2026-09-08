@@ -1,0 +1,21 @@
+{
+  "pid": 28276,
+  "d3d9": {
+    "base": "0x68E10000",
+    "size": 1548288,
+    "text": {
+      "name": ".text",
+      "start": 1759580160,
+      "end": 1761001984
+    },
+    "rdata": {
+      "name": ".data",
+      "start": 1761005568,
+      "end": 1761036576
+    }
+  },
+  "read_only": true,
+  "regions_scanned": 2571,
+  "bytes_scanned": 1203384320,
+  "device_pointer_candidates": []
+}

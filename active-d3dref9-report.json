@@ -1,0 +1,28 @@
+{
+  "modules": [
+    {
+      "Module": "D3DREF9.DLL",
+      "Path": "E:\\game\\已加速- CF2.0搭建（使用2012系统）\\客户端\\10.4CrossFire\\D3DREF9.DLL",
+      "Base": "0x60F30000",
+      "Size": 32768,
+      "SHA256": "E30F5FB12CE0C3C60F746F7126424BA86FD9F806D711128ABF1433523F669305"
+    },
+    {
+      "Module": "d3d9_early_trace.dll",
+      "Path": "E:\\game\\已加速- CF2.0搭建（使用2012系统）\\客户端\\10.4CrossFire\\d3d9_early_trace.dll",
+      "Base": "0x60F10000",
+      "Size": 86016,
+      "SHA256": "0FD982A62EB1197616486DE0CC095787A9D7BBDA30281F74E77F892D57387373"
+    },
+    {
+      "Module": "D3DREF9.original.dll",
+      "Path": "E:\\game\\已加速- CF2.0搭建（使用2012系统）\\客户端\\10.4CrossFire\\D3DREF9.original.dll",
+      "Base": "0x172E0000",
+      "Size": 2134016,
+      "SHA256": "E73FEC5C4692D06B136BE3D451A88BEE05921E0076E260C969F3C97C2A905A5A"
+    }
+  ],
+  "process": "E:\\game\\已加速- CF2.0搭建（使用2012系统）\\客户端\\10.4CrossFire\\crossfire.exe",
+  "pid": 16144,
+  "generated": "2026-08-31T21:38:27.2952011+02:00"
+}

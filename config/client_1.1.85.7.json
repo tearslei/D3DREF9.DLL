@@ -1,0 +1,72 @@
+{
+  "client": {
+    "version": "1.1.85.7",
+    "architecture": "x86",
+    "crossfire_sha256": "9BEEC46EECD1985B7E9AF9BDCFC13E479683F3C62EA4B8856160CA9709EB0778",
+    "cshell_sha256": "B3B6BBAC4DDCDB1C110D900D0A9FF14FDF1CCFB60EAB9F0F4B5DD39FB75C4812",
+    "image_base": "0x00400000",
+    "source": "E:\\game\\辅助\\2.0 TCII全套开源\\TCII变态版本(加追敌和跳舞).e",
+    "source_password": "7"
+  },
+  "cshell_rva": {
+    "player_ptr": "0x16B3FD0",
+    "no_damage_ptr": "0x16F2C04",
+    "backpack_ptr": "0x16DF538",
+    "weapon_ptr": "0x1E70F30",
+    "lobby_state": "0x171BC00"
+  },
+  "crossfire_absolute": {
+    "player_esp_state": "0x011D536C"
+  },
+  "player_offsets_new_mode": {
+    "local_person": "0x30",
+    "local_slot_index": "0x208",
+    "alive": "0x528",
+    "hand_weapon": "0x2C8",
+    "reload_state": "0x640",
+    "recoil_a": "0x560",
+    "recoil_b": "0x568",
+    "fall_damage": "0x5B0",
+    "noclip_a": "0xE38",
+    "noclip_b": "0xE40",
+    "bunny_state": "0xB5A",
+    "bunny_flag": "0x594",
+    "view_root": "0xFFFFFFB8",
+    "view_mode": "0x64"
+  },
+  "weapon_offsets": {
+    "entry_stride": 1428,
+    "flags": [
+      1392,
+      1512,
+      1644,
+      1656,
+      1668
+    ]
+  },
+  "static_values": {
+    "esp_on": [
+      0,
+      3,
+      0
+    ],
+    "esp_off": [
+      16777217,
+      0,
+      2
+    ],
+    "recoil_off": 1025490544,
+    "noclip_on": 3231711232,
+    "noclip_off": 1113587712,
+    "jump_boost_on": 1070353216,
+    "jump_boost_off": 1065353216,
+    "headshot_on_float": 180.0,
+    "headshot_off_float": 8.0
+  },
+  "confidence": {
+    "source_to_rva": "L2: static source and module hashes captured; runtime effect still requires in-client verification",
+    "memory_write_guard": "VirtualQuery + VirtualProtect + FlushInstructionCache",
+    "render_hook": "connected: D3DXCreateFontA -> device vtable DIP(82), runtime smoke observed",
+    "aim_targeting": "connected: entity snapshot + nearest-screen target + IsVisible + angle writes; match validation pending"
+  }
+}

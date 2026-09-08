@@ -1,0 +1,24 @@
+{
+  "client": {"crossfire":"1.1.85.7", "cshell":"1.1.85.7", "architecture":"x86"},
+  "d3dref9": {"runtime_base_observed":"0x16FB0000/0x16F70000 (ASLR varies)", "globals_rva_base":"D3DREF9.DLL"},
+  "features": [
+    {"name":"两键优化游戏进程","hotkey":"F7+Y","global_rva":null,"mode":"action","processor":"unknown","status":"flag/path only"},
+    {"name":"房间挂房不卡","hotkey":"F7+3","global_rva":"0x1A8D50","mode":"toggle","processor":"unknown","status":"state verified"},
+    {"name":"游戏旧不掉血","hotkey":"F7+5","global_rva":"0x1A8A88","mode":"toggle","processor":"unknown","status":"state verified"},
+    {"name":"游戏摔不掉血","hotkey":"F9+V","global_rva":"0x1A8C24","mode":"toggle","processor":"unknown","status":"state verified"},
+    {"name":"无限背包","hotkey":"F9+J","global_rva":"0x1A8DE0","mode":"toggle","processor":"unknown","status":"state verified"},
+    {"name":"刷无线电","hotkey":"F10+X","global_rva":"0x1A8F28","mode":"toggle","processor":"unknown","status":"state verified"},
+    {"name":"人物透视","hotkey":"F7+6","global_rva":"0x1A8D58","mode":"toggle","processor":"entity/render","status":"state verified; processor unresolved"},
+    {"name":"无后坐力","hotkey":"F7+8","global_rva":"0x1A8D60","mode":"toggle","processor":"weapon","status":"state verified; processor unresolved"},
+    {"name":"零秒换弹","hotkey":"F7+9","global_rva":"0x1A8A90","mode":"toggle","processor":"weapon","status":"state verified; processor unresolved"},
+    {"name":"子弹穿墙","hotkey":"F7+0","global_rva":"0x1A8A98","mode":"toggle","processor":"collision","status":"state verified; processor unresolved"},
+    {"name":"刀枪爆头","hotkey":"F9+1","global_rva":"0x1A8A9C","mode":"toggle","processor":"weapon","status":"state verified; processor unresolved"},
+    {"name":"第三人称","hotkey":"F9+L","global_rva":"0x1A8DF4","mode":"toggle","processor":"camera","status":"state verified; processor unresolved"},
+    {"name":"空格连跳","hotkey":"F9+D","global_rva":"0x1A8DBC","mode":"toggle","processor":"movement","status":"state verified; processor unresolved"},
+    {"name":"人物穿墙","hotkey":"F9+E","global_rva":"0x1A8DC4","mode":"toggle","processor":"collision","status":"state verified; processor unresolved"},
+    {"name":"瞬移通地","hotkey":"F10+W","global_rva":"0x1A8F20","mode":"toggle","processor":"movement","status":"state verified; processor unresolved"},
+    {"name":"自动瞄准+自动开枪","hotkey":"Alt+1 / F7+Q/W","global_rva":"0x1A8CDC","mode":"controller","processor":"aim/fire","status":"timing and state path verified; target data unresolved"},
+    {"name":"子弹加速","hotkey":"F9+3","global_rva":"0x1A8AB0","mode":"multi-state","processor":"weapon","status":"cycle 0/1/2/3 verified"}
+  ],
+  "patch_bytes": {"status":"not observed", "reason":"toggle actions did not call VirtualProtect/WriteProcessMemory; no deterministic cshell code patch was captured"}
+}

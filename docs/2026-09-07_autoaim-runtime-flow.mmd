@@ -1,0 +1,18 @@
+flowchart TD
+    A[游戏启动] --> B[被动读取 crossfire+0x11BF438]
+    B --> C[wrapper -> IDirect3DDevice9]
+    C --> D[GetTransform 45 + GetViewport 48]
+    A --> E[读取 cshell playersRoot]
+    E --> F[raw local index 0 -> slot 1]
+    F --> G[record + slot*0xD80]
+    G --> H[renderObject + 0x2098]
+    H --> I[coordinate + 0x0C + part*0x40]
+    D --> J[WorldToScreen]
+    I --> J
+    J --> K{敌方骨点进入微型范围?}
+    K -- 否 --> L[aim_gate]
+    K -- 是 --> M{IsVisible 通过?}
+    M -- 否 --> L
+    M -- 是 --> N[选择准心最近骨点]
+    N --> O[写入 +3464/+3468 弧度]
+    O --> P[mouse_event 左键点击]

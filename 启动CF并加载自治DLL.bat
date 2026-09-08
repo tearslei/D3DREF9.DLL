@@ -1,10 +1,10 @@
-@echo off
+﻿@echo off
 setlocal
 cd /d "%~dp0"
 if exist "%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe" (
-  "%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "%~dp0启动-自治DLL.ps1" -Launch
+  "%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "%~dp0启动-自治DLL.ps1" -Launch -Initialize
 ) else (
-  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0启动-自治DLL.ps1" -Launch
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0启动-自治DLL.ps1" -Launch -Initialize
 )
 if errorlevel 1 (
   echo.

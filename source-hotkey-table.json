@@ -1,0 +1,124 @@
+{
+  "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+  "entries": [
+    {
+      "hotkey": "F7+Y",
+      "procedure": "优化游戏进程",
+      "source_registration_lines": [
+        955
+      ]
+    },
+    {
+      "hotkey": "F7+3",
+      "procedure": "开启房间挂房开始",
+      "source_registration_lines": [
+        959
+      ]
+    },
+    {
+      "hotkey": "F7+5",
+      "procedure": "游戏不掉血",
+      "source_registration_lines": [
+        960
+      ]
+    },
+    {
+      "hotkey": "F7+6",
+      "procedure": "开启游戏人物透视",
+      "source_registration_lines": [
+        961
+      ]
+    },
+    {
+      "hotkey": "F7+8",
+      "procedure": "开启游戏无后坐力",
+      "source_registration_lines": [
+        963
+      ]
+    },
+    {
+      "hotkey": "F7+9",
+      "procedure": "开启游戏零秒换弹",
+      "source_registration_lines": [
+        964
+      ]
+    },
+    {
+      "hotkey": "F7+0",
+      "procedure": "开启游戏子弹穿墙",
+      "source_registration_lines": [
+        965
+      ]
+    },
+    {
+      "hotkey": "F9+1",
+      "procedure": "开启游戏刀枪爆头",
+      "source_registration_lines": [
+        966
+      ]
+    },
+    {
+      "hotkey": "F9+L",
+      "procedure": "开启游戏第三人称",
+      "source_registration_lines": [
+        985
+      ]
+    },
+    {
+      "hotkey": "F9+D",
+      "procedure": "开启游戏空格连跳",
+      "source_registration_lines": [
+        977
+      ]
+    },
+    {
+      "hotkey": "F9+E",
+      "procedure": "开启游戏人物穿墙",
+      "source_registration_lines": [
+        978
+      ]
+    },
+    {
+      "hotkey": "F9+V",
+      "procedure": "开启游戏摔不掉血",
+      "source_registration_lines": [
+        994
+      ]
+    },
+    {
+      "hotkey": "F10+X",
+      "procedure": "开启游戏刷无线电",
+      "source_registration_lines": [
+        1029
+      ]
+    },
+    {
+      "hotkey": "F10+W",
+      "procedure": "人物瞬移指定位置",
+      "source_registration_lines": [
+        1036
+      ]
+    },
+    {
+      "hotkey": "Alt+1",
+      "procedure": "自动瞄准按键",
+      "source_registration_lines": [
+        1040
+      ]
+    },
+    {
+      "hotkey": "F7+Q",
+      "procedure": "_自动刷级自动开枪开始开枪按钮_被单击",
+      "source_registration_lines": [
+        951
+      ]
+    },
+    {
+      "hotkey": "F7+W",
+      "procedure": "_自动刷级自动开枪停止开枪按钮_被单击",
+      "source_registration_lines": [
+        952
+      ]
+    }
+  ]
+}

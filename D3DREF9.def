@@ -1,0 +1,3 @@
+LIBRARY D3DREF9
+EXPORTS
+    d3dref9_ordinal1 @1 NONAME

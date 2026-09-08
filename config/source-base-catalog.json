@@ -1,0 +1,855 @@
+{
+  "source_root": "E:\\game\\辅助\\2.0 TCII全套开源",
+  "read_only": true,
+  "entries": [
+    {
+      "name": "名字透视内存地址[2]",
+      "value": 6532788,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1887,
+      "text": "名字透视内存地址[2] = 动态链接库地址 + 十六到十 (“63AEB4”)  ' ’更新改变11"
+    },
+    {
+      "name": "名字透视内存地址[2]",
+      "value": 7071322,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本.e.txt",
+      "line": 1229,
+      "text": "名字透视内存地址[2] = 动态链接库地址 + 十六到十 (“6BE65A”)  ' ’更新改变11"
+    },
+    {
+      "name": "名字透视内存地址[2]",
+      "value": 7412382,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1327,
+      "text": "名字透视内存地址[2] = 动态链接库地址 + 十六到十 (“711A9E”)  ' ’更新改变11"
+    },
+    {
+      "name": "解锁命运级角色踢腿内存地址",
+      "value": 7824663,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1357,
+      "text": "解锁命运级角色踢腿内存地址 = 动态链接库地址 + 十六到十 (“776517”)"
+    },
+    {
+      "name": "连发基址[2]",
+      "value": 11060509,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1290,
+      "text": "连发基址[2] = 动态链接库地址 + 十六到十 (“A8C51D”)"
+    },
+    {
+      "name": "人物踢腿内存地址",
+      "value": 11187976,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1879,
+      "text": "人物踢腿内存地址 = 动态链接库地址 + 十六到十 (“AAB708”)  ' ’更新改变 bxy"
+    },
+    {
+      "name": "连发基址[1]",
+      "value": 11273538,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1289,
+      "text": "连发基址[1] = 动态链接库地址 + 十六到十 (“AC0542”)"
+    },
+    {
+      "name": "人物跑着内存地址2",
+      "value": 13410168,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1881,
+      "text": "人物跑着内存地址2 = 动态链接库地址 + 十六到十 (“CC9F78”)  ' 4D 2D 72 75 6E 00 00 00 00 00 00 00 00 00 00 00"
+    },
+    {
+      "name": "人物站着内存地址",
+      "value": 13445116,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1878,
+      "text": "人物站着内存地址 = 动态链接库地址 + 十六到十 (“CD27FC”)  ' 4D 2D 69 64 6C 65 00 00"
+    },
+    {
+      "name": "所在界面",
+      "value": 13839256,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 7219,
+      "text": "所在界面 = 动态链接库地址 + 十六到十 (“D32B98”)"
+    },
+    {
+      "name": "所在频道",
+      "value": 13847084,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 7240,
+      "text": "所在频道 = 动态链接库地址 + 十六到十 (“D34A2C”)"
+    },
+    {
+      "name": "人物跑着内存地址",
+      "value": 13853060,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1877,
+      "text": "人物跑着内存地址 = 动态链接库地址 + 十六到十 (“D36184”)  ' 4D 2D 72 75 6E 00 00"
+    },
+    {
+      "name": "人物蹲着内存地址",
+      "value": 13888420,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1880,
+      "text": "人物蹲着内存地址 = 动态链接库地址 + 十六到十 (“D3EBA4”)  ' 4D 2D 69 64 6C 65 2D 75 70 00 00 00 4D 2D 68 69"
+    },
+    {
+      "name": "人物生化酒店不代码内存地址",
+      "value": 13950804,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1882,
+      "text": "人物生化酒店不代码内存地址 = 动态链接库地址 + 十六到十 (“D4DF54”)  ' 4D 2D 53 75 70 65 72 6A 75 6D 70 00 52 41 50 50"
+    },
+    {
+      "name": "爆头秒杀内存地址",
+      "value": 14585792,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本.e.txt",
+      "line": 16111,
+      "text": "爆头秒杀内存地址 = 动态链接库地址 + 十六到十 (“DE8FC0”)"
+    },
+    {
+      "name": "游戏使用角色内存地址",
+      "value": 15242996,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1916,
+      "text": "游戏使用角色内存地址 = 动态链接库地址 + 十六到十 (“E896F4”)  ' 更新改变’"
+    },
+    {
+      "name": "自动带房邀请好友列表显示离线好友内存地址",
+      "value": 15256788,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1852,
+      "text": "自动带房邀请好友列表显示离线好友内存地址 = 动态链接库地址 + 十六到十 (“E8CCD4”)  ' 更新改变’"
+    },
+    {
+      "name": "挑战无后内存地址",
+      "value": 15958476,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1291,
+      "text": "挑战无后内存地址 = 动态链接库地址 + 十六到十 (“F381CC”)"
+    },
+    {
+      "name": "人物跑着内存地址2",
+      "value": 16027608,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1321,
+      "text": "人物跑着内存地址2 = 动态链接库地址 + 十六到十 (“F48FD8”)  ' 4D 2D 72 75 6E 00 00 00 00 00 00 00 00 00 00 00"
+    },
+    {
+      "name": "人物站着内存地址",
+      "value": 16060460,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1319,
+      "text": "人物站着内存地址 = 动态链接库地址 + 十六到十 (“F5102C”)  ' 4D 2D 69 64 6C 65 00 00"
+    },
+    {
+      "name": "人物跑着内存地址",
+      "value": 16512248,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1318,
+      "text": "人物跑着内存地址 = 动态链接库地址 + 十六到十 (“FBF4F8”)  ' 4D 2D 72 75 6E 00 00"
+    },
+    {
+      "name": "人物蹲着内存地址",
+      "value": 16570268,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1320,
+      "text": "人物蹲着内存地址 = 动态链接库地址 + 十六到十 (“FCD79C”)  ' 4D 2D 69 64 6C 65 2D 75 70 00 00 00 4D 2D 68 69"
+    },
+    {
+      "name": "人物生化酒店不代码内存地址",
+      "value": 16635628,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1322,
+      "text": "人物生化酒店不代码内存地址 = 动态链接库地址 + 十六到十 (“FDD6EC”)  ' 4D 2D 53 75 70 65 72 6A 75 6D 70 00 52 41 50 50"
+    },
+    {
+      "name": "爆头秒杀内存地址",
+      "value": 16727960,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1923,
+      "text": "爆头秒杀内存地址 = 动态链接库地址 + 十六到十 (“FF3F98”)"
+    },
+    {
+      "name": "静态不掉血",
+      "value": 16766260,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1306,
+      "text": "静态不掉血 = 动态链接库地址 + 十六到十 (“FFD534”)"
+    },
+    {
+      "name": "创房界面房间名称内存地址",
+      "value": 17875148,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1914,
+      "text": "创房界面房间名称内存地址 = 动态链接库地址 + 十六到十 (“110C0CC”)  ' 更新"
+    },
+    {
+      "name": "房间号",
+      "value": 17948372,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1808,
+      "text": "房间号 = 动态链接库地址 + 十六到十 (“111DED4”)  ' 777"
+    },
+    {
+      "name": "模式内存地址",
+      "value": 17961596,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1833,
+      "text": "模式内存地址 = 动态链接库地址 + 十六到十 (“112127C”)  ' 这个有两个地址’这个可以偏移出队友伤害 这个不是 游戏内模式内存地址 这个是人机的那个 777"
+    },
+    {
+      "name": "人物内存地址",
+      "value": 18078504,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1825,
+      "text": "人物内存地址 = 动态链接库地址 + 十六到十 (“113DB28”)  ' 777"
+    },
+    {
+      "name": "名字透视内存地址[1]",
+      "value": 18078848,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1886,
+      "text": "名字透视内存地址[1] = 动态链接库地址 + 十六到十 (“113DC80”)"
+    },
+    {
+      "name": "被踢显示踢人内存地址",
+      "value": 18078848,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1827,
+      "text": "被踢显示踢人内存地址 = 动态链接库地址 + 十六到十 (“113DC80”)"
+    },
+    {
+      "name": "游戏里面无限背包内存地址",
+      "value": 18110736,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1870,
+      "text": "游戏里面无限背包内存地址 = 动态链接库地址 + 十六到十 (“1145910”)"
+    },
+    {
+      "name": "游戏里面无限喷漆内存地址",
+      "value": 18123660,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1875,
+      "text": "游戏里面无限喷漆内存地址 = 动态链接库地址 + 十六到十 (“1148B8C”)  ' 更新改变’"
+    },
+    {
+      "name": "观战透视内存地址[1]",
+      "value": 18144148,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1889,
+      "text": "观战透视内存地址[1] = 动态链接库地址 + 十六到十 (“114DB94”)"
+    },
+    {
+      "name": "游戏使用角色的手内存地址",
+      "value": 18218500,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1917,
+      "text": "游戏使用角色的手内存地址 = 动态链接库地址 + 十六到十 (“115FE04”)"
+    },
+    {
+      "name": "开启游戏不掉血内存地址",
+      "value": 18218508,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1849,
+      "text": "开启游戏不掉血内存地址 = 动态链接库地址 + 十六到十 (“115FE0C”)"
+    },
+    {
+      "name": "刷无线电内存地址[2]",
+      "value": 18351780,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1903,
+      "text": "刷无线电内存地址[2] = 动态链接库地址 + 十六到十 (“11806A4”)"
+    },
+    {
+      "name": "爆头秒杀内存地址",
+      "value": 18355832,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1359,
+      "text": "爆头秒杀内存地址 = 动态链接库地址 + 十六到十 (“1181678”)"
+    },
+    {
+      "name": "是否在大厅地址",
+      "value": 18362632,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1830,
+      "text": "是否在大厅地址 = 动态链接库地址 + 十六到十 (“1183108”)  ' 更新改变’777"
+    },
+    {
+      "name": "自己游戏名称地址",
+      "value": 18369000,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1723,
+      "text": "自己游戏名称地址 = 动态链接库地址 + 十六到十 (“11849E8”)  ' 777"
+    },
+    {
+      "name": "红色准心内存地址",
+      "value": 18369892,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1898,
+      "text": "红色准心内存地址 = 动态链接库地址 + 十六到十 (“1184D64”)  ' ’更新改变"
+    },
+    {
+      "name": "一键邀请内存地址[1]",
+      "value": 18371388,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1895,
+      "text": "一键邀请内存地址[1] = 动态链接库地址 + 十六到十 (“118533C”)  ' 人数"
+    },
+    {
+      "name": "观战透视内存地址[1]",
+      "value": 19999148,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1329,
+      "text": "观战透视内存地址[1] = 动态链接库地址 + 十六到十 (“13129AC”)"
+    },
+    {
+      "name": "房间号",
+      "value": 23495208,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1266,
+      "text": "房间号 = 动态链接库地址 + 十六到十 (“1668228”)  ' 777"
+    },
+    {
+      "name": "游戏内模式内存地址",
+      "value": 23506144,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1308,
+      "text": "游戏内模式内存地址 = 动态链接库地址 + 十六到十 (“166ACE0”)"
+    },
+    {
+      "name": "人物内存地址",
+      "value": 23805904,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1285,
+      "text": "人物内存地址 = 动态链接库地址 + 十六到十 (“16B3FD0”)"
+    },
+    {
+      "name": "游戏使用角色内存地址",
+      "value": 23806376,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1349,
+      "text": "游戏使用角色内存地址 = 动态链接库地址 + 十六到十 (“16B41A8”)"
+    },
+    {
+      "name": "游戏里面无限背包内存地址",
+      "value": 23983416,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1312,
+      "text": "游戏里面无限背包内存地址 = 动态链接库地址 + 十六到十 (“16DF538”)"
+    },
+    {
+      "name": "游戏里面无限喷漆内存地址",
+      "value": 23996396,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1316,
+      "text": "游戏里面无限喷漆内存地址 = 动态链接库地址 + 十六到十 (“16E27EC”)  ' 更新改变’"
+    },
+    {
+      "name": "游戏使用角色的手内存地址",
+      "value": 24062972,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1353,
+      "text": "游戏使用角色的手内存地址 = 动态链接库地址 + 十六到十 (“16F2BFC”)"
+    },
+    {
+      "name": "开启游戏不掉血内存地址",
+      "value": 24062980,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1305,
+      "text": "开启游戏不掉血内存地址 = 动态链接库地址 + 十六到十 (“16F2C04”)"
+    },
+    {
+      "name": "游戏使用角色内存地址2",
+      "value": 24217544,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1350,
+      "text": "游戏使用角色内存地址2 = 动态链接库地址 + 十六到十 (“17187C8”)"
+    },
+    {
+      "name": "刷无线电内存地址[2]",
+      "value": 24217664,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1340,
+      "text": "刷无线电内存地址[2] = 动态链接库地址 + 十六到十 (“1718840”)"
+    },
+    {
+      "name": "是否在大厅地址",
+      "value": 24230912,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1287,
+      "text": "是否在大厅地址 = 动态链接库地址 + 十六到十 (“171BC00”)"
+    },
+    {
+      "name": "游戏使用角色内存地址3",
+      "value": 24237556,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1351,
+      "text": "游戏使用角色内存地址3 = 动态链接库地址 + 十六到十 (“171D5F4”)"
+    },
+    {
+      "name": "自己游戏名称地址",
+      "value": 24239272,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1233,
+      "text": "自己游戏名称地址 = 动态链接库地址 + 十六到十 (“171DCA8”)  ' 777"
+    },
+    {
+      "name": "红色准心内存地址",
+      "value": 24240204,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1337,
+      "text": "红色准心内存地址 = 动态链接库地址 + 十六到十 (“171E04C”)"
+    },
+    {
+      "name": "一键邀请内存地址[1]",
+      "value": 24241772,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1334,
+      "text": "一键邀请内存地址[1] = 动态链接库地址 + 十六到十 (“171E66C”)  ' 大厅人数"
+    },
+    {
+      "name": "房间人数内存地址",
+      "value": 24241928,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1280,
+      "text": "房间人数内存地址 = 动态链接库地址 + 十六到十 (“171E708”)  ' 更新改变’777"
+    },
+    {
+      "name": "自己是否准备内存地址",
+      "value": 24241928,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1277,
+      "text": "自己是否准备内存地址 = 动态链接库地址 + 十六到十 (“171E708”)"
+    },
+    {
+      "name": "房间是否房主内存地址",
+      "value": 24285736,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1281,
+      "text": "房间是否房主内存地址 = 动态链接库地址 + 十六到十 (“1729228”)"
+    },
+    {
+      "name": "游戏使用角色内存地址4",
+      "value": 24350524,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1352,
+      "text": "游戏使用角色内存地址4 = 动态链接库地址 + 十六到十 (“1738F3C”)"
+    },
+    {
+      "name": "自己所使用的准心内存地址",
+      "value": 24412344,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1347,
+      "text": "自己所使用的准心内存地址 = 动态链接库地址 + 十六到十 (“17480B8”)"
+    },
+    {
+      "name": "创房界面房间名称内存地址",
+      "value": 25843648,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1278,
+      "text": "创房界面房间名称内存地址 = 动态链接库地址 + 十六到十 (“18A57C0”)"
+    },
+    {
+      "name": "自动带房邀请好友列表鼠标选择的好友名称内存地址",
+      "value": 26071360,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1854,
+      "text": "自动带房邀请好友列表鼠标选择的好友名称内存地址 = 动态链接库地址 + 十六到十 (“18DD140”)  ' 更新改变’"
+    },
+    {
+      "name": "一键邀请内存地址[2]",
+      "value": 27717600,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1335,
+      "text": "一键邀请内存地址[2] = 动态链接库地址 + 十六到十 (“1A6EFE0”)"
+    },
+    {
+      "name": "游戏里面编辑框打开内存地址",
+      "value": 28198596,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1314,
+      "text": "游戏里面编辑框打开内存地址 = 动态链接库地址 + 十六到十 (“1AE46C4”)"
+    },
+    {
+      "name": "大厅其他列表框打开内存地址",
+      "value": 30023456,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1293,
+      "text": "大厅其他列表框打开内存地址 = 动态链接库地址 + 十六到十 (“1CA1F20”)"
+    },
+    {
+      "name": "游戏杀敌人数内存地址",
+      "value": 30220408,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1292,
+      "text": "游戏杀敌人数内存地址 = 动态链接库地址 + 十六到十 (“1CD2078”)"
+    },
+    {
+      "name": "自动带房邀请好友列表是否打开内存地址",
+      "value": 30312196,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1853,
+      "text": "自动带房邀请好友列表是否打开内存地址 = 动态链接库地址 + 十六到十 (“1CE8704”)  ' 更新改变’"
+    },
+    {
+      "name": "大厅其他列表框打开内存地址",
+      "value": 30796780,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1919,
+      "text": "大厅其他列表框打开内存地址 = 动态链接库地址 + 十六到十 (“1D5EBEC”)  ' 更新改变’"
+    },
+    {
+      "name": "武器内存地址",
+      "value": 31919920,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1284,
+      "text": "武器内存地址 = 动态链接库地址 + 十六到十 (“1E70F30”)"
+    },
+    {
+      "name": "去代码1内存地址",
+      "value": 31923304,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1342,
+      "text": "去代码1内存地址 = 动态链接库地址 + 十六到十 (“1E71C68”)"
+    },
+    {
+      "name": "准心内存地址",
+      "value": 31931196,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1304,
+      "text": "准心内存地址 = 动态链接库地址 + 十六到十 (“1E73B3C”)  ' 更新改变"
+    },
+    {
+      "name": "刷无线电内存地址[1]",
+      "value": 31939180,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1339,
+      "text": "刷无线电内存地址[1] = 动态链接库地址 + 十六到十 (“1E75A6C”)"
+    },
+    {
+      "name": "刷屏防止禁言内存地址",
+      "value": 31982256,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1298,
+      "text": "刷屏防止禁言内存地址 = 动态链接库地址 + 十六到十 (“1E802B0”)  ' 更新改变’"
+    },
+    {
+      "name": "去代码2内存地址",
+      "value": 32012388,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1343,
+      "text": "去代码2内存地址 = 动态链接库地址 + 十六到十 (“1E87864”)"
+    },
+    {
+      "name": "一键邀请内存地址[2]",
+      "value": 32034624,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1896,
+      "text": "一键邀请内存地址[2] = 动态链接库地址 + 十六到十 (“1E8CF40”)"
+    },
+    {
+      "name": "卡枪内存地址",
+      "value": 33442288,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1843,
+      "text": "卡枪内存地址 = 动态链接库地址 + 十六到十 (“1FE49F0”)  ' 更新改变’"
+    },
+    {
+      "name": "解消息框接收好友内存地址",
+      "value": 33872488,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 9909,
+      "text": "解消息框接收好友内存地址 = 取解消息框地址 (动态链接库地址 + 十六到十 (“204DA68”))"
+    },
+    {
+      "name": "游戏里面编辑框打开内存地址",
+      "value": 35541484,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1873,
+      "text": "游戏里面编辑框打开内存地址 = 动态链接库地址 + 十六到十 (“21E51EC”)"
+    },
+    {
+      "name": "房间人数内存地址",
+      "value": 35632412,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1820,
+      "text": "房间人数内存地址 = 动态链接库地址 + 十六到十 (“21FB51C”)  ' 更新改变’777"
+    },
+    {
+      "name": "武器内存地址",
+      "value": 38891420,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1824,
+      "text": "武器内存地址 = 动态链接库地址 + 十六到十 (“2516F9C”)  ' 更新改变 777"
+    },
+    {
+      "name": "去代码1内存地址",
+      "value": 38894764,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1905,
+      "text": "去代码1内存地址 = 动态链接库地址 + 十六到十 (“2517CAC”)"
+    },
+    {
+      "name": "准心内存地址",
+      "value": 38901208,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1848,
+      "text": "准心内存地址 = 动态链接库地址 + 十六到十 (“25195D8”)  ' 更新改变"
+    },
+    {
+      "name": "刷无线电内存地址[1]",
+      "value": 38903460,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1902,
+      "text": "刷无线电内存地址[1] = 动态链接库地址 + 十六到十 (“2519EA4”)  ' 更新改变’无线电列表打开"
+    },
+    {
+      "name": "刷屏防止禁言内存地址",
+      "value": 38943616,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1844,
+      "text": "刷屏防止禁言内存地址 = 动态链接库地址 + 十六到十 (“2523B80”)  ' 更新改变’"
+    },
+    {
+      "name": "去代码2内存地址",
+      "value": 38971892,
+      "format": "hex_rva",
+      "module": "cshell.dll",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1906,
+      "text": "去代码2内存地址 = 动态链接库地址 + 十六到十 (“252A9F4”)"
+    },
+    {
+      "name": "起始地址",
+      "value": 4194304,
+      "format": "decimal_constant",
+      "module": "unknown",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\超级模块8.0.ec.txt",
+      "line": 46868,
+      "text": "起始地址 = 4194304"
+    },
+    {
+      "name": "自动带房窗口化内存地址",
+      "value": 7757072,
+      "format": "decimal_constant",
+      "module": "unknown",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1846,
+      "text": "自动带房窗口化内存地址 = 7757072"
+    },
+    {
+      "name": "游戏里面ESC菜单打开内存地址",
+      "value": 7768556,
+      "format": "decimal_constant",
+      "module": "unknown",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1847,
+      "text": "游戏里面ESC菜单打开内存地址 = 7768556"
+    },
+    {
+      "name": "人物透视内存地址",
+      "value": 7851596,
+      "format": "decimal_constant",
+      "module": "unknown",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\免费版.e.txt",
+      "line": 1845,
+      "text": "人物透视内存地址 = 7851596"
+    },
+    {
+      "name": "游戏里面ESC菜单打开内存地址",
+      "value": 18605892,
+      "format": "decimal_constant",
+      "module": "unknown",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1303,
+      "text": "游戏里面ESC菜单打开内存地址 = 18605892"
+    },
+    {
+      "name": "人物透视内存地址",
+      "value": 18699116,
+      "format": "decimal_constant",
+      "module": "unknown",
+      "source": "C:\\Users\\15135\\Documents\\Codex\\2026-08-31\\jian\\outputs\\d3dref9自治\\source-dumps\\TCII变态版本(加追敌和跳舞).e.txt",
+      "line": 1302,
+      "text": "人物透视内存地址 = 18699116"
+    }
+  ],
+  "notes": [
+    "Values are source declarations only; validate module signature and lifecycle before use."
+  ]
+}

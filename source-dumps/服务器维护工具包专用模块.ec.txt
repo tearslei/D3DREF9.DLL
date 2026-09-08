@@ -1,0 +1,1736 @@
+FILE=E:\game\辅助\2.0 TCII全套开源\服务器维护工具包专用模块.ec
+SECTIONS=6
+SECTION 0x02007319 NAME=系统信息段 OPTIONAL=False DATA=60
+SECTION 0x01007319 NAME=用户信息段 OPTIONAL=True DATA=130
+SECTION 0x04007319 NAME=程序资源段 OPTIONAL=False DATA=23452
+SECTION 0x03007319 NAME=程序段 OPTIONAL=False DATA=72193
+SECTION 0x08007319 NAME=初始模块段 OPTIONAL=False DATA=6
+SECTION 0x07007319 NAME= OPTIONAL=False DATA=0
+CODE METHODS=80 GLOBALS=0 CLASSES=2 DLLS=73 LIBS=3
+.程序集 _Mod_0x010000
+.程序集变量 _Mem_0x0100C6, _Cls_0x0100C9
+.程序集变量 _Mem_0x0100C7, 整数型
+.程序集变量 _Mem_0x0102BF, _Struct_0x01027D, , "0"
+.程序集变量 _Mem_0x0102C0, 整数型, , "0"
+
+.子程序 _启动子程序, 整数型
+
+_Lib0Cmd197 (“” + #_Lib0Const3 + “                  服务器维护工具包编写专用模块                  ” + #_Lib0Const3 + “                  禁止用于其他用途不然后果自负                  ”)
+_Lib0Cmd13 (0)
+
+.子程序 文本取某一行文本, 文本型, 公开, 成功返回取到的文本，不成功返回空
+.参数 文本, 文本型
+.参数 行数, 整数型
+.局部变量 _Local_0x010007, 文本型, , "0"
+.局部变量 _Local_0x010034, 文本型
+
+_Local_0x010034 = 文本
+_Lib0Cmd59 (_Local_0x010007, _Lib0Cmd100 (_Local_0x010034, #_Lib0Const3, ))
+.如果真 (行数 <= 0 || 行数 > _Lib0Cmd56 (_Local_0x010007))
+    _Lib0Cmd13 (“”)
+.如果真结束
+_Local_0x010034 = _Local_0x010007[行数]
+_Lib0Cmd13 (_Local_0x010034)
+
+.子程序 窗口取句柄, 整数型, 公开, 成功返回取到的句柄，不成功返回0
+.参数 类名, 文本型
+.参数 标题, 文本型, 可空
+
+_Lib0Cmd13 (_Dll_0x01000E (类名, 标题))
+
+.子程序 系统取当前登录用户名, 文本型, 公开, 成功返回当前登录的用户，不成功返回空
+.局部变量 _Local_0x010020, _Lib1Type3
+
+_Lib1Cmd14 (_Local_0x010020)
+_Lib0Cmd13 (_Lib0Cmd90 (_Local_0x010020._Lib1Type3Mem4))
+
+.子程序 系统取当前操作系统, 文本型, 公开, 成功返回当前操作系统，不成功返回空
+.局部变量 _Local_0x010027, _Lib1Type3
+
+_Lib1Cmd14 (_Local_0x010027)
+_Lib0Cmd13 (_Lib0Cmd90 (_Local_0x010027._Lib1Type3Mem0))
+
+
+.子程序 文本文本替换, 文本型, 公开, 成功返回替换之后的文本，不成功返回原文本
+.参数 文本, 文本型
+.参数 要替换的文本, 文本型
+.参数 用来替换的文本, 文本型
+.局部变量 _Local_0x01002E, 整数型
+.局部变量 _Local_0x010444, 文本型
+
+_Local_0x010444 = 文本
+.判断循环首 (_Lib0Cmd82 (_Local_0x010444, 要替换的文本, _Local_0x01002E, 真) > -1)
+    _Local_0x01002E = _Lib0Cmd82 (_Local_0x010444, 要替换的文本, _Local_0x01002E, 真)
+    _Local_0x010444 = _Lib0Cmd95 (_Local_0x010444, _Local_0x01002E, _Lib0Cmd76 (要替换的文本), 用来替换的文本)
+.判断循环尾 ()
+_Lib0Cmd13 (_Local_0x010444)
+
+.子程序 文本过滤, 文本型, 公开, 成功返回过滤之后的文本，不成功返回原文本
+.参数 文本, 文本型
+.参数 要过滤的文本, 文本型
+.局部变量 _Local_0x010033, 整数型
+.局部变量 _Local_0x010443, 文本型
+
+_Local_0x010443 = 文本
+.判断循环首 (_Lib0Cmd82 (_Local_0x010443, 要过滤的文本, _Local_0x010033, 真) > -1)
+    _Local_0x010033 = _Lib0Cmd82 (_Local_0x010443, 要过滤的文本, _Local_0x010033, 真)
+    _Local_0x010443 = _Lib0Cmd95 (_Local_0x010443, _Local_0x010033, _Lib0Cmd76 (要过滤的文本), “”)
+.判断循环尾 ()
+_Lib0Cmd13 (_Local_0x010443)
+
+.子程序 窗口修改标题, 整数型, 公开, 成功返回1，不成功返回0
+.参数 句柄, 整数型
+.参数 标题, 文本型
+
+_Lib0Cmd13 (_Dll_0x010038 (句柄, 标题))
+
+.子程序 窗口取类名, 文本型, 公开, 成功返回取到的窗口类名，不成功返回空
+.参数 句柄, 整数型
+.局部变量 _Local_0x010050, 文本型
+
+_Local_0x010050 = _Lib0Cmd97 (256)
+_Dll_0x01004B (句柄, _Local_0x010050, 255)
+.如果真 (_Lib0Cmd82 (_Local_0x010050, _Lib0Cmd97 (256), , 假) != -1)
+    _Local_0x010050 = “”
+.如果真结束
+_Lib0Cmd13 (_Local_0x010050)
+
+.子程序 窗口取标题, 文本型, 公开, 成功返回取到的窗口标题，不成功返回空
+.参数 句柄, 整数型
+.局部变量 _Local_0x010064, 文本型
+
+_Local_0x010064 = _Lib0Cmd97 (256)
+_Dll_0x01005B (句柄, _Local_0x010064, 255)
+.如果真 (_Lib0Cmd82 (_Local_0x010064, _Lib0Cmd97 (256), , 假) != -1)
+    _Local_0x010064 = “”
+.如果真结束
+_Lib0Cmd13 (_Local_0x010064)
+
+.子程序 进程取自进程ID, 整数型, 公开, 成功返回自进程ID，不成功返回0
+
+_Lib0Cmd13 (_Dll_0x010196 ())
+
+.子程序 进程隐藏, 整数型, 公开, 需要先加载驱动
+.参数 进程标识, 整数型
+
+_Lib0Cmd13 (_Dll_0x01007A (_Mem_0x0100C7, 50119, _Lib2Cmd3 (进程标识), 进程标识, 0, 0, 0, 0))
+
+.子程序 _Sub_0x0100FB, 整数型
+.参数 _Local_0x010112, 文本型
+.参数 _Local_0x0100FC, 文本型
+.参数 _Local_0x0100FD, 文本型
+.参数 _Local_0x0100FE, 文本型
+.参数 _Local_0x0100FF, 文本型
+.局部变量 _Local_0x010121, 整数型
+.局部变量 _Local_0x010122, 整数型
+.局部变量 _Local_0x010123, 整数型
+
+_Local_0x010122 = _Dll_0x01007B (_Lib0Cmd80 (0), _Lib0Cmd80 (0), #_Const_0x01013F)
+.如果真 (_Local_0x010122 == 0)
+    _Lib0Cmd13 (-1)
+.如果真结束
+_Local_0x010123 = _Dll_0x010082 (_Local_0x010122, _Local_0x0100FD, _Local_0x0100FE, #_Const_0x010140, #_Const_0x010141, #_Const_0x010142, #_Const_0x010143, _Local_0x0100FC, 0, 0, 0, 0, 0)
+.如果真 (_Local_0x010123 == 0)
+    _Local_0x010123 = _Dll_0x01007C (_Local_0x010122, _Local_0x0100FD, #_Const_0x010140)
+    .如果真 (_Local_0x010123 == 0)
+        _Dll_0x01007D (_Local_0x010122)
+        _Lib0Cmd13 (-1)
+    .如果真结束
+    
+.如果真结束
+_Dll_0x010081 (_Local_0x010123, 0, 0)
+_Dll_0x01007D (_Local_0x010123)
+_Dll_0x01007D (_Local_0x010122)
+_Local_0x010121 = _Dll_0x010080 (_Local_0x0100FF, #_Const_0x010144 + #_Const_0x010145, 0, 0, #_Const_0x010146, 0, 0)
+_Lib0Cmd13 (_Local_0x010121)
+
+.子程序 进程隐藏之前加载驱动, 逻辑型, 公开, 成功返回真，不成功返回假
+.局部变量 _Local_0x01011A, 文本型
+
+_Local_0x01011A = _Lib0Cmd65 () + “\冷然77.sys”
+_Mem_0x0100C7 = _Sub_0x010168 (“冷然77”)
+.如果真 (_Mem_0x0100C7 <= 0)
+    _Lib0Cmd155 (_Local_0x01011A, #_Img_0x0100BD)
+    _Mem_0x0100C7 = _Mem_0x0100C6.加载驱动_ (_Local_0x01011A, “冷然77”, “冷然77”, “\\.\LianXue_RWMemory”)
+    _Lib0Cmd415 (50)
+    _Lib0Cmd145 (_Local_0x01011A)
+    注册表删除项 (“HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\冷然77”)
+    
+    .如果真 (_Mem_0x0100C7 <= 0)
+        _Mem_0x0100C6.卸载驱动_ (“冷然77”, 真)
+        _Lib0Cmd13 (假)
+    .如果真结束
+    
+.如果真结束
+_Lib0Cmd13 (真)
+
+.子程序 进程隐藏自进程, 整数型, 公开, 需要先加载驱动
+
+_Lib0Cmd13 (_Dll_0x01007A (_Mem_0x0100C7, 50119, _Lib2Cmd3 (_Dll_0x010196 ()), _Dll_0x010196 (), 0, 0, 0, 0))
+
+
+.子程序 _Sub_0x010168, 整数型
+.参数 _Local_0x010169, 文本型
+
+_Lib0Cmd13 (_Dll_0x010080 (“\\.\” + _Local_0x010169, 3221225472, 0, 0, 3, 0, 0))
+
+.子程序 进程保护, 整数型, 公开, 需要先加载驱动，任务管理器结束不掉
+.参数 进程标识, 整数型
+
+_Lib0Cmd13 (_Dll_0x01007A (_Mem_0x0100C7, 50115, _Lib2Cmd3 (进程标识), 进程标识, 0, 0, 0, 0))
+
+.子程序 进程隐藏之后卸载驱动, 逻辑型, 公开, 成功返回真，不成功返回假，不建议去卸载驱动，因为卸载了下次又的加载
+
+_Dll_0x010184 (_Mem_0x0100C7)
+_Lib0Cmd13 (_Mem_0x0100C6.卸载驱动_ (“冷然77”, 真))
+
+.子程序 进程保护自进程, 整数型, 公开, 需要先加载驱动，任务管理器结束不掉
+.局部变量 _Local_0x010194, 整数型
+
+_Lib0Cmd13 (_Dll_0x01007A (_Mem_0x0100C7, 50115, _Lib2Cmd3 (_Dll_0x010196 ()), _Dll_0x010196 (), 0, 0, 0, 0))
+
+.子程序 进程结束, 整数型, 公开, 需要先加载驱动，可以结束如何进程
+.参数 进程标识, 整数型
+
+_Lib0Cmd13 (_Dll_0x01007A (_Mem_0x0100C7, 50123, _Lib2Cmd3 (进程标识), 进程标识, 0, 0, 0, 0))
+
+.子程序 进程取进程ID, 整数型, 公开, 成功返回进程ID，不成功返回0
+.参数 句柄, 整数型
+.局部变量 _Local_0x0101B3, 整数型
+
+_Dll_0x0101A3 (句柄, _Local_0x0101B3)
+_Lib0Cmd13 (_Local_0x0101B3)
+
+.子程序 文本加密, 文本型, 公开, 用RC4算法对文本进行加密(返回加密后的密文)
+.参数 文本, 文本型, , 欲加密的文本
+.参数 密码, 文本型, 可空, 用作加密的密钥 (解密时必须有密钥才能解开密文)
+.局部变量 _Local_0x0101BC, 字节集
+.局部变量 _Local_0x0101BD, 字节型, , "256"
+.局部变量 _Local_0x0101BE, 字节型, , "256"
+.局部变量 _Local_0x0101BF, 整数型
+.局部变量 _Local_0x0101C0, 整数型
+.局部变量 _Local_0x0101C1, 整数型
+.局部变量 _Local_0x0101C2, 文本型
+.局部变量 _Local_0x0101C3, 字节型
+.局部变量 _Local_0x0101C4, 整数型
+.局部变量 _Local_0x0101C5, 整数型
+.局部变量 _Local_0x0101C6, 文本型
+
+_Local_0x0101BC = _Lib0Cmd102 (文本)
+.计次循环首 (256, _Local_0x0101BF)
+    _Local_0x0101BD[_Local_0x0101BF] = _Local_0x0101BF - 1
+.计次循环尾 ()
+_Local_0x0101C0 = 1
+.计次循环首 (256, _Local_0x0101BF)
+    .如果真 (_Local_0x0101C0 > _Lib0Cmd76 (密码))
+        _Local_0x0101C0 = 1
+    .如果真结束
+    _Local_0x0101BE[_Local_0x0101BF] = _Lib0Cmd81 (_Lib0Cmd79 (密码, _Local_0x0101C0, 1), )
+    _Local_0x0101C0 = _Local_0x0101C0 + 1
+.计次循环尾 ()
+_Local_0x0101C0 = 0
+.计次循环首 (256, _Local_0x0101BF)
+    _Local_0x0101C0 = (_Local_0x0101C0 + _Local_0x0101BD[_Local_0x0101BF] + _Local_0x0101BE[_Local_0x0101BF]) % 256 + 1
+    _Local_0x0101C3 = _Local_0x0101BD[_Local_0x0101BF]
+    _Local_0x0101BD[_Local_0x0101BF] = _Local_0x0101BD[_Local_0x0101C0]
+    _Local_0x0101BD[_Local_0x0101C0] = _Local_0x0101C3
+.计次循环尾 ()
+_Local_0x0101BF = 0
+_Local_0x0101C0 = 0
+.计次循环首 (_Lib0Cmd101 (_Local_0x0101BC), _Local_0x0101C4)
+    _Local_0x0101BF = (_Local_0x0101BF + 1) % 256 + 1
+    _Local_0x0101C0 = (_Local_0x0101C0 + _Local_0x0101BD[_Local_0x0101BF]) % 256 + 1
+    _Local_0x0101C3 = _Local_0x0101BD[_Local_0x0101BF]
+    _Local_0x0101BD[_Local_0x0101BF] = _Local_0x0101BD[_Local_0x0101C0]
+    _Local_0x0101BD[_Local_0x0101C0] = _Local_0x0101C3
+    _Local_0x0101C5 = (_Local_0x0101BD[_Local_0x0101BF] + _Local_0x0101BD[_Local_0x0101C0] % 256) % 256 + 1
+    _Local_0x0101C1 = _Local_0x0101BD[_Local_0x0101C5]
+    
+    _Local_0x0101C6 = _Sub_0x0101B7 (_Lib0Cmd51 (_Local_0x0101BC[_Local_0x0101C4], _Local_0x0101C1))
+    _Local_0x0101C2 = _Local_0x0101C2 + _Lib0Cmd201 (_Lib0Cmd76 (_Local_0x0101C6) > 1, “”, “0”) + _Local_0x0101C6
+.计次循环尾 ()
+_Lib0Cmd13 (_Local_0x0101C2)
+
+.子程序 文本解密, 文本型, 公开, 对RC4算法加密过的文本进行解密(返回解密后的文本)
+.参数 文本, 文本型, , 欲解密的密文
+.参数 密码, 文本型, 可空, 用作解密的密钥(加密时使用的)
+.局部变量 _Local_0x0101C9, 字节型, , "0"
+.局部变量 _Local_0x0101CA, 字节型, , "256"
+.局部变量 _Local_0x0101CB, 字节型, , "256"
+.局部变量 _Local_0x0101CC, 整数型
+.局部变量 _Local_0x0101CD, 整数型
+.局部变量 _Local_0x0101CE, 整数型
+.局部变量 _Local_0x0101CF, 字节型, , "0"
+.局部变量 _Local_0x0101D0, 字节型
+.局部变量 _Local_0x0101D1, 整数型
+.局部变量 _Local_0x0101D2, 整数型
+.局部变量 _Local_0x0101D3, 整数型
+
+
+.变量循环首 (1, _Lib0Cmd76 (文本), 2, _Local_0x0101D3)
+    _Lib0Cmd59 (_Local_0x0101C9, _Lib0Cmd629 (十六到十 (_Lib0Cmd79 (文本, _Local_0x0101D3, 2))))
+.变量循环尾 ()
+
+.计次循环首 (256, _Local_0x0101CC)
+    _Local_0x0101CA[_Local_0x0101CC] = _Local_0x0101CC - 1
+.计次循环尾 ()
+_Local_0x0101CD = 1
+.计次循环首 (256, _Local_0x0101CC)
+    .如果真 (_Local_0x0101CD > _Lib0Cmd76 (密码))
+        _Local_0x0101CD = 1
+    .如果真结束
+    _Local_0x0101CB[_Local_0x0101CC] = _Lib0Cmd81 (_Lib0Cmd79 (密码, _Local_0x0101CD, 1), )
+    _Local_0x0101CD = _Local_0x0101CD + 1
+.计次循环尾 ()
+_Local_0x0101CD = 0
+.计次循环首 (256, _Local_0x0101CC)
+    _Local_0x0101CD = (_Local_0x0101CD + _Local_0x0101CA[_Local_0x0101CC] + _Local_0x0101CB[_Local_0x0101CC]) % 256 + 1
+    _Local_0x0101D0 = _Local_0x0101CA[_Local_0x0101CC]
+    _Local_0x0101CA[_Local_0x0101CC] = _Local_0x0101CA[_Local_0x0101CD]
+    _Local_0x0101CA[_Local_0x0101CD] = _Local_0x0101D0
+.计次循环尾 ()
+_Local_0x0101CC = 0
+_Local_0x0101CD = 0
+.计次循环首 (_Lib0Cmd56 (_Local_0x0101C9), _Local_0x0101D1)
+    _Local_0x0101CC = (_Local_0x0101CC + 1) % 256 + 1
+    _Local_0x0101CD = (_Local_0x0101CD + _Local_0x0101CA[_Local_0x0101CC]) % 256 + 1
+    _Local_0x0101D0 = _Local_0x0101CA[_Local_0x0101CC]
+    _Local_0x0101CA[_Local_0x0101CC] = _Local_0x0101CA[_Local_0x0101CD]
+    _Local_0x0101CA[_Local_0x0101CD] = _Local_0x0101D0
+    _Local_0x0101D2 = (_Local_0x0101CA[_Local_0x0101CC] + _Local_0x0101CA[_Local_0x0101CD] % 256) % 256 + 1
+    _Local_0x0101CE = _Local_0x0101CA[_Local_0x0101D2]
+    _Lib0Cmd59 (_Local_0x0101CF, _Lib0Cmd51 (_Local_0x0101C9[_Local_0x0101D1], _Local_0x0101CE))
+.计次循环尾 ()
+_Lib0Cmd13 (_Lib0Cmd90 (_Local_0x0101CF))
+
+.子程序 十六到十, 整数型, 公开, 将十六进制转换成十进制(返回十进制文本)
+.参数 十六进制文本, 文本型, , 待转换的十六进制文本
+.参数 返回结果, 文本型, 参考 可空, 返回文本结果(如十进制数超出整数范围,可通过返回结果获得十进制文本)
+.局部变量 _Local_0x0101D6, 文本型
+.局部变量 _Local_0x0101D7, 长整数型
+.局部变量 _Local_0x0101D8, 整数型
+
+返回结果 = “”
+.变量循环首 (1, _Lib0Cmd76 (十六进制文本), 1, _Local_0x0101D8)
+    _Local_0x0101D6 = _Lib0Cmd79 (十六进制文本, _Local_0x0101D8, 1)
+    _Local_0x0101D7 = (_Lib0Cmd82 (“0123456789ABCDEF”, _Local_0x0101D6, , 真) - 1) * _Lib0Cmd27 (16, _Lib0Cmd76 (十六进制文本) - _Local_0x0101D8) + _Local_0x0101D7
+.变量循环尾 ()
+.如果真 (_Lib0Cmd203 (返回结果) == 假)
+    返回结果 = _Lib0Cmd90 (_Local_0x0101D7)
+.如果真结束
+_Lib0Cmd13 (_Local_0x0101D7)
+
+.子程序 _Sub_0x0101B7, 文本型
+.参数 _Local_0x0101D9, 整数型
+
+
+
+_Lib0Cmd13 (_Lib0Cmd202 (_Lib0Cmd639 (_Local_0x0101D9, 4) + 1, “0”, “1”, “2”, “3”, “4”, “5”, “6”, “7”, “8”, “9”, “A”, “B”, “C”, “D”, “E”, “F”) + _Lib0Cmd202 (_Lib0Cmd49 (_Local_0x0101D9, 15) + 1, “0”, “1”, “2”, “3”, “4”, “5”, “6”, “7”, “8”, “9”, “A”, “B”, “C”, “D”, “E”, “F”))
+
+.子程序 _Sub_0x0101B8, 整数型
+.参数 _Local_0x0101DA, 文本型
+.局部变量 _Local_0x0101DB, 文本型
+.局部变量 _Local_0x0101DC, 文本型
+
+_Local_0x0101DB = _Lib0Cmd79 (_Local_0x0101DA, 2, 1)
+.如果 (_Local_0x0101DB == “”)
+    _Local_0x0101DB = _Lib0Cmd77 (_Local_0x0101DA, 1)
+.否则
+    _Local_0x0101DC = _Lib0Cmd77 (_Local_0x0101DA, 1)
+.如果结束
+_Lib0Cmd13 ((_Lib0Cmd82 (“0123456789ABCDEF”, _Local_0x0101DC, , 真) - 1) * 16 + _Lib0Cmd82 (“0123456789ABCDEF”, _Local_0x0101DB, , 真) - 1)
+
+.子程序 _Sub_0x0101B9, 文本型
+.参数 _Local_0x0101DD, 文本型
+.局部变量 _Local_0x0101DE, 整数型
+
+.计次循环首 (_Lib0Cmd76 (_Local_0x0101DD), _Local_0x0101DE)
+    .如果真 (_Lib0Cmd79 (_Local_0x0101DD, _Local_0x0101DE, 1) != “0”)
+        _Lib0Cmd12 ()
+    .如果真结束
+    
+.计次循环尾 ()
+_Lib0Cmd13 (_Lib0Cmd78 (_Local_0x0101DD, _Lib0Cmd76 (_Local_0x0101DD) - _Local_0x0101DE + 1))
+
+.子程序 十到十六, 文本型, 公开, 将十进制转换成十六进制(返回十六进制文本)
+.参数 十进制数, 长整数型, , 待转换的十进制数
+.参数 是否不去零, 逻辑型, 可空, 默认为假:去0  真:不去0
+.局部变量 _Local_0x0101E4, 文本型, , "0"
+.局部变量 _Local_0x0101E5, 文本型
+.局部变量 _Local_0x0101E6, 整数型
+.局部变量 _Local_0x0101E7, 文本型, , "6"
+.局部变量 _Local_0x0101E8, 字节集
+
+.如果真 (是否不去零)
+    _Local_0x0101E8 = _Lib0Cmd102 (十进制数)
+    .计次循环首 ((_Lib0Cmd101 (_Local_0x0101E8) + 2) \ 3, _Local_0x0101E6)
+        _Local_0x0101E5 = _Sub_0x0101B7 (_Local_0x0101E8[_Local_0x0101E6]) + _Local_0x0101E5
+    .计次循环尾 ()
+    _Lib0Cmd13 (_Local_0x0101E5)
+.如果真结束
+_Local_0x0101E7 = {“A”, “B”, “C”, “D”, “E”, “F”}
+.循环判断首 ()
+    .判断开始 (十进制数 % 16 < 10)
+        _Lib0Cmd59 (_Local_0x0101E4, _Lib0Cmd90 (十进制数 % 16))
+    .默认
+        _Lib0Cmd59 (_Local_0x0101E4, _Local_0x0101E7[十进制数 % 16 - 9])
+    .判断结束
+    十进制数 = 十进制数 / 16
+    .如果真 (十进制数 < 16)
+        .判断开始 (十进制数 < 10)
+            _Lib0Cmd59 (_Local_0x0101E4, _Lib0Cmd90 (_Lib0Cmd24 (十进制数)))
+        .默认
+            _Lib0Cmd59 (_Local_0x0101E4, _Local_0x0101E7[十进制数 - 9])
+        .判断结束
+        _Lib0Cmd12 ()
+    .如果真结束
+    
+.循环判断尾 (真)
+.计次循环首 (_Lib0Cmd56 (_Local_0x0101E4), _Local_0x0101E6)
+    _Local_0x0101E5 = _Local_0x0101E5 + _Lib0Cmd90 (_Local_0x0101E4[_Lib0Cmd56 (_Local_0x0101E4) - _Local_0x0101E6 + 1])
+.计次循环尾 ()
+.如果真 (_Lib0Cmd77 (_Local_0x0101E5, 1) == “0”)
+    _Local_0x0101E5 = _Sub_0x0101B9 (_Local_0x0101E5)
+.如果真结束
+_Lib0Cmd13 (_Local_0x0101E5)
+
+.子程序 服务设置自动运行, 逻辑型, 公开, 成功返回真，不成功返回假
+.参数 名称, 文本型, , 不是显示名称，而是服务名称
+.局部变量 _Local_0x010214, 整数型
+.局部变量 _Local_0x010215, 整数型
+.局部变量 _Local_0x010216, 整数型
+
+_Local_0x010214 = _Dll_0x0101FA (_Lib0Cmd80 (0), _Lib0Cmd80 (0), 983103)
+_Local_0x010215 = _Dll_0x0101FD (_Local_0x010214, 名称, 983551)
+_Local_0x010216 = _Dll_0x0101FC (_Local_0x010215, 4294967295, 2, 4294967295, _Lib0Cmd80 (0), _Lib0Cmd80 (0), 0, _Lib0Cmd80 (0), _Lib0Cmd80 (0), _Lib0Cmd80 (0), _Lib0Cmd80 (0))
+_Dll_0x0101FE (_Local_0x010215)
+_Lib0Cmd13 (_Local_0x010216 == 1)
+
+.子程序 服务启动, 逻辑型, 公开, 成功返回真，不成功返回假
+.参数 名称, 文本型, , 不是显示名称，而是服务名称
+.局部变量 _Local_0x010228, 整数型
+.局部变量 _Local_0x010229, 整数型
+.局部变量 _Local_0x01022A, 整数型
+
+_Local_0x010228 = _Dll_0x0101FA (_Lib0Cmd80 (0), _Lib0Cmd80 (0), 983103)
+_Local_0x010229 = _Dll_0x0101FD (_Local_0x010228, 名称, 983551)
+_Local_0x01022A = _Dll_0x0101FB (_Local_0x010229, 0, 0)
+_Dll_0x0101FE (_Local_0x010229)
+_Lib0Cmd13 (_Local_0x01022A == 1)
+
+.子程序 服务是否被禁止, 整数型, 公开, 被禁止返回1，没有返回0
+.参数 名称, 文本型
+.局部变量 _Local_0x010230, 整数型
+
+.如果真 (_Lib0Cmd423 (4, “SYSTEM\CurrentControlSet\Services\” + 名称 + “\Start”, ) == 4)
+    _Local_0x010230 = 1
+.如果真结束
+_Lib0Cmd13 (_Local_0x010230)
+
+.子程序 进程名取进程ID, 整数型, 公开, 取指定进程的进程ID(返回第一个进程ID,失败返回-1)
+.参数 进程名, 文本型, , 程序进程名
+.参数 区分大小写, 逻辑型, 可空, 默认不区分进程名大小写
+.局部变量 _Local_0x010239, _Struct_0x010245
+.局部变量 _Local_0x01023A, 整数型
+.局部变量 _Local_0x01023B, 整数型
+
+_Local_0x01023A = _Dll_0x010251 (15, 0)
+.如果真 (_Local_0x01023A != 0)
+    _Local_0x010239._StructMem_0x010246 = 1024
+    _Local_0x01023B = _Dll_0x010255 (_Local_0x01023A, _Local_0x010239)
+    .如果 (区分大小写)
+        .判断循环首 (_Local_0x01023B != 0)
+            .如果真 (_Lib0Cmd90 (_Local_0x010239._StructMem_0x01024F) == 进程名)
+                _Dll_0x010184 (_Local_0x01023A)
+                _Lib0Cmd13 (_Local_0x010239._StructMem_0x010248)
+            .如果真结束
+            _Local_0x01023B = _Dll_0x01025C (_Local_0x01023A, _Local_0x010239)
+        .判断循环尾 ()
+    .否则
+        .判断循环首 (_Local_0x01023B != 0)
+            .如果真 (_Lib0Cmd85 (_Lib0Cmd90 (_Local_0x010239._StructMem_0x01024F)) == _Lib0Cmd85 (进程名))
+                _Dll_0x010184 (_Local_0x01023A)
+                _Lib0Cmd13 (_Local_0x010239._StructMem_0x010248)
+            .如果真结束
+            _Local_0x01023B = _Dll_0x01025C (_Local_0x01023A, _Local_0x010239)
+        .判断循环尾 ()
+    .如果结束
+    _Dll_0x010184 (_Local_0x01023A)
+.如果真结束
+_Lib0Cmd13 (-1)
+
+.子程序 进程是否存在, 逻辑型, 公开, 判断指定进程是否存在(此判断与进程其它信息无关联)(存在返回真,不存在或失败返回假)
+.参数 进程名, 文本型, , 欲检测的进程名
+.局部变量 _Local_0x010263, _Struct_0x010245
+.局部变量 _Local_0x010264, 整数型
+.局部变量 _Local_0x010265, 整数型
+
+_Local_0x010264 = _Dll_0x010251 (15, 0)
+.如果真 (_Local_0x010264 == 0)
+    _Lib0Cmd13 (假)
+.如果真结束
+_Local_0x010263._StructMem_0x010246 = 1024
+_Local_0x010265 = _Dll_0x010255 (_Local_0x010264, _Local_0x010263)
+.判断循环首 (_Local_0x010265 != 0)
+    .如果真 (_Local_0x010263._StructMem_0x010248 != 0)
+        .如果真 (进程名 == _Lib0Cmd90 (_Local_0x010263._StructMem_0x01024F))
+            _Dll_0x010184 (_Local_0x010264)
+            _Lib0Cmd13 (真)
+        .如果真结束
+        
+    .如果真结束
+    _Local_0x010265 = _Dll_0x01025C (_Local_0x010264, _Local_0x010263)
+.判断循环尾 ()
+_Dll_0x010184 (_Local_0x010264)
+_Lib0Cmd13 (假)
+
+.子程序 进程取进程名, 文本型, 公开, 通进进程ID取得该进程文件名
+.参数 进程ID, 整数型
+.局部变量 _Local_0x010290, 整数型
+.局部变量 _Local_0x010291, _Struct_0x010299
+.局部变量 _Local_0x010292, 文本型
+
+_Local_0x010290 = _Dll_0x010251 (8, 进程ID)
+.如果真 (_Local_0x010290 == -1)
+    _Lib0Cmd13 (“”)
+.如果真结束
+_Local_0x010291._StructMem_0x01029A = 1024
+_Dll_0x0102C2 (_Local_0x010290, _Local_0x010291)
+_Local_0x010292 = _Lib0Cmd90 (_Local_0x010291._StructMem_0x0102A2)
+_Dll_0x010184 (_Local_0x010290)
+_Lib0Cmd13 (_Local_0x010292)
+
+.子程序 窗口取句柄多, 整数型, 公开, 通过进程,类名或标题关键字来取窗口句柄(返回第一个符合条件的句柄,失败返回-1)
+.参数 进程名, 文本型, 可空, 欲取窗口句柄的窗口程序进程名(注意大小写)
+.参数 类名, 文本型, 可空, 欲取窗口句柄的窗口类名
+.参数 标题, 文本型, 可空, 欲取窗口句柄的窗口标题关键字,模糊匹配
+.参数 进程区分大小写, 逻辑型, 可空, 默认不分
+.局部变量 _Local_0x0102DA, _Struct_0x01027D, , "0"
+.局部变量 _Local_0x0102DB, 整数型
+
+.如果真 (进程名 == “” && 类名 == “” && 标题 == “”)
+    _Lib0Cmd197 (“开什么玩笑!一个条件都没有,怎么取句柄?”)
+    _Lib0Cmd13 (-1)
+.如果真结束
+.如果真 (进程名 == “” && 标题 == “”)
+    _Local_0x0102DB = _Dll_0x0102E4 (0, 0, 类名, 0)
+    .如果 (_Local_0x0102DB == 0)
+        _Lib0Cmd13 (-1)
+    .否则
+        _Lib0Cmd13 (_Local_0x0102DB)
+    .如果结束
+    
+.如果真结束
+.计次循环首 (枚举窗口信息 (_Local_0x0102DA), _Local_0x0102DB)
+    .如果真 (进程名 != “”)
+        .如果 (进程区分大小写 == 假)
+            .如果真 (_Lib0Cmd85 (进程名) != _Lib0Cmd85 (进程取进程名 (_Local_0x0102DA[_Local_0x0102DB]._StructMem_0x01027F)))
+                _Lib0Cmd11 ()
+            .如果真结束
+            
+        .否则
+            .如果真 (进程名 != 进程取进程名 (_Local_0x0102DA[_Local_0x0102DB]._StructMem_0x01027F))
+                _Lib0Cmd11 ()
+            .如果真结束
+            
+        .如果结束
+        
+        
+    .如果真结束
+    .如果真 (类名 != “”)
+        .如果真 (_Local_0x0102DA[_Local_0x0102DB]._StructMem_0x010281 != 类名)
+            _Lib0Cmd11 ()
+        .如果真结束
+        
+    .如果真结束
+    .如果真 (标题 != “”)
+        .如果真 (_Lib0Cmd82 (_Local_0x0102DA[_Local_0x0102DB]._StructMem_0x010282, 标题, , 假) == -1)
+            _Lib0Cmd11 ()
+        .如果真结束
+        
+    .如果真结束
+    _Lib0Cmd13 (_Local_0x0102DA[_Local_0x0102DB]._StructMem_0x01027E)
+.计次循环尾 ()
+_Lib0Cmd13 (-1)
+
+
+.子程序 枚举窗口信息, 整数型, 公开, 枚举所有可见窗口的句柄的窗口信息(返回数组数目,失败返回0)
+.参数 临时窗口信息, _Struct_0x01027D, 数组, 枚举出来的窗口信息数组
+
+_Dll_0x0102CE (&_Sub_0x0102EF, 0)
+临时窗口信息 = _Mem_0x0102BF
+_Lib0Cmd62 (_Mem_0x0102BF)
+_Lib0Cmd13 (_Lib0Cmd56 (临时窗口信息))
+
+
+.子程序 _Sub_0x0102EF
+.参数 _Local_0x0102F0, 整数型
+.局部变量 _Local_0x0102F1, 文本型
+.局部变量 _Local_0x0102F2, 文本型
+.局部变量 _Local_0x0102F3, 整数型
+.局部变量 _Local_0x0102F4, 整数型
+.局部变量 _Local_0x0102F5, _Struct_0x01027D
+
+.如果真 (_Dll_0x0102C9 (_Local_0x0102F0))
+    _Local_0x0102F1 = _Lib0Cmd97 (256)
+    _Local_0x0102F2 = _Lib0Cmd97 (256)
+    _Dll_0x01005B (_Local_0x0102F0, _Local_0x0102F1, 255)
+    _Dll_0x01004B (_Local_0x0102F0, _Local_0x0102F2, 255)
+    _Local_0x0102F4 = _Dll_0x010301 (_Local_0x0102F0, _Local_0x0102F3)
+    _Local_0x0102F5._StructMem_0x01027F = _Local_0x0102F3
+    _Local_0x0102F5._StructMem_0x010280 = _Local_0x0102F4
+    _Local_0x0102F5._StructMem_0x01027E = _Local_0x0102F0
+    _Local_0x0102F5._StructMem_0x010281 = _Local_0x0102F2
+    _Local_0x0102F5._StructMem_0x010282 = _Local_0x0102F1
+    _Lib0Cmd59 (_Mem_0x0102BF, _Local_0x0102F5)
+.如果真结束
+
+
+.子程序 服务停止, 逻辑型, 公开, 成功返回真，不成功返回假
+.参数 名称, 文本型, , 不是显示名称，而是服务名称
+.局部变量 _Local_0x010331, _Struct_0x010328
+.局部变量 _Local_0x010325, 整数型
+.局部变量 _Local_0x010326, 整数型
+.局部变量 _Local_0x010327, 整数型
+
+_Local_0x010325 = _Dll_0x0101FA (_Lib0Cmd80 (0), _Lib0Cmd80 (0), 983103)
+_Local_0x010326 = _Dll_0x0101FD (_Local_0x010325, 名称, 983551)
+_Local_0x010327 = _Dll_0x010304 (_Local_0x010326, 1, _Local_0x010331)
+_Dll_0x0101FE (_Local_0x010326)
+_Lib0Cmd13 (_Local_0x010327 == 1)
+
+.子程序 注册表删除项, 逻辑型, 公开, 删除指定项名称以及它的所有子项与键值
+.参数 项名称, 文本型, , 欲删除的项名称,尾部不要加"\"
+.局部变量 _Local_0x010334, 整数型
+.局部变量 _Local_0x010335, 整数型
+.局部变量 _Local_0x010336, 整数型
+.局部变量 _Local_0x010337, 文本型, , "0"
+.局部变量 _Local_0x010338, 整数型
+
+.如果真 (_Lib0Cmd78 (项名称, 1) == “\”)
+    _Lib0Cmd13 (假)
+.如果真结束
+_Local_0x010336 = _Lib0Cmd83 (项名称, “\”, , 假)
+_Local_0x010334 = _Sub_0x01033D (_Lib0Cmd77 (项名称, _Local_0x010336))
+.如果真 (_Local_0x010334 == 0)
+    _Lib0Cmd13 (假)
+.如果真结束
+.计次循环首 (注册表枚举子项 (项名称, _Local_0x010337), _Local_0x010338)
+    注册表删除项 (项名称 + “\” + _Local_0x010337[_Local_0x010338])
+.计次循环尾 ()
+_Local_0x010335 = _Dll_0x010350 (_Local_0x010334, _Lib0Cmd78 (项名称, _Lib0Cmd76 (项名称) - _Local_0x010336))
+_Dll_0x010353 (_Local_0x010334)
+_Lib0Cmd13 (_Local_0x010335 == 0)
+
+
+.子程序 _Sub_0x01033D, 整数型
+.参数 _Local_0x01033E, 文本型
+.参数 _Local_0x01033F, 逻辑型, 可空
+.局部变量 _Local_0x010340, 整数型
+.局部变量 _Local_0x010341, 整数型
+.局部变量 _Local_0x010342, 文本型
+.局部变量 _Local_0x010343, 整数型
+.局部变量 _Local_0x010344, 整数型
+
+_Local_0x010343 = _Lib0Cmd82 (_Local_0x01033E, “\”, , 假)
+_Local_0x010342 = _Lib0Cmd77 (_Local_0x01033E, _Local_0x010343 - 1)
+.判断开始 (_Local_0x010342 == “HKEY_CLASSES_ROOT”)
+    _Local_0x010340 = 2147483648
+.判断 (_Local_0x010342 == “HKEY_CURRENT_USER”)
+    _Local_0x010340 = 2147483649
+.判断 (_Local_0x010342 == “HKEY_LOCAL_MACHINE”)
+    _Local_0x010340 = 2147483650
+.判断 (_Local_0x010342 == “HKEY_USERS”)
+    _Local_0x010340 = 2147483651
+.默认
+    _Lib0Cmd13 (0)
+.判断结束
+.如果 (_Local_0x01033F)
+    _Local_0x010344 = _Dll_0x010355 (_Local_0x010340, _Lib0Cmd78 (_Local_0x01033E, _Lib0Cmd76 (_Local_0x01033E) - _Local_0x010343), _Local_0x010341)
+.否则
+    _Local_0x010344 = _Dll_0x010359 (_Local_0x010340, _Lib0Cmd78 (_Local_0x01033E, _Lib0Cmd76 (_Local_0x01033E) - _Local_0x010343), _Local_0x010341)
+.如果结束
+.如果真 (_Local_0x010344 == 0)
+    _Lib0Cmd13 (_Local_0x010341)
+.如果真结束
+_Lib0Cmd13 (0)
+
+
+.子程序 注册表枚举子项, 整数型, 公开, 枚举指定项名称下的子项(成功返回子项目数,失败返回-1)
+.参数 项名称, 文本型
+.参数 子项, 文本型, 可空 数组, 获取的子项数组
+.局部变量 _Local_0x01034A, 整数型
+.局部变量 _Local_0x01034B, 整数型
+.局部变量 _Local_0x01034C, 文本型
+
+_Lib0Cmd62 (子项)
+_Local_0x01034A = _Sub_0x01033D (项名称)
+.如果真 (_Local_0x01034A == 0)
+    _Lib0Cmd13 (-1)
+.如果真结束
+_Local_0x01034C = _Lib0Cmd97 (256)
+.判断循环首 (_Dll_0x01035D (_Local_0x01034A, _Local_0x01034B, _Local_0x01034C, 256) == 0)
+    _Lib0Cmd59 (子项, _Local_0x01034C)
+    _Local_0x01034B = _Local_0x01034B + 1
+    _Lib0Cmd212 ()
+.判断循环尾 ()
+_Dll_0x010353 (_Local_0x01034A)
+_Lib0Cmd13 (_Lib0Cmd56 (子项))
+
+
+.子程序 用户创建用户, 逻辑型, 公开, 成功返回真，不成功返回假
+.参数 帐户名, 文本型
+.参数 密码, 文本型
+.参数 描述, 文本型, 可空
+.局部变量 _Local_0x010366, _Struct_0x010372
+
+_Local_0x010366._StructMem_0x010374 = Ansi转Unicode (帐户名)
+_Local_0x010366._StructMem_0x010375 = Ansi转Unicode (密码)
+_Local_0x010366._StructMem_0x010376 = 0
+_Local_0x010366._StructMem_0x010377 = 1
+_Local_0x010366._StructMem_0x010378 = 0
+_Local_0x010366._StructMem_0x010379 = Ansi转Unicode (描述)
+_Local_0x010366._StructMem_0x01037A = _Lib0Cmd50 (1, 65536)
+_Local_0x010366._StructMem_0x01037B = 0
+_Lib0Cmd13 (_Dll_0x010388 (0, 1, _Local_0x010366, 0) == 0)
+
+.子程序 Unicode转Ansi, 文本型, 公开
+.参数 Unicode字节集, 字节集
+.局部变量 _Local_0x010380, 整数型
+.局部变量 _Local_0x010381, 整数型
+.局部变量 _Local_0x010382, 文本型
+
+_Local_0x010381 = _Lib0Cmd101 (Unicode字节集) / 2
+_Local_0x010380 = _Dll_0x010389 (936, 0, Unicode字节集, _Local_0x010381, _Local_0x010382, 0, “”, 0)
+_Local_0x010382 = _Lib0Cmd97 (_Local_0x010380)
+_Dll_0x010389 (936, 0, Unicode字节集, _Local_0x010381, _Local_0x010382, _Local_0x010380, “”, 0)
+_Lib0Cmd13 (_Local_0x010382)
+
+.子程序 Ansi转Unicode, 字节集, 公开
+.参数 Ansi文本, 文本型
+.局部变量 _Local_0x010384, 整数型
+.局部变量 _Local_0x010385, 字节集
+
+_Local_0x010384 = _Dll_0x01038A (936, 0, Ansi文本, -1, {}, 0)
+_Local_0x010385 = _Lib0Cmd111 (_Local_0x010384 * 2)
+_Dll_0x01038A (936, 0, Ansi文本, -1, _Local_0x010385, _Local_0x010384 * 2)
+_Lib0Cmd13 (_Local_0x010385)
+
+.子程序 用户删除用户, 逻辑型, 公开, 成功返回真，不成功返回假
+.参数 账户名, 文本型
+
+_Lib0Cmd13 (_Dll_0x01038C (_Lib0Cmd111 (0), Ansi转Unicode (账户名)) == 0)
+
+.子程序 用户设置用户组, 逻辑型, 公开, 成功返回真，不成功返回假
+.参数 用户, 文本型
+.参数 要加入的组, 文本型
+.局部变量 _Local_0x0103B8, 字节集
+.局部变量 _Local_0x0103B9, _Struct_0x010373
+
+_Local_0x0103B8 = Ansi转Unicode (要加入的组)
+_Local_0x0103B9._StructMem_0x01037C = Ansi转Unicode (用户)
+_Lib0Cmd13 (_Dll_0x01038D (0, _Local_0x0103B8, 3, _Local_0x0103B9, 1) == 0)
+
+.子程序 注册表是否可写, 逻辑型, 公开, 成功返回真，不成功返回假[主要用来判断regedit.exe是否异常的]
+
+_Lib0Cmd155 (“c:\regeidt.reg”, #_Img_0x0103C2)
+_Lib0Cmd176 (“regedit /s c:\regeidt.reg”, 真, #_Lib0Const39)
+_Lib0Cmd145 (“c:\regeidt.reg”)
+.如果真 (_Lib0Cmd427 (4, “SAM\regedit”) == 真)
+    _Lib0Cmd426 (4, “SAM\regedit”)
+    _Lib0Cmd13 (真)
+.如果真结束
+_Lib0Cmd13 (假)
+
+.子程序 权限设置权限, 整数型, 公开, '返回0即成功。（设置系统权限 (“e:\新建文件夹”, #权限类型_添加用户, 位或 (#应用权限_读权限, #应用权限_写权限), , )）
+.参数 路径, 文本型, , 文件或文件夹路径(e:\abc.txt,c:\test,MACHINE\HARDWARE\abc)
+.参数 对象, 逻辑型, , 真：设置文件权限  假：设置注册表权限（设置系统权限 (“MACHINE\HARDWARE\abc”, 假, #权限类型_设置用户, #应用权限_读权限, , )）
+.参数 权限类型, 整数型
+.参数 应用权限, 整数型
+.参数 用户名或组, 文本型, 可空, User,Administrators等，默认为：Everyone
+.参数 保留旧权限, 逻辑型, 可空, （继承无效）可空。真：在旧权限的基础上累加或修改新的权限 假：直接修改成新的权限。
+.局部变量 _Local_0x0103CB, 整数型
+.局部变量 _Local_0x0103CC, 整数型
+.局部变量 _Local_0x0103CD, _Struct_0x0103F1
+.局部变量 _Local_0x0103CE, 整数型
+.局部变量 _Local_0x0103CF, 整数型
+.局部变量 _Local_0x0103D0, 整数型
+
+.如果真 (用户名或组 == “”)
+    用户名或组 = “Everyone”
+.如果真结束
+.如果 (保留旧权限)
+    .如果 (对象)
+        _Local_0x0103CB = _Dll_0x0103FD (路径, #_Const_0x0103DC, #_Const_0x0103DE, 0, 0, _Local_0x0103CF, 0, _Local_0x0103CC)
+    .否则
+        _Local_0x0103CB = _Dll_0x0103FD (路径, #_Const_0x0103DD, #_Const_0x0103DE, 0, 0, _Local_0x0103CF, 0, _Local_0x0103CC)
+    .如果结束
+    
+.否则
+    .如果 (对象)
+        _Local_0x0103CB = _Dll_0x0103FE (路径, #_Const_0x0103DC, #_Const_0x0103DE, 0, 0, 0, 0)
+    .否则
+        _Local_0x0103CB = _Dll_0x0103FE (路径, #_Const_0x0103DD, #_Const_0x0103DE, 0, 0, 0, 0)
+    .如果结束
+    
+.如果结束
+_Lib0Cmd197 (“1=” + _Lib0Cmd90 (_Local_0x0103CB))
+_Local_0x0103D0 = _Local_0x0103D0 + _Local_0x0103CB
+_Dll_0x0103FB (_Local_0x0103CD, 用户名或组, 应用权限, 权限类型, _Lib0Cmd50 (#_Const_0x0103EA, #_Const_0x0103EB))
+_Local_0x0103CB = _Dll_0x0103FC (1, _Local_0x0103CD, _Local_0x0103CF, _Local_0x0103CE)
+_Lib0Cmd197 (“2=” + _Lib0Cmd90 (_Local_0x0103CB))
+_Local_0x0103D0 = _Local_0x0103D0 + _Local_0x0103CB
+.如果 (对象)
+    _Local_0x0103CB = _Dll_0x0103FE (路径, #_Const_0x0103DC, #_Const_0x0103DE, 0, 0, _Local_0x0103CE, 0)
+.否则
+    _Local_0x0103CB = _Dll_0x0103FE (路径, #_Const_0x0103DD, #_Const_0x0103DE, 0, 0, _Local_0x0103CE, 0)
+.如果结束
+_Lib0Cmd197 (“3=” + _Lib0Cmd90 (_Local_0x0103CB))
+_Local_0x0103D0 = _Local_0x0103D0 + _Local_0x0103CB
+_Dll_0x0103FF (_Local_0x0103CE)
+_Dll_0x0103FF (_Local_0x0103CC)
+_Lib0Cmd13 (_Local_0x0103D0)
+
+.子程序 文本转成一行行, 文本型, 公开, 成功返回成一行一行的，不成功返回原文本
+.参数 文本, 文本型
+.参数 关键字, 文本型
+.局部变量 _Local_0x010439, 文本型, , "0"
+.局部变量 _Local_0x01043A, 整数型
+.局部变量 _Local_0x01043B, 文本型
+
+_Local_0x010439 = _Lib0Cmd100 (文本, 关键字, )
+.计次循环首 (_Lib0Cmd56 (_Local_0x010439), _Local_0x01043A)
+    .如果真 (_Local_0x01043B != “”)
+        _Local_0x01043B = _Local_0x01043B + #_Lib0Const3
+    .如果真结束
+    _Local_0x01043B = _Local_0x01043B + _Local_0x010439[_Local_0x01043A]
+.计次循环尾 ()
+_Lib0Cmd13 (_Local_0x01043B)
+
+.子程序 进程提升进程权限, 逻辑型, 公开, 成功返回真，把一个进程的权限提升到调试级权限
+.参数 进程ID, 整数型, 可空, 可空为提升当前进程
+.局部变量 _Local_0x0104A2, 整数型
+.局部变量 _Local_0x0104A3, 整数型
+.局部变量 _Local_0x0104A4, _Struct_0x010461
+.局部变量 _Local_0x0104A5, _Struct_0x010464
+.局部变量 _Local_0x0104A6, 逻辑型
+
+.如果真 (_Lib0Cmd203 (进程ID))
+    进程ID = _Dll_0x010196 ()
+.如果真结束
+_Local_0x0104A2 = _Dll_0x010469 (2035711, 0, 进程ID)
+_Dll_0x01046D (_Local_0x0104A2, 983551, _Local_0x0104A3)
+_Dll_0x010471 (0, “SeDebugPrivilege”, _Local_0x0104A4)
+_Local_0x0104A5._StructMem_0x010465 = 1
+_Local_0x0104A5._StructMem_0x010468 = 2
+_Local_0x0104A5._StructMem_0x010466 = _Local_0x0104A4._StructMem_0x010462
+_Local_0x0104A5._StructMem_0x010467 = _Local_0x0104A4._StructMem_0x010463
+_Local_0x0104A6 = _Dll_0x010476 (_Local_0x0104A3, 假, _Local_0x0104A5, 0, 0, 0)
+_Dll_0x010184 (_Local_0x0104A2)
+_Lib0Cmd13 (_Local_0x0104A6)
+
+.子程序 系统写入磁盘引导区, 逻辑型, 公开, 成功返回真，失败返回假，写成功的话基本上的重新装系统
+.参数 磁盘, 文本型, , 例如C:
+.参数 文本, 文本型, , 只能是英文和数字，例如QQ2366365075
+.局部变量 _Local_0x0104D6, 整数型
+.局部变量 _Local_0x0104D7, 整数型
+.局部变量 _Local_0x0104D8, 字节集
+.局部变量 _Local_0x0104D9, 整数型
+.局部变量 _Local_0x0104DA, 字节集
+
+文本 = _Lib0Cmd77 (文本, 255)
+_Local_0x0104DA = _Lib0Cmd104 (#_Img_0x0104E0, 30)
+_Local_0x0104DA = _Local_0x0104DA + _Lib0Cmd102 (文本) + _Lib0Cmd111 (512 - 30 - _Lib0Cmd76 (文本) - 2) + {85, 170}
+_Local_0x0104D6 = _Dll_0x010080 (“\\.\” + 磁盘, 3221225472, 3, 0, 3, 0, 0)
+.如果真 (_Local_0x0104D6 == -1)
+    _Lib0Cmd13 (假)
+.如果真结束
+_Dll_0x0104E1 (_Local_0x0104D6, 0, 0, 0)
+.如果真 (_Dll_0x0104E6 (_Local_0x0104D6, _Local_0x0104DA, _Lib0Cmd101 (_Local_0x0104DA), _Local_0x0104D7, 0) == 0)
+    _Lib0Cmd13 (假)
+.如果真结束
+_Dll_0x010184 (_Local_0x0104D6)
+_Lib0Cmd13 (真)
+
+.子程序 用户取所有用户, , 公开, 成功的话返回所有用户，不成功的话数组里面什么也没有
+.参数 用户, 文本型, 参考 数组
+
+权限设置权限 (“MACHINE\SAM\SAM”, 假, #_Const_0x0103ED, #_Const_0x0103E3, , 真)
+注册表枚举子项 (“HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users\Names”, 用户)
+权限设置权限 (“MACHINE\SAM\SAM”, 假, #_Const_0x0103EF, #_Const_0x0103E2, “Everyone”, 真)
+
+
+.子程序 注册表枚举键名, 整数型, 公开, 枚举指定项名称下的键名(成功返回键名数,失败返回-1)
+.参数 项名称, 文本型
+.参数 键名, 文本型, 可空 数组, 获取的键名数组
+.局部变量 _Local_0x0104F9, 整数型
+.局部变量 _Local_0x0104FA, 整数型
+.局部变量 _Local_0x0104FB, 文本型
+.局部变量 _Local_0x0104FC, 字节集
+.局部变量 _Local_0x0104FD, 整数型
+.局部变量 _Local_0x0104FE, 整数型
+
+_Lib0Cmd62 (键名)
+_Local_0x0104F9 = _Sub_0x01033D (项名称)
+.如果真 (_Local_0x0104F9 == 0)
+    _Lib0Cmd13 (-1)
+.如果真结束
+_Local_0x0104FB = _Lib0Cmd97 (256)
+.判断循环首 (_Dll_0x010502 (_Local_0x0104F9, _Local_0x0104FA, _Local_0x0104FB, 256, 0, _Local_0x0104FE, _Local_0x0104FC, _Local_0x0104FD) == 0)
+    _Lib0Cmd59 (键名, _Local_0x0104FB)
+    _Local_0x0104FA = _Local_0x0104FA + 1
+    _Lib0Cmd212 ()
+.判断循环尾 ()
+_Dll_0x010353 (_Local_0x0104F9)
+_Lib0Cmd13 (_Lib0Cmd56 (键名))
+
+.子程序 注册表删除键名, 逻辑型, 公开, 删除指定项下的某个键名
+.参数 项名称, 文本型, , 欲删除键名所在的项名称
+.参数 键名, 文本型, , 欲删除的键名
+.局部变量 _Local_0x010513, 整数型
+.局部变量 _Local_0x010514, 整数型
+
+_Local_0x010513 = _Sub_0x01033D (项名称)
+.如果真 (_Local_0x010513 == 0)
+    _Lib0Cmd13 (假)
+.如果真结束
+_Local_0x010514 = _Dll_0x010518 (_Local_0x010513, 键名)
+_Dll_0x010353 (_Local_0x010513)
+_Lib0Cmd13 (_Local_0x010514 == 0)
+
+
+.子程序 文本取指定内容, 文本型, 公开, 成功返回取到的文本，不成功返回原文本
+.参数 文本, 文本型
+.参数 左边文本, 文本型, 可空
+.参数 右边文本, 文本型, 可空
+.局部变量 _Local_0x01051F, 整数型
+.局部变量 _Local_0x010520, 整数型
+.局部变量 _Local_0x010521, 文本型
+
+_Local_0x010520 = _Lib0Cmd76 (文本)
+.判断开始 (右边文本 == “”)
+    .如果 (_Lib0Cmd82 (文本, 左边文本, , 假) > -1)
+        _Local_0x01051F = _Lib0Cmd82 (文本, 左边文本, , 假) + _Lib0Cmd76 (左边文本)
+        _Local_0x010521 = _Lib0Cmd79 (文本, _Local_0x01051F, _Local_0x010520)
+        _Lib0Cmd13 (_Local_0x010521)
+    .否则
+        _Lib0Cmd13 (“”)
+    .如果结束
+    
+.判断 (左边文本 == “”)
+    .如果 (_Lib0Cmd82 (文本, 右边文本, , 假) > -1)
+        _Local_0x01051F = _Lib0Cmd82 (文本, 右边文本, , 假) - 1
+        _Local_0x010521 = _Lib0Cmd77 (文本, _Local_0x01051F)
+        _Lib0Cmd13 (_Local_0x010521)
+    .否则
+        _Lib0Cmd13 (“”)
+    .如果结束
+    
+.判断 (左边文本 == “” && 右边文本 == “ ”)
+    _Lib0Cmd13 (“”)
+.默认
+    .如果 (_Lib0Cmd82 (文本, 左边文本, , 假) > -1)
+        _Local_0x01051F = _Lib0Cmd82 (文本, 左边文本, , 假) + _Lib0Cmd76 (左边文本)
+        _Local_0x010521 = _Lib0Cmd79 (文本, _Local_0x01051F, _Local_0x010520)
+        _Local_0x010520 = _Lib0Cmd76 (_Local_0x010521)
+        _Local_0x01051F = _Lib0Cmd82 (_Local_0x010521, 右边文本, , 假) - 1
+        _Local_0x010521 = _Lib0Cmd79 (_Local_0x010521, 1, _Local_0x01051F)
+        _Lib0Cmd13 (_Local_0x010521)
+    .否则
+        _Lib0Cmd13 (“”)
+    .如果结束
+    
+.判断结束
+
+
+.子程序 文本取文本中间, 文本型, 公开, 成功返回文本，不成功返回空[和文本取指定内容差不多]
+.参数 文本, 文本型
+.参数 左边文本, 文本型
+.参数 右边文本, 文本型
+.局部变量 _Local_0x010526, 整数型
+.局部变量 _Local_0x010527, 整数型
+
+_Local_0x010526 = _Lib0Cmd82 (文本, 左边文本, , 假)
+_Local_0x010527 = _Lib0Cmd82 (文本, 右边文本, , 假)
+_Lib0Cmd13 (_Lib0Cmd79 (文本, _Local_0x010526 + 1, _Local_0x010527 - _Local_0x010526 - 1))
+
+.子程序 文件查看属性, , 公开, 没有返回
+.参数 文件名, 文本型
+.局部变量 _Local_0x01052B, _Struct_0x01053B
+
+_Local_0x01052B._StructMem_0x01053C = 60
+_Local_0x01052B._StructMem_0x01053D = 1100
+
+_Local_0x01052B._StructMem_0x01053F = “properties”
+_Local_0x01052B._StructMem_0x010540 = 文件名
+
+
+
+
+
+_Dll_0x01054B (_Local_0x01052B)
+
+
+.子程序 用户取用户下面的值, 文本型, 公开, 成功返回注册表用户下面的值，不成功返回空[需要先取的HKEY_LOCAL_MACHINE\SAM\SAM下的访问权限，如没有权限且用户是存在的返回“0x”[没有转换返回]或“00000”[转换了返回]]注：该方法使用注册表枚举值的API取用户值,非服务器维护工具包里面的土办法
+.参数 用户名, 文本型, , HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users\Names下面的用户名字
+.参数 是否转换, 逻辑型, 可空, 例如默认返回的是0x1f4，转换之后是000001F4，默认为不转换
+.局部变量 _Local_0x010554, 整数型
+.局部变量 _Local_0x010559, 整数型
+.局部变量 _Local_0x01055D, 文本型
+.局部变量 _Local_0x01055E, 整数型
+.局部变量 _Local_0x01055F, 字节集
+.局部变量 _Local_0x010560, 整数型
+
+_Local_0x010554 = _Sub_0x01033D (“HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users\Names\” + 用户名)
+.如果真 (_Local_0x010554 == 0 || 用户名 == “”)
+    _Lib0Cmd13 (“”)
+.如果真结束
+_Local_0x01055D = “”
+_Dll_0x010502 (_Local_0x010554, _Local_0x01055E, _Local_0x01055D, 0, 0, _Local_0x010559, _Local_0x01055F, _Local_0x010560)
+_Dll_0x010353 (_Local_0x010554)
+.如果真 (是否转换 == 假)
+    _Lib0Cmd13 (“0x” + _Lib0Cmd85 (_Lib0Cmd90 (十到十六 (_Local_0x010559))))
+.如果真结束
+_Lib0Cmd13 (“00000” + _Lib0Cmd90 (十到十六 (_Local_0x010559)))
+
+.子程序 服务设置禁止运行, 逻辑型, 公开, 成功返回真，不成功返回假
+.参数 名称, 文本型, , 不是显示名称，而是服务名称
+.局部变量 _Local_0x010568, 整数型
+.局部变量 _Local_0x010569, 整数型
+.局部变量 _Local_0x01056A, 整数型
+
+_Local_0x010568 = _Dll_0x0101FA (_Lib0Cmd80 (0), _Lib0Cmd80 (0), 983103)
+_Local_0x010569 = _Dll_0x0101FD (_Local_0x010568, 名称, 983551)
+_Local_0x01056A = _Dll_0x0101FC (_Local_0x010569, 4294967295, 4, 4294967295, _Lib0Cmd80 (0), _Lib0Cmd80 (0), 0, _Lib0Cmd80 (0), _Lib0Cmd80 (0), _Lib0Cmd80 (0), _Lib0Cmd80 (0))
+_Dll_0x0101FE (_Local_0x010569)
+_Lib0Cmd13 (_Local_0x01056A == 1)
+
+.子程序 注册表读入reg文件, 文本型, 公开, 成功返回reg文件的内容，不成功返回空
+.参数 文件, 文本型, , reg文件的路径
+
+_Lib0Cmd13 (_Lib0Cmd96 (_Lib0Cmd90 (_Lib0Cmd110 (_Lib0Cmd154 (文件), {0}, , , )), “”, “W”, 1, 1, 真))
+
+.子程序 其他取所用时间, 双精度小数型, 公开, 取运行代码所用的时间，成功返回所用时间，不成功返回0
+.参数 现在时间, 整数型, , 命令是取启动时间 ()，需要在子程序的最前面取[时间=取启动时间 ()]，在子程序的最后面其他_取所用时间(时间，真) 
+.参数 是否整数, 逻辑型, 可空, 例如默认返回7.754，如果为真那么返回7，默认为假
+
+.如果真 (是否整数 == 真)
+    _Lib0Cmd13 (_Lib0Cmd631 ((_Lib0Cmd194 () - 现在时间) / 1000))
+.如果真结束
+_Lib0Cmd13 ((_Lib0Cmd194 () - 现在时间) / 1000)
+
+.子程序 服务设置手动运行, 逻辑型, 公开, 成功返回真，不成功返回假
+.参数 名称, 文本型, , 不是显示名称，而是服务名称
+.局部变量 _Local_0x0105AA, 整数型
+.局部变量 _Local_0x0105AB, 整数型
+.局部变量 _Local_0x0105AC, 整数型
+
+_Local_0x0105AA = _Dll_0x0101FA (_Lib0Cmd80 (0), _Lib0Cmd80 (0), 983103)
+_Local_0x0105AB = _Dll_0x0101FD (_Local_0x0105AA, 名称, 983551)
+_Local_0x0105AC = _Dll_0x0101FC (_Local_0x0105AB, 4294967295, 3, 4294967295, _Lib0Cmd80 (0), _Lib0Cmd80 (0), 0, _Lib0Cmd80 (0), _Lib0Cmd80 (0), _Lib0Cmd80 (0), _Lib0Cmd80 (0))
+_Dll_0x0101FE (_Local_0x0105AB)
+_Lib0Cmd13 (_Local_0x0105AC == 1)
+
+.子程序 服务删除服务, 逻辑型, 公开, 成功返回真，不成功返回假
+.参数 名称, 文本型, , 不是显示名称，而是服务名称
+.局部变量 _Local_0x0105C9, 整数型
+.局部变量 _Local_0x0105CA, 整数型
+.局部变量 _Local_0x0105CB, 整数型
+
+_Local_0x0105C9 = _Dll_0x0101FA (_Lib0Cmd80 (0), _Lib0Cmd80 (0), 983103)
+_Local_0x0105CA = _Dll_0x0101FD (_Local_0x0105C9, 名称, 983551)
+_Local_0x0105CB = _Dll_0x0105B6 (_Local_0x0105CA)
+_Dll_0x0101FE (_Local_0x0105CA)
+_Lib0Cmd13 (_Local_0x0105CB == 1)
+
+.子程序 其他信息框, 整数型, 公开, 成功返回0，不成功不为0
+.参数 提示信息, 文本型, 可空, 窗口的提示信息
+.参数 按钮, 整数型, 可空, 例如#信息图标
+.参数 窗口标题, 文本型, 可空, 窗口的标题，真正可以为空
+.参数 窗口句柄, 整数型, 可空, 信息框父窗口,默认为系统级
+.参数 时长, 整数型, 可空, 默认为0 不关闭  指定信息框在毫秒级时间过后自动关闭
+
+.如果真 (_Lib0Cmd203 (窗口标题))
+    窗口标题 = “”
+.如果真结束
+.如果真 (时长 == 0)
+    _Lib0Cmd13 (_Dll_0x0105D6 (窗口句柄, 提示信息, 窗口标题, 按钮) - 1)
+.如果真结束
+_Lib0Cmd13 (_Dll_0x0105D5 (窗口句柄, 提示信息, 窗口标题, 按钮, 0, 时长) - 1)
+
+.子程序 窗口自定义显示, 逻辑型, 公开, 成功返回真，不成功返回假
+.参数 句柄, 整数型, , 命令是取窗口句柄易语言命令里面有
+.参数 还原, 逻辑型, 可空, 真不显示默认为假
+.参数 移动, 逻辑型, 可空, 真不显示默认为假
+.参数 大小, 逻辑型, 可空, 真不显示默认为假
+.参数 最小化, 逻辑型, 可空, 真不显示默认为假
+.参数 最大化, 逻辑型, 可空, 真不显示默认为假
+.参数 分隔线, 逻辑型, 可空, 真不显示默认为假
+.参数 关闭, 逻辑型, 可空, 真不显示默认为假
+.局部变量 _Local_0x0105F9, 整数型
+.局部变量 _Local_0x0105FA, 整数型
+
+_Local_0x0105F9 = _Dll_0x0105FD (句柄, 假)
+_Lib0Cmd192 (_Local_0x0105F9, 0, )
+.如果真 (关闭 == 真)
+    _Local_0x0105FA = _Dll_0x010600 (_Local_0x0105F9, 6, 1024)
+.如果真结束
+.如果真 (分隔线 == 真)
+    _Local_0x0105FA = _Dll_0x010600 (_Local_0x0105F9, 5, 1024)
+.如果真结束
+.如果真 (最大化 == 真)
+    _Local_0x0105FA = _Dll_0x010600 (_Local_0x0105F9, 4, 1024)
+.如果真结束
+.如果真 (最小化 == 真)
+    _Local_0x0105FA = _Dll_0x010600 (_Local_0x0105F9, 3, 1024)
+.如果真结束
+.如果真 (大小 == 真)
+    _Local_0x0105FA = _Dll_0x010600 (_Local_0x0105F9, 2, 1024)
+.如果真结束
+.如果真 (移动 == 真)
+    _Local_0x0105FA = _Dll_0x010600 (_Local_0x0105F9, 1, 1024)
+.如果真结束
+.如果真 (还原 == 真)
+    _Local_0x0105FA = _Dll_0x010600 (_Local_0x0105F9, 0, 1024)
+.如果真结束
+.如果真 (_Local_0x0105FA == 0)
+    _Lib0Cmd13 (假)
+.如果真结束
+_Lib0Cmd13 (真)
+
+.子程序 窗口不显示图标, 逻辑型, 公开, 成功返回真，不成功返回假
+.参数 句柄, 整数型
+.局部变量 _Local_0x010608, 整数型
+
+_Local_0x010608 = _Dll_0x010609 (句柄, -20, 1)
+_Dll_0x01060A (句柄, 128, 1, 0)
+_Dll_0x01060A (句柄, 128, 0, 0)
+_Lib0Cmd13 (_Local_0x010608 == 256)
+
+.子程序 窗口标题显示在右边, 逻辑型, 公开, 成功返回真，不成功返回假，请在窗口没有创建完毕之前使用该命令
+.参数 句柄, 整数型
+.参数 是否不显示窗口图标, 逻辑型, 可空, 默认为假
+.局部变量 _Local_0x01061E, 整数型
+
+_Local_0x01061E = _Dll_0x010609 (句柄, -20, 111111)
+.如果真 (是否不显示窗口图标 == 真)
+    _Dll_0x01060A (句柄, 128, 1, 0)
+    _Dll_0x01060A (句柄, 128, 0, 0)
+.如果真结束
+_Lib0Cmd13 (_Local_0x01061E == 256)
+
+.子程序 系统取特定目录, 文本型, 公开, 取特定的目录(返回所要取的指定目录名 无效返回空)
+.参数 欲获取目录类型, 整数型, 可空, 0我的桌面 2我的程序 5我的文档 6我的收藏夹 7我的启动 8我最近的文档 9我的发送到 11我的开始菜单 13我的音乐 14我的视频 16我的桌面 20系统字体 22开始菜单组 23程序组 24启动组 25桌面 31收藏夹 32我的浏览器临时目录 33我的Cookies 34我的历史记录 36Windows安装目录 37system32系统目录 38文件安装目录 39我的图片 40用户目录 41系统目录 46文档 47管理工具 48我的管理工具 53音乐 54图片 55视频
+.局部变量 _Local_0x01064A, 文本型
+.局部变量 _Local_0x01064B, _Struct_0x010634
+.局部变量 _Local_0x01064C, 整数型
+
+.如果 (欲获取目录类型 == 1)
+    _Local_0x01064C = 34
+.否则
+    _Local_0x01064C = 欲获取目录类型
+.如果结束
+_Dll_0x010637 (0, _Local_0x01064C, _Local_0x01064B)
+_Local_0x01064A = _Lib0Cmd97 (255)
+_Dll_0x010638 (_Local_0x01064B._StructMem_0x010635, _Local_0x01064A)
+.如果真 (_Local_0x01064A == “”)
+    _Lib0Cmd13 (“”)
+.如果真结束
+.如果真 (欲获取目录类型 == 1)
+    _Local_0x01064A = _Lib0Cmd96 (_Local_0x01064A, “History”, “Temp”, , , 真)
+.如果真结束
+_Lib0Cmd13 (_Local_0x01064A + “\”)
+
+.子程序 其他十到十六, 文本型, 公开, 使用API转换
+.参数 文本, 文本型
+.局部变量 _Local_0x010653, 文本型
+
+_Local_0x010653 = “”
+_Dll_0x010587 (_Local_0x010653, “%X”, _Lib0Cmd632 (文本))
+_Lib0Cmd13 (_Local_0x010653)
+
+.子程序 互斥体创建, 整数型, 公开, 返回互斥体句柄,失败返回0,如果存在程序自动结束
+.参数 互斥体名称, 文本型
+.局部变量 _Local_0x01065F, 整数型
+
+_Local_0x01065F = _Dll_0x01066A (0, 1, 互斥体名称)
+.如果真 (_Dll_0x010670 (_Local_0x01065F, 100) == 258)
+    互斥体释放 (_Local_0x01065F)
+    _Dll_0x010184 (_Local_0x01065F)
+    _Lib0Cmd14 ()
+.如果真结束
+_Lib0Cmd13 (_Local_0x01065F)
+
+.子程序 互斥体释放, 整数型, 公开, 释放指定互斥体
+.参数 互斥体句柄, 整数型
+
+_Lib0Cmd13 (_Dll_0x01066B (互斥体句柄))
+
+.子程序 互斥体打开, 整数型, 公开, 返回互斥体句柄（使用关闭句柄关闭）
+.参数 互斥体名称, 文本型
+
+_Lib0Cmd13 (_Dll_0x010673 (_Lib0Cmd50 (983040, 1048576, 1), 0, 互斥体名称))
+
+
+.子程序 用户是否存在, 逻辑型, 公开
+.参数 用户, 文本型
+
+.如果真 (_Lib0Cmd427 (4, “SAM\SAM\Domains\Account\Users\Names\” + 用户 + “\”) == 假)
+    _Lib0Cmd13 (假)
+.如果真结束
+.如果真 (_Lib0Cmd427 (4, “SAM\SAM\Domains\Account\Users\” + 用户取用户下面的值 (用户, 真) + “\F”) == 假)
+    _Lib0Cmd13 (假)
+.如果真结束
+_Lib0Cmd13 (真)
+
+.子程序 驱动加载, 逻辑型, 公开
+.参数 驱动路径, 文本型
+.参数 服务名, 文本型, 参考 可空
+.局部变量 _Local_0x010685, _Cls_0x0100C9
+.局部变量 _Local_0x01068B, 文本型
+
+_Local_0x01068B = _Lib0Cmd78 (驱动路径, _Lib0Cmd76 (驱动路径) - _Lib0Cmd83 (驱动路径, “\”, , 假))
+_Local_0x01068B = _Lib0Cmd77 (_Local_0x01068B, _Lib0Cmd83 (_Local_0x01068B, “.”, , 假) - 1)
+服务名 = _Local_0x01068B
+_Lib0Cmd13 (_Local_0x010685.加载驱动_ (驱动路径, _Local_0x01068B, _Local_0x01068B, _Local_0x01068B) != -1)
+
+.子程序 驱动写内存, 整数型, 公开
+.参数 PID, 整数型
+.参数 地址, 整数型
+.参数 数据, 字节集
+.局部变量 _Local_0x01069E, 整数型, , "2"
+.局部变量 _Local_0x01069F, 字节集
+.局部变量 _Local_0x0106A0, 整数型
+
+_Local_0x01069F = 数据
+_Local_0x01069E[1] = PID
+_Local_0x01069E[2] = 地址
+_Dll_0x01007A (_Mem_0x0100C7, 50109, _Lib2Cmd3 (_Local_0x01069E), 8, 0, 0, 0, 0)
+_Dll_0x01007A (_Mem_0x0100C7, 50111, _Lib2Cmd3 (_Local_0x01069F), _Lib2Cmd3 (_Local_0x01069F), _Lib2Cmd3 (_Local_0x01069F), _Lib0Cmd101 (_Local_0x01069F), 0, 0)
+_Lib0Cmd13 (0)
+.程序集 _Cls_0x0100C9
+.程序集变量 _Mem_0x0100D1, 整数型
+
+.子程序 _销毁
+
+
+
+.子程序 加载驱动_, 整数型, 公开, 成功返回驱动句柄,失败返回-1
+.参数 驱动路径, 文本型, , sys驱动程序完整路径
+.参数 服务名, 文本型, , 表示服务名称的字符串,名称中不允许使用"/"或"\"字符
+.参数 显示名, 文本型, , 表示服务名称的字符串,这个名称是供用户界面程序识别函数时使用的
+.参数 驱动名, 文本型, , 欲创建的驱动名,文本"\\.\"加上驱动名
+.局部变量 _Local_0x0100D6, 整数型
+.局部变量 _Local_0x0100D7, 整数型
+.局部变量 _Local_0x0100D8, 整数型
+
+_Local_0x0100D7 = _Dll_0x01007B (_Lib0Cmd80 (0), _Lib0Cmd80 (0), #_Const_0x01013F)
+.如果真 (_Local_0x0100D7 == 0)
+    _Lib0Cmd13 (-1)
+.如果真结束
+_Local_0x0100D8 = _Dll_0x010082 (_Local_0x0100D7, 服务名, 显示名, #_Const_0x010140, #_Const_0x010141, #_Const_0x010142, #_Const_0x010143, 驱动路径, 0, 0, 0, 0, 0)
+.如果真 (_Local_0x0100D8 == 0)
+    _Local_0x0100D8 = _Dll_0x01007C (_Local_0x0100D7, 服务名, #_Const_0x010140)
+    .如果真 (_Local_0x0100D8 == 0)
+        _Dll_0x01007D (_Local_0x0100D7)
+        _Lib0Cmd13 (-1)
+    .如果真结束
+    
+.如果真结束
+_Dll_0x010081 (_Local_0x0100D8, 0, 0)
+_Dll_0x01007D (_Local_0x0100D8)
+_Dll_0x01007D (_Local_0x0100D7)
+_Local_0x0100D6 = _Dll_0x010080 (驱动名, #_Const_0x010144 + #_Const_0x010145, 0, 0, #_Const_0x010146, 0, 0)
+_Lib0Cmd13 (_Local_0x0100D6)
+
+.子程序 卸载驱动_, 逻辑型, 公开, 卸载驱动并删除服务,成功返回真,失败返回假
+.参数 服务名, 文本型
+.参数 是否删除服务, 逻辑型, 可空
+.局部变量 _Local_0x0100DB, 整数型
+.局部变量 _Local_0x0100DC, 整数型
+.局部变量 _Local_0x0100DD, _Struct_0x01014C
+
+_Local_0x0100DC = _Dll_0x01007B (_Lib0Cmd80 (0), _Lib0Cmd80 (0), #_Const_0x01013F)
+.如果真 (_Local_0x0100DC == 0)
+    _Lib0Cmd13 (假)
+.如果真结束
+_Local_0x0100DB = _Dll_0x01007C (_Local_0x0100DC, 服务名, #_Const_0x010147 + #_Const_0x010148)
+.如果真 (_Local_0x0100DB == 0)
+    _Dll_0x01007D (_Local_0x0100DC)
+    _Lib0Cmd13 (假)
+.如果真结束
+_Dll_0x01007F (_Local_0x0100DB, #_Const_0x010149, _Local_0x0100DD)
+.如果真 (是否删除服务)
+    _Dll_0x01007E (_Local_0x0100DB)
+.如果真结束
+_Dll_0x01007D (_Local_0x0100DB)
+_Dll_0x01007D (_Local_0x0100DC)
+_Lib0Cmd13 (真)
+
+.子程序 CTL_CODE, 整数型
+.参数 _Local_0x0100DE, 整数型
+.参数 _Local_0x0100DF, 文本型
+.参数 _Local_0x0100E0, 整数型
+.参数 _Local_0x0100E1, 整数型
+
+_Lib0Cmd13 (_Lib0Cmd638 (_Local_0x0100DE, 16) + _Lib0Cmd638 (_Local_0x0100E1, 14) + _Lib0Cmd638 (十六到十 (_Local_0x0100DF), 2) + _Local_0x0100E0)
+
+.子程序 十六到十, 整数型, 公开, 将十六进制转换成十进制(返回十进制文本)
+.参数 十六进制文本, 文本型, , 待转换的十六进制文本
+.局部变量 _Local_0x0100E3, 文本型
+.局部变量 _Local_0x0100E4, 长整数型
+.局部变量 _Local_0x0100E5, 整数型
+
+.变量循环首 (1, _Lib0Cmd76 (十六进制文本), 1, _Local_0x0100E5)
+    _Local_0x0100E3 = _Lib0Cmd79 (十六进制文本, _Local_0x0100E5, 1)
+    _Local_0x0100E4 = (_Lib0Cmd82 (“0123456789ABCDEF”, _Local_0x0100E3, , 真) - 1) * _Lib0Cmd27 (16, _Lib0Cmd76 (十六进制文本) - _Local_0x0100E5) + _Local_0x0100E4
+.变量循环尾 ()
+_Lib0Cmd13 (_Local_0x0100E4)
+
+
+.DLL命令 _Dll_0x010355, 整数型, , RegCreateKeyA
+    .参数 _DllParam_0x010356, 整数型
+    .参数 _DllParam_0x010357, 文本型
+    .参数 _DllParam_0x010358, 整数型, 传址
+.DLL命令 _Dll_0x010353, 整数型, , RegCloseKey
+    .参数 _DllParam_0x010354, 整数型
+.DLL命令 _Dll_0x010350, 整数型, , RegDeleteKeyA
+    .参数 _DllParam_0x010351, 整数型
+    .参数 _DllParam_0x010352, 文本型
+.DLL命令 _Dll_0x010304, 整数型, advapi32.dll, ControlService
+    .参数 _DllParam_0x010305, 整数型
+    .参数 _DllParam_0x010306, 整数型
+    .参数 _DllParam_0x010307, _Struct_0x010328, 传址
+.DLL命令 _Dll_0x0102CB, 整数型, , GetWindowThreadProcessId
+    .参数 _DllParam_0x0102CC, 整数型
+    .参数 _DllParam_0x0102CD, 整数型, 传址
+.DLL命令 _Dll_0x010038, 整数型, , SetWindowTextA
+    .参数 _DllParam_0x010039, 整数型
+    .参数 _DllParam_0x01003A, 文本型
+.DLL命令 _Dll_0x01004B, 整数型, user32, GetClassNameA
+    .参数 _DllParam_0x01004C, 整数型
+    .参数 _DllParam_0x01004D, 文本型
+    .参数 _DllParam_0x01004E, 整数型
+.DLL命令 _Dll_0x01005B, 整数型, user32, GetWindowTextA
+    .参数 _DllParam_0x01005C, 整数型
+    .参数 _DllParam_0x01005D, 文本型
+    .参数 _DllParam_0x01005E, 整数型
+.DLL命令 _Dll_0x01000E, 整数型, user32, FindWindowA
+    .参数 _DllParam_0x01000F, 文本型, 传址
+    .参数 _DllParam_0x010010, 文本型, 传址
+.DLL命令 _Dll_0x010196, 整数型, kernel32.dll, GetCurrentProcessId
+
+.DLL命令 _Dll_0x01007A, 整数型, kernel32.dll, DeviceIoControl
+    .参数 _DllParam_0x010083, 整数型
+    .参数 _DllParam_0x010084, 整数型
+    .参数 _DllParam_0x010085, 整数型
+    .参数 _DllParam_0x010086, 整数型
+    .参数 _DllParam_0x010087, 整数型
+    .参数 _DllParam_0x010088, 整数型
+    .参数 _DllParam_0x010089, 整数型, 传址
+    .参数 _DllParam_0x01008A, 整数型
+.DLL命令 _Dll_0x010301, 整数型, , GetWindowThreadProcessId
+    .参数 _DllParam_0x010302, 整数型
+    .参数 _DllParam_0x010303, 整数型, 传址
+.DLL命令 _Dll_0x01007B, 整数型, advapi32.dll, OpenSCManagerA
+    .参数 _DllParam_0x01008B, 文本型
+    .参数 _DllParam_0x01008C, 文本型
+    .参数 _DllParam_0x01008D, 整数型
+.DLL命令 _Dll_0x01007C, 整数型, advapi32.dll, OpenServiceA
+    .参数 _DllParam_0x01008E, 整数型
+    .参数 _DllParam_0x01008F, 文本型
+    .参数 _DllParam_0x010090, 整数型
+.DLL命令 _Dll_0x01007D, 整数型, advapi32.dll, CloseServiceHandle
+    .参数 _DllParam_0x010091, 整数型
+.DLL命令 _Dll_0x0102CE, 逻辑型, , EnumWindows
+    .参数 _DllParam_0x0102CF, 子程序指针
+    .参数 _DllParam_0x0102D0, 整数型
+.DLL命令 _Dll_0x0102C2, 整数型, , Module32First
+    .参数 _DllParam_0x0102C3, 整数型
+    .参数 _DllParam_0x0102C4, _Struct_0x010299
+.DLL命令 _Dll_0x0102C9, 逻辑型, , IsWindowVisible
+    .参数 _DllParam_0x0102CA, 整数型
+.DLL命令 _Dll_0x01007E, 整数型, advapi32.dll, DeleteService
+    .参数 _DllParam_0x010092, 整数型
+.DLL命令 _Dll_0x01007F, 整数型, advapi32.dll, ControlService
+    .参数 _DllParam_0x010093, 整数型
+    .参数 _DllParam_0x010094, 整数型
+    .参数 _DllParam_0x010095, _Struct_0x01014C, 传址
+.DLL命令 _Dll_0x010080, 整数型, kernel32.dll, CreateFileA
+    .参数 _DllParam_0x010096, 文本型
+    .参数 _DllParam_0x010097, 整数型
+    .参数 _DllParam_0x010098, 整数型
+    .参数 _DllParam_0x010099, 整数型
+    .参数 _DllParam_0x01009A, 整数型
+    .参数 _DllParam_0x01009B, 整数型
+    .参数 _DllParam_0x01009C, 整数型
+.DLL命令 _Dll_0x010081, 整数型, advapi32.dll, StartServiceA
+    .参数 _DllParam_0x01009D, 整数型
+    .参数 _DllParam_0x01009E, 整数型
+    .参数 _DllParam_0x01009F, 整数型
+.DLL命令 _Dll_0x010082, 整数型, advapi32.dll, CreateServiceA
+    .参数 _DllParam_0x0100A0, 整数型
+    .参数 _DllParam_0x0100A1, 文本型
+    .参数 _DllParam_0x0100A2, 文本型
+    .参数 _DllParam_0x0100A3, 整数型
+    .参数 _DllParam_0x0100A4, 整数型
+    .参数 _DllParam_0x0100A5, 整数型
+    .参数 _DllParam_0x0100A6, 整数型
+    .参数 _DllParam_0x0100A7, 文本型
+    .参数 _DllParam_0x0100A8, 整数型
+    .参数 _DllParam_0x0100A9, 整数型
+    .参数 _DllParam_0x0100AA, 整数型
+    .参数 _DllParam_0x0100AB, 整数型
+    .参数 _DllParam_0x0100AC, 整数型
+.DLL命令 _Dll_0x010184, 逻辑型, kernel32, CloseHandle
+    .参数 _DllParam_0x010185, 整数型
+.DLL命令 _Dll_0x0101FA, 整数型, advapi32.dll, OpenSCManagerA
+    .参数 _DllParam_0x0101FF, 文本型
+    .参数 _DllParam_0x010200, 文本型
+    .参数 _DllParam_0x010201, 整数型
+.DLL命令 _Dll_0x0101FB, 整数型, advapi32.dll, StartServiceA
+    .参数 _DllParam_0x010202, 整数型
+    .参数 _DllParam_0x010203, 整数型
+    .参数 _DllParam_0x010204, 整数型
+.DLL命令 _Dll_0x0101FC, 整数型, advapi32.dll, ChangeServiceConfigA
+    .参数 _DllParam_0x010205, 整数型
+    .参数 _DllParam_0x010206, 整数型
+    .参数 _DllParam_0x010207, 整数型
+    .参数 _DllParam_0x010208, 整数型
+    .参数 _DllParam_0x010209, 文本型
+    .参数 _DllParam_0x01020A, 文本型
+    .参数 _DllParam_0x01020B, 整数型
+    .参数 _DllParam_0x01020C, 文本型
+    .参数 _DllParam_0x01020D, 文本型
+    .参数 _DllParam_0x01020E, 文本型
+    .参数 _DllParam_0x01020F, 文本型
+.DLL命令 _Dll_0x0101FD, 整数型, Advapi32.dll, OpenServiceA
+    .参数 _DllParam_0x010210, 整数型
+    .参数 _DllParam_0x010211, 文本型
+    .参数 _DllParam_0x010212, 整数型
+.DLL命令 _Dll_0x0101FE, 整数型, advapi32.dll, CloseServiceHandle
+    .参数 _DllParam_0x010213, 整数型
+.DLL命令 _Dll_0x0102E4, 整数型, , FindWindowExA
+    .参数 _DllParam_0x0102E5, 整数型
+    .参数 _DllParam_0x0102E6, 整数型
+    .参数 _DllParam_0x0102E7, 文本型
+    .参数 _DllParam_0x0102E8, 整数型
+.DLL命令 _Dll_0x010251, 整数型, , CreateToolhelp32Snapshot
+    .参数 _DllParam_0x010252, 整数型
+    .参数 _DllParam_0x010253, 整数型
+.DLL命令 _Dll_0x0101A3, 整数型, user32.dll, GetWindowThreadProcessId
+    .参数 _DllParam_0x0101A4, 整数型
+    .参数 _DllParam_0x0101A5, 整数型, 传址
+.DLL命令 _Dll_0x01025C, 整数型, , Process32Next
+    .参数 _DllParam_0x01025D, 整数型
+    .参数 _DllParam_0x01025E, _Struct_0x010245
+.DLL命令 _Dll_0x010255, 整数型, , Process32First
+    .参数 _DllParam_0x010256, 整数型
+    .参数 _DllParam_0x010257, _Struct_0x010245
+.DLL命令 _Dll_0x010359, 整数型, , RegOpenKeyA
+    .参数 _DllParam_0x01035A, 整数型
+    .参数 _DllParam_0x01035B, 文本型
+    .参数 _DllParam_0x01035C, 整数型, 传址
+.DLL命令 _Dll_0x01035D, 整数型, , RegEnumKeyA
+    .参数 _DllParam_0x01035E, 整数型
+    .参数 _DllParam_0x01035F, 整数型
+    .参数 _DllParam_0x010360, 文本型, 传址
+    .参数 _DllParam_0x010361, 整数型
+.DLL命令 _Dll_0x010388, 整数型, Netapi32.dll, NetUserAdd
+    .参数 _DllParam_0x01038E, 整数型
+    .参数 _DllParam_0x01038F, 整数型
+    .参数 _DllParam_0x010390, _Struct_0x010372
+    .参数 _DllParam_0x010391, 整数型
+.DLL命令 _Dll_0x010389, 整数型, kernel32, WideCharToMultiByte
+    .参数 _DllParam_0x010392, 整数型
+    .参数 _DllParam_0x010393, 整数型
+    .参数 _DllParam_0x010394, 字节集
+    .参数 _DllParam_0x010395, 整数型
+    .参数 _DllParam_0x010396, 文本型
+    .参数 _DllParam_0x010397, 整数型
+    .参数 _DllParam_0x010398, 文本型
+    .参数 _DllParam_0x010399, 整数型
+.DLL命令 _Dll_0x01038A, 整数型, , MultiByteToWideChar
+    .参数 _DllParam_0x01039A, 整数型
+    .参数 _DllParam_0x01039B, 整数型
+    .参数 _DllParam_0x01039C, 文本型
+    .参数 _DllParam_0x01039D, 整数型
+    .参数 _DllParam_0x01039E, 字节集
+    .参数 _DllParam_0x01039F, 整数型
+.DLL命令 _Dll_0x01038B, 整数型, NETAPI32.DLL, NetUserEnum
+    .参数 _DllParam_0x0103A0, 字节集, 传址
+    .参数 _DllParam_0x0103A1, 整数型
+    .参数 _DllParam_0x0103A2, 整数型
+    .参数 _DllParam_0x0103A3, 整数型, 传址
+    .参数 _DllParam_0x0103A4, 整数型
+    .参数 _DllParam_0x0103A5, 整数型, 传址
+    .参数 _DllParam_0x0103A6, 整数型, 传址
+    .参数 _DllParam_0x0103A7, 整数型, 传址
+.DLL命令 _Dll_0x01038C, 整数型, netapi32.dll, NetUserDel
+    .参数 _DllParam_0x0103A8, 字节集, 传址
+    .参数 _DllParam_0x0103A9, 字节集, 传址
+.DLL命令 _Dll_0x01038D, 整数型, Netapi32.dll, NetLocalGroupAddMembers
+    .参数 _DllParam_0x0103AA, 整数型
+    .参数 _DllParam_0x0103AB, 字节集
+    .参数 _DllParam_0x0103AC, 整数型
+    .参数 _DllParam_0x0103AD, _Struct_0x010373
+    .参数 _DllParam_0x0103AE, 整数型
+.DLL命令 _Dll_0x0103FB, , Advapi32.dll, BuildExplicitAccessWithNameA
+    .参数 _DllParam_0x010400, _Struct_0x0103F1, 传址
+    .参数 _DllParam_0x010401, 文本型
+    .参数 _DllParam_0x010402, 整数型
+    .参数 _DllParam_0x010403, 整数型
+    .参数 _DllParam_0x010404, 整数型
+.DLL命令 _Dll_0x0103FC, 整数型, Advapi32.dll, SetEntriesInAclA
+    .参数 _DllParam_0x010405, 整数型
+    .参数 _DllParam_0x010406, _Struct_0x0103F1, 传址
+    .参数 _DllParam_0x010407, 整数型
+    .参数 _DllParam_0x010408, 整数型, 传址
+.DLL命令 _Dll_0x0103FD, 整数型, Advapi32.dll, GetNamedSecurityInfoA
+    .参数 _DllParam_0x010409, 文本型
+    .参数 _DllParam_0x01040A, 整数型
+    .参数 _DllParam_0x01040B, 整数型
+    .参数 _DllParam_0x01040C, 整数型
+    .参数 _DllParam_0x01040D, 整数型
+    .参数 _DllParam_0x01040E, 整数型, 传址
+    .参数 _DllParam_0x01040F, 整数型
+    .参数 _DllParam_0x010410, 整数型, 传址
+.DLL命令 _Dll_0x0103FE, 整数型, Advapi32.dll, SetNamedSecurityInfoA
+    .参数 _DllParam_0x010411, 文本型
+    .参数 _DllParam_0x010412, 整数型
+    .参数 _DllParam_0x010413, 整数型
+    .参数 _DllParam_0x010414, 整数型
+    .参数 _DllParam_0x010415, 整数型
+    .参数 _DllParam_0x010416, 整数型
+    .参数 _DllParam_0x010417, 整数型
+.DLL命令 _Dll_0x0103FF, 整数型, kernel32, LocalFree
+    .参数 _DllParam_0x010418, 整数型
+.DLL命令 _Dll_0x010469, 整数型, , OpenProcess
+    .参数 _DllParam_0x01046A, 整数型
+    .参数 _DllParam_0x01046B, 整数型
+    .参数 _DllParam_0x01046C, 整数型
+.DLL命令 _Dll_0x01046D, 逻辑型, , OpenProcessToken
+    .参数 _DllParam_0x01046E, 整数型
+    .参数 _DllParam_0x01046F, 整数型
+    .参数 _DllParam_0x010470, 整数型, 传址
+.DLL命令 _Dll_0x010471, 整数型, , LookupPrivilegeValueA
+    .参数 _DllParam_0x010472, 整数型
+    .参数 _DllParam_0x010473, 文本型, 传址
+    .参数 _DllParam_0x010474, _Struct_0x010461, 传址
+.DLL命令 _Dll_0x010476, 逻辑型, , AdjustTokenPrivileges
+    .参数 _DllParam_0x010477, 整数型
+    .参数 _DllParam_0x010478, 逻辑型
+    .参数 _DllParam_0x010479, _Struct_0x010464, 传址
+    .参数 _DllParam_0x01047A, 整数型
+    .参数 _DllParam_0x01047B, 整数型
+    .参数 _DllParam_0x01047C, 整数型
+.DLL命令 _Dll_0x0104C4, 整数型, kernel32, GetModuleHandleA
+    .参数 _DllParam_0x0104C5, 文本型
+.DLL命令 _Dll_0x0104C6, 整数型, kernel32, GetProcAddress
+    .参数 _DllParam_0x0104C7, 整数型
+    .参数 _DllParam_0x0104C8, 文本型
+.DLL命令 _Dll_0x0104C9, 整数型, kernel32, CreateRemoteThread
+    .参数 _DllParam_0x0104CA, 整数型
+    .参数 _DllParam_0x0104CB, _Struct_0x0104C0
+    .参数 _DllParam_0x0104CC, 整数型
+    .参数 _DllParam_0x0104CD, 整数型
+    .参数 _DllParam_0x0104CE, 整数型
+    .参数 _DllParam_0x0104CF, 整数型
+    .参数 _DllParam_0x0104D0, 整数型
+.DLL命令 _Dll_0x0104E1, 整数型, , SetFilePointer
+    .参数 _DllParam_0x0104E2, 整数型
+    .参数 _DllParam_0x0104E3, 整数型
+    .参数 _DllParam_0x0104E4, 整数型
+    .参数 _DllParam_0x0104E5, 整数型
+.DLL命令 _Dll_0x0104E6, 整数型, , WriteFile
+    .参数 _DllParam_0x0104E7, 整数型
+    .参数 _DllParam_0x0104E8, 字节集
+    .参数 _DllParam_0x0104E9, 整数型
+    .参数 _DllParam_0x0104EA, 整数型, 传址
+    .参数 _DllParam_0x0104EB, 整数型
+.DLL命令 _Dll_0x010502, 整数型, , RegEnumValueA
+    .参数 _DllParam_0x010503, 整数型
+    .参数 _DllParam_0x010504, 整数型
+    .参数 _DllParam_0x010505, 文本型
+    .参数 _DllParam_0x010506, 整数型, 传址
+    .参数 _DllParam_0x010507, 整数型
+    .参数 _DllParam_0x010508, 整数型, 传址
+    .参数 _DllParam_0x010509, 字节集, 传址
+    .参数 _DllParam_0x01050A, 整数型, 传址
+.DLL命令 _Dll_0x010518, 整数型, , RegDeleteValueA
+    .参数 _DllParam_0x010519, 整数型
+    .参数 _DllParam_0x01051A, 文本型
+.DLL命令 _Dll_0x01054B, , , ShellExecuteEx
+    .参数 _DllParam_0x01054C, _Struct_0x01053B, 传址
+.DLL命令 _Dll_0x010587, 整数型, user32.dll, wvsprintfA
+    .参数 _DllParam_0x010588, 文本型
+    .参数 _DllParam_0x010589, 文本型
+    .参数 _DllParam_0x01058A, 整数型, 传址
+.DLL命令 _Dll_0x0105B6, 整数型, advapi32.dll, DeleteService
+    .参数 _DllParam_0x0105B7, 整数型
+.DLL命令 _Dll_0x0105D5, 整数型, , MessageBoxTimeoutA
+    .参数 _DllParam_0x0105D7, 整数型
+    .参数 _DllParam_0x0105D8, 文本型
+    .参数 _DllParam_0x0105D9, 文本型
+    .参数 _DllParam_0x0105DA, 整数型
+    .参数 _DllParam_0x0105DB, 整数型
+    .参数 _DllParam_0x0105DC, 整数型
+.DLL命令 _Dll_0x0105D6, 整数型, , MessageBoxA
+    .参数 _DllParam_0x0105DD, 整数型
+    .参数 _DllParam_0x0105DE, 文本型
+    .参数 _DllParam_0x0105DF, 文本型
+    .参数 _DllParam_0x0105E0, 整数型
+.DLL命令 _Dll_0x0105FD, 整数型, user32, GetSystemMenu
+    .参数 _DllParam_0x0105FE, 整数型
+    .参数 _DllParam_0x0105FF, 逻辑型
+.DLL命令 _Dll_0x010600, 整数型, user32, RemoveMenu
+    .参数 _DllParam_0x010601, 整数型
+    .参数 _DllParam_0x010602, 整数型
+    .参数 _DllParam_0x010603, 整数型
+.DLL命令 _Dll_0x010609, 整数型, user32, SetWindowLongA
+    .参数 _DllParam_0x01060B, 整数型
+    .参数 _DllParam_0x01060C, 整数型
+    .参数 _DllParam_0x01060D, 整数型
+.DLL命令 _Dll_0x01060A, 整数型, user32, SendMessageA
+    .参数 _DllParam_0x01060E, 整数型
+    .参数 _DllParam_0x01060F, 整数型
+    .参数 _DllParam_0x010610, 整数型
+    .参数 _DllParam_0x010611, 整数型
+.DLL命令 _Dll_0x010637, 整数型, shell32.dll, SHGetSpecialFolderLocation
+    .参数 _DllParam_0x010639, 整数型
+    .参数 _DllParam_0x01063A, 整数型
+    .参数 _DllParam_0x01063B, _Struct_0x010634, 传址
+.DLL命令 _Dll_0x010638, 整数型, shell32.dll, SHGetPathFromIDListA
+    .参数 _DllParam_0x01063C, 整数型
+    .参数 _DllParam_0x01063D, 文本型, 传址
+.DLL命令 _Dll_0x01066A, 整数型, kernel32.dll, CreateMutexA
+    .参数 _DllParam_0x01066C, 整数型
+    .参数 _DllParam_0x01066D, 整数型
+    .参数 _DllParam_0x01066E, 文本型
+.DLL命令 _Dll_0x01066B, 整数型, kernel32.dll, ReleaseMutex
+    .参数 _DllParam_0x01066F, 整数型
+.DLL命令 _Dll_0x010670, 整数型, , WaitForSingleObject
+    .参数 _DllParam_0x010671, 整数型
+    .参数 _DllParam_0x010672, 整数型
+.DLL命令 _Dll_0x010673, 整数型, kernel32.dll, OpenMutexA
+    .参数 _DllParam_0x010674, 整数型
+    .参数 _DllParam_0x010675, 整数型
+    .参数 _DllParam_0x010676, 文本型
+.数据类型 _Struct_0x010372
+    .成员 _StructMem_0x010374, 字节集
+    .成员 _StructMem_0x010375, 字节集
+    .成员 _StructMem_0x010376, 整数型
+    .成员 _StructMem_0x010377, 整数型
+    .成员 _StructMem_0x010378, 整数型
+    .成员 _StructMem_0x010379, 字节集
+    .成员 _StructMem_0x01037A, 整数型
+    .成员 _StructMem_0x01037B, 整数型
+.数据类型 _Struct_0x010373
+    .成员 _StructMem_0x01037C, 字节集
+.数据类型 _Struct_0x010328
+    .成员 _StructMem_0x010329, 整数型
+    .成员 _StructMem_0x01032A, 整数型
+    .成员 _StructMem_0x01032B, 整数型
+    .成员 _StructMem_0x01032C, 整数型
+    .成员 _StructMem_0x01032D, 整数型
+    .成员 _StructMem_0x01032E, 整数型
+    .成员 _StructMem_0x01032F, 整数型
+.数据类型 _Struct_0x010299
+    .成员 _StructMem_0x01029A, 整数型
+    .成员 _StructMem_0x01029B, 整数型
+    .成员 _StructMem_0x01029C, 整数型
+    .成员 _StructMem_0x01029D, 整数型
+    .成员 _StructMem_0x01029E, 整数型
+    .成员 _StructMem_0x01029F, 整数型
+    .成员 _StructMem_0x0102A0, 整数型
+    .成员 _StructMem_0x0102A1, 整数型
+    .成员 _StructMem_0x0102A2, 字节型, , "256"
+    .成员 _StructMem_0x0102A3, 字节型, , "256"
+.数据类型 _Struct_0x01027D
+    .成员 _StructMem_0x01027E, 整数型, 传址
+    .成员 _StructMem_0x01027F, 整数型, 传址
+    .成员 _StructMem_0x010280, 整数型, 传址
+    .成员 _StructMem_0x010281, 文本型
+    .成员 _StructMem_0x010282, 文本型
+.数据类型 _Struct_0x01014B
+    .成员 _StructMem_0x01014F, 整数型, , "3"
+    .成员 _StructMem_0x010150, 整数型
+    .成员 _StructMem_0x010151, 整数型
+    .成员 _StructMem_0x010152, 整数型
+    .成员 _StructMem_0x010153, 短整数型
+    .成员 _StructMem_0x010154, 短整数型
+    .成员 _StructMem_0x010155, 短整数型
+    .成员 _StructMem_0x010156, 短整数型
+    .成员 _StructMem_0x010157, 字节型, , "256"
+.数据类型 _Struct_0x01014C
+    .成员 _StructMem_0x010158, 整数型
+    .成员 _StructMem_0x010159, 整数型
+    .成员 _StructMem_0x01015A, 整数型
+    .成员 _StructMem_0x01015B, 整数型
+    .成员 _StructMem_0x01015C, 整数型
+    .成员 _StructMem_0x01015D, 整数型
+    .成员 _StructMem_0x01015E, 整数型
+.数据类型 _Struct_0x01014D
+    .成员 _StructMem_0x01015F, 整数型
+    .成员 _StructMem_0x010160, 整数型
+    .成员 _StructMem_0x010161, 整数型
+    .成员 _StructMem_0x010162, 整数型
+.数据类型 _Struct_0x01014E
+    .成员 _StructMem_0x010163, 整数型
+    .成员 _StructMem_0x010164, 整数型
+    .成员 _StructMem_0x010165, 整数型
+    .成员 _StructMem_0x010166, 整数型
+    .成员 _StructMem_0x010167, 整数型
+.数据类型 _Struct_0x010245
+    .成员 _StructMem_0x010246, 整数型
+    .成员 _StructMem_0x010247, 整数型
+    .成员 _StructMem_0x010248, 整数型
+    .成员 _StructMem_0x010249, 整数型
+    .成员 _StructMem_0x01024A, 整数型
+    .成员 _StructMem_0x01024B, 整数型
+    .成员 _StructMem_0x01024C, 整数型
+    .成员 _StructMem_0x01024D, 整数型
+    .成员 _StructMem_0x01024E, 整数型
+    .成员 _StructMem_0x01024F, 字节型, , "256"
+.数据类型 _Struct_0x0103F0
+    .成员 _StructMem_0x0103F2, 整数型
+    .成员 _StructMem_0x0103F3, 整数型
+    .成员 _StructMem_0x0103F4, 整数型
+    .成员 _StructMem_0x0103F5, 整数型
+    .成员 _StructMem_0x0103F6, 整数型
+.数据类型 _Struct_0x0104C0
+    .成员 _StructMem_0x0104C1, 整数型
+    .成员 _StructMem_0x0104C2, 整数型
+    .成员 _StructMem_0x0104C3, 整数型
+.数据类型 _Struct_0x0103F1
+    .成员 _StructMem_0x0103F7, 整数型
+    .成员 _StructMem_0x0103F8, 整数型
+    .成员 _StructMem_0x0103F9, 整数型
+    .成员 _StructMem_0x0103FA, _Struct_0x0103F0
+.数据类型 _Struct_0x010461
+    .成员 _StructMem_0x010462, 整数型
+    .成员 _StructMem_0x010463, 整数型
+.数据类型 _Struct_0x010464
+    .成员 _StructMem_0x010465, 整数型
+    .成员 _StructMem_0x010466, 整数型
+    .成员 _StructMem_0x010467, 整数型
+    .成员 _StructMem_0x010468, 整数型
+.数据类型 _Struct_0x01053B
+    .成员 _StructMem_0x01053C, 整数型
+    .成员 _StructMem_0x01053D, 整数型
+    .成员 _StructMem_0x01053E, 整数型
+    .成员 _StructMem_0x01053F, 文本型
+    .成员 _StructMem_0x010540, 文本型
+    .成员 _StructMem_0x010541, 文本型
+    .成员 _StructMem_0x010542, 文本型
+    .成员 _StructMem_0x010543, 整数型
+    .成员 _StructMem_0x010544, 整数型
+    .成员 _StructMem_0x010545, 整数型
+    .成员 _StructMem_0x010546, 文本型
+    .成员 _StructMem_0x010547, 整数型
+    .成员 _StructMem_0x010548, 整数型
+    .成员 _StructMem_0x010549, 整数型
+    .成员 _StructMem_0x01054A, 整数型
+.数据类型 _Struct_0x010634
+    .成员 _StructMem_0x010635, 整数型
+    .成员 _StructMem_0x010636, 字节型, , "255"

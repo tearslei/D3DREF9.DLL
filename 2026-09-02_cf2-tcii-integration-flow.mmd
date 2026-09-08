@@ -1,0 +1,18 @@
+flowchart TD
+    A[CF 客户端 1.1.85.7] --> B[D3DREF9 ordinal 1]
+    B --> C[自治 Worker]
+    C --> D[FeatureManager 热键/Home]
+    C --> E[EntityAdapter]
+    E --> F[玩家数组 + OBJECT 槽位表]
+    E --> G[坐标 relay 捕获数据指针]
+    G --> H[五部位坐标与阵营/生存]
+    C --> I[RenderAdapter]
+    I --> J[设备 GetTransform/GetViewport]
+    I --> K[DrawIndexedPrimitive 状态桥]
+    H --> L[WorldToScreen]
+    J --> L
+    L --> M[最近目标 + 障碍判断]
+    M --> N[普通自瞄/自动开枪]
+    M --> O[瞬狙 1600ms 时序]
+    D --> P[源码功能写入/关闭恢复]
+

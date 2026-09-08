@@ -1,0 +1,783 @@
+{
+  "sample": "E:\\game\\已加速- CF2.0搭建（使用2012系统）\\客户端\\10.4CrossFire\\D3DREF9.DLL",
+  "image_base": "0x10000000",
+  "registration_function": "0x1001f30d",
+  "entries": [
+    {
+      "modifier": "0x0",
+      "key": "-",
+      "key_code": "0x2d",
+      "callback": "0x1004ea35",
+      "handler": "0x1004e803",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x76",
+      "key": "Q",
+      "key_code": "0x51",
+      "callback": "0x1004ea41",
+      "handler": "0x1004613b",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x76",
+      "key": "W",
+      "key_code": "0x57",
+      "callback": "0x1004eb3c",
+      "handler": "0x1004ea4d",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x76",
+      "key": "S",
+      "key_code": "0x53",
+      "callback": "0x1004eb48",
+      "handler": "0x1000c3fc",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x76",
+      "key": "T",
+      "key_code": "0x54",
+      "callback": "0x1004eb54",
+      "handler": "0x1001e3e5",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x76",
+      "key": "Y",
+      "key_code": "0x59",
+      "callback": "0x1004f5b1",
+      "handler": "0x1004eb60",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x76",
+      "key": "D",
+      "key_code": "0x44",
+      "callback": "0x1004f6e4",
+      "handler": "0x1004f5bd",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x76",
+      "key": "1",
+      "key_code": "0x31",
+      "callback": "0x1005141c",
+      "handler": "0x1004f6f0",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x76",
+      "key": "2",
+      "key_code": "0x32",
+      "callback": "0x10051578",
+      "handler": "0x10051428",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x76",
+      "key": "3",
+      "key_code": "0x33",
+      "callback": "0x10051795",
+      "handler": "0x10051584",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x76",
+      "key": "5",
+      "key_code": "0x35",
+      "callback": "0x100517a1",
+      "handler": "0x100124ad",
+      "primary_global": "0x101a8a88"
+    },
+    {
+      "modifier": "0x76",
+      "key": "6",
+      "key_code": "0x36",
+      "callback": "0x10051900",
+      "handler": "0x100517ad",
+      "primary_global": "0x101a8d58"
+    },
+    {
+      "modifier": "0x76",
+      "key": "7",
+      "key_code": "0x37",
+      "callback": "0x100519e1",
+      "handler": "0x1005190c",
+      "primary_global": "0x101a8d5c"
+    },
+    {
+      "modifier": "0x76",
+      "key": "8",
+      "key_code": "0x38",
+      "callback": "0x10051f25",
+      "handler": "0x100519ed",
+      "primary_global": "0x101a8d60"
+    },
+    {
+      "modifier": "0x76",
+      "key": "9",
+      "key_code": "0x39",
+      "callback": "0x10051f31",
+      "handler": "0x10012661",
+      "primary_global": "0x101a8a90"
+    },
+    {
+      "modifier": "0x76",
+      "key": "0",
+      "key_code": "0x30",
+      "callback": "0x10051f3d",
+      "handler": "0x10012954",
+      "primary_global": "0x101a8a98"
+    },
+    {
+      "modifier": "0x78",
+      "key": "1",
+      "key_code": "0x31",
+      "callback": "0x10051f49",
+      "handler": "0x10012da7",
+      "primary_global": "0x101a8a9c"
+    },
+    {
+      "modifier": "0x78",
+      "key": "2",
+      "key_code": "0x32",
+      "callback": "0x10051f55",
+      "handler": "0x10013314",
+      "primary_global": "0x101a8aa0"
+    },
+    {
+      "modifier": "0x78",
+      "key": "3",
+      "key_code": "0x33",
+      "callback": "0x10051f61",
+      "handler": "0x10014124",
+      "primary_global": "0x101a8ab0"
+    },
+    {
+      "modifier": "0x78",
+      "key": "4",
+      "key_code": "0x34",
+      "callback": "0x100522ca",
+      "handler": "0x10051f6d",
+      "primary_global": "0x101a8d28"
+    },
+    {
+      "modifier": "0x78",
+      "key": "6",
+      "key_code": "0x36",
+      "callback": "0x100530ff",
+      "handler": "0x100522d6",
+      "primary_global": "0x101a8d74"
+    },
+    {
+      "modifier": "0x78",
+      "key": "7",
+      "key_code": "0x37",
+      "callback": "0x10053d26",
+      "handler": "0x1005310b",
+      "primary_global": "0x101a8d88"
+    },
+    {
+      "modifier": "0x78",
+      "key": "8",
+      "key_code": "0x38",
+      "callback": "0x1005451c",
+      "handler": "0x10053d32",
+      "primary_global": "0x101a8d8c"
+    },
+    {
+      "modifier": "0x78",
+      "key": "9",
+      "key_code": "0x39",
+      "callback": "0x10054bf8",
+      "handler": "0x10054528",
+      "primary_global": "0x101a8d98"
+    },
+    {
+      "modifier": "0x78",
+      "key": "A",
+      "key_code": "0x41",
+      "callback": "0x10054f34",
+      "handler": "0x10054c04",
+      "primary_global": "0x101a8da4"
+    },
+    {
+      "modifier": "0x78",
+      "key": "B",
+      "key_code": "0x42",
+      "callback": "0x10055270",
+      "handler": "0x10054f40",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x78",
+      "key": "C",
+      "key_code": "0x43",
+      "callback": "0x100555ac",
+      "handler": "0x1005527c",
+      "primary_global": "0x101a8db4"
+    },
+    {
+      "modifier": "0x78",
+      "key": "D",
+      "key_code": "0x44",
+      "callback": "0x10055994",
+      "handler": "0x100555b8",
+      "primary_global": "0x101a8dbc"
+    },
+    {
+      "modifier": "0x78",
+      "key": "E",
+      "key_code": "0x45",
+      "callback": "0x10055d7c",
+      "handler": "0x100559a0",
+      "primary_global": "0x101a8dc4"
+    },
+    {
+      "modifier": "0x78",
+      "key": "F",
+      "key_code": "0x46",
+      "callback": "0x10055e5d",
+      "handler": "0x10055d88",
+      "primary_global": "0x101a8dcc"
+    },
+    {
+      "modifier": "0x78",
+      "key": "G",
+      "key_code": "0x47",
+      "callback": "0x10055ffe",
+      "handler": "0x10055e69",
+      "primary_global": "0x101a8dd0"
+    },
+    {
+      "modifier": "0x78",
+      "key": "H",
+      "key_code": "0x48",
+      "callback": "0x100560df",
+      "handler": "0x1005600a",
+      "primary_global": "0x101a8dd4"
+    },
+    {
+      "modifier": "0x78",
+      "key": "I",
+      "key_code": "0x49",
+      "callback": "0x10056274",
+      "handler": "0x100560eb",
+      "primary_global": "0x101a8dd8"
+    },
+    {
+      "modifier": "0x78",
+      "key": "J",
+      "key_code": "0x4a",
+      "callback": "0x10056491",
+      "handler": "0x10056280",
+      "primary_global": "0x101a8de0"
+    },
+    {
+      "modifier": "0x78",
+      "key": "K",
+      "key_code": "0x4b",
+      "callback": "0x10056643",
+      "handler": "0x1005649d",
+      "primary_global": "0x101a8dec"
+    },
+    {
+      "modifier": "0x78",
+      "key": "L",
+      "key_code": "0x4c",
+      "callback": "0x10056953",
+      "handler": "0x1005664f",
+      "primary_global": "0x101a8df4"
+    },
+    {
+      "modifier": "0x78",
+      "key": "M",
+      "key_code": "0x4d",
+      "callback": "0x10056b1f",
+      "handler": "0x1005695f",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x78",
+      "key": "N",
+      "key_code": "0x4e",
+      "callback": "0x10056ee2",
+      "handler": "0x10056b2b",
+      "primary_global": "0x101a8e04"
+    },
+    {
+      "modifier": "0x78",
+      "key": "O",
+      "key_code": "0x4f",
+      "callback": "0x1005715b",
+      "handler": "0x10056eee",
+      "primary_global": "0x101a8e10"
+    },
+    {
+      "modifier": "0x78",
+      "key": "P",
+      "key_code": "0x50",
+      "callback": "0x10057413",
+      "handler": "0x10057167",
+      "primary_global": "0x101a8e18"
+    },
+    {
+      "modifier": "0x78",
+      "key": "Q",
+      "key_code": "0x51",
+      "callback": "0x1005741f",
+      "handler": "0x10014583",
+      "primary_global": "0x101a8abc"
+    },
+    {
+      "modifier": "0x78",
+      "key": "R",
+      "key_code": "0x52",
+      "callback": "0x100575e5",
+      "handler": "0x1005742b",
+      "primary_global": "0x101a8e0c"
+    },
+    {
+      "modifier": "0x78",
+      "key": "T",
+      "key_code": "0x54",
+      "callback": "0x1003505d",
+      "handler": "0x100348a7",
+      "primary_global": "0x101a8c24"
+    },
+    {
+      "modifier": "0x78",
+      "key": "U",
+      "key_code": "0x55",
+      "callback": "0x100577df",
+      "handler": "0x100575f1",
+      "primary_global": "0x101a8e24"
+    },
+    {
+      "modifier": "0x78",
+      "key": "V",
+      "key_code": "0x56",
+      "callback": "0x10057a58",
+      "handler": "0x100577eb",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x78",
+      "key": "W",
+      "key_code": "0x57",
+      "callback": "0x10057d5b",
+      "handler": "0x10057a64",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x78",
+      "key": "X",
+      "key_code": "0x58",
+      "callback": "0x10058179",
+      "handler": "0x10057d67",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x78",
+      "key": "Y",
+      "key_code": "0x59",
+      "callback": "0x10059993",
+      "handler": "0x10058185",
+      "primary_global": "0x101a8e44"
+    },
+    {
+      "modifier": "0x78",
+      "key": "Z",
+      "key_code": "0x5a",
+      "callback": "0x10059db5",
+      "handler": "0x1005999f",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "1",
+      "key_code": "0x31",
+      "callback": "0x1005a084",
+      "handler": "0x10059dc1",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "2",
+      "key_code": "0x32",
+      "callback": "0x1005a6d6",
+      "handler": "0x1005a090",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "3",
+      "key_code": "0x33",
+      "callback": "0x1005a94f",
+      "handler": "0x1005a6e2",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "4",
+      "key_code": "0x34",
+      "callback": "0x1005ac75",
+      "handler": "0x1005a95b",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "5",
+      "key_code": "0x35",
+      "callback": "0x1005ac81",
+      "handler": "0x100147f0",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "6",
+      "key_code": "0x36",
+      "callback": "0x1005ac8d",
+      "handler": "0x10014c47",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "7",
+      "key_code": "0x37",
+      "callback": "0x1005ac99",
+      "handler": "0x10015559",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "8",
+      "key_code": "0x38",
+      "callback": "0x1005b023",
+      "handler": "0x1005aca5",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "9",
+      "key_code": "0x39",
+      "callback": "0x1005b310",
+      "handler": "0x1005b02f",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "0",
+      "key_code": "0x30",
+      "callback": "0x1005b589",
+      "handler": "0x1005b31c",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "B",
+      "key_code": "0x42",
+      "callback": "0x1005b775",
+      "handler": "0x1005b595",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "D",
+      "key_code": "0x44",
+      "callback": "0x1005c8a9",
+      "handler": "0x1005b781",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "E",
+      "key_code": "0x45",
+      "callback": "0x1005dd86",
+      "handler": "0x1005c8b5",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "G",
+      "key_code": "0x47",
+      "callback": "0x1005dfd1",
+      "handler": "0x1005dd92",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "H",
+      "key_code": "0x48",
+      "callback": "0x1005e24a",
+      "handler": "0x1005dfdd",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "I",
+      "key_code": "0x49",
+      "callback": "0x1005e4c3",
+      "handler": "0x1005e256",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "J",
+      "key_code": "0x4a",
+      "callback": "0x1005e740",
+      "handler": "0x1005e4cf",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "K",
+      "key_code": "0x4b",
+      "callback": "0x1005e935",
+      "handler": "0x1005e74c",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "L",
+      "key_code": "0x4c",
+      "callback": "0x1005fc30",
+      "handler": "0x1005e941",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "M",
+      "key_code": "0x4d",
+      "callback": "0x1005fe6c",
+      "handler": "0x1005fc3c",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "N",
+      "key_code": "0x4e",
+      "callback": "0x100600b9",
+      "handler": "0x1005fe78",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "O",
+      "key_code": "0x4f",
+      "callback": "0x10060503",
+      "handler": "0x100600c5",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "Q",
+      "key_code": "0x51",
+      "callback": "0x100608ec",
+      "handler": "0x1006050f",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "R",
+      "key_code": "0x52",
+      "callback": "0x100611ac",
+      "handler": "0x100608f8",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "S",
+      "key_code": "0x53",
+      "callback": "0x100617da",
+      "handler": "0x100611b8",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "T",
+      "key_code": "0x54",
+      "callback": "0x10061fd0",
+      "handler": "0x100617e6",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "U",
+      "key_code": "0x55",
+      "callback": "0x100626b7",
+      "handler": "0x10061fdc",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "V",
+      "key_code": "0x56",
+      "callback": "0x10062930",
+      "handler": "0x100626c3",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x79",
+      "key": "W",
+      "key_code": "0x57",
+      "callback": "0x10062ba9",
+      "handler": "0x1006293c",
+      "primary_global": "0x101a8f20"
+    },
+    {
+      "modifier": "0x79",
+      "key": "X",
+      "key_code": "0x58",
+      "callback": "0x10062dd3",
+      "handler": "0x10062bb5",
+      "primary_global": "0x101a8f28"
+    },
+    {
+      "modifier": "0x79",
+      "key": "Z",
+      "key_code": "0x5a",
+      "callback": "0x10062f8f",
+      "handler": "0x10062ddf",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "1",
+      "key_code": "0x31",
+      "callback": "0x1006320a",
+      "handler": "0x10062f9b",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "2",
+      "key_code": "0x32",
+      "callback": "0x10063a98",
+      "handler": "0x10063216",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "3",
+      "key_code": "0x33",
+      "callback": "0x10064140",
+      "handler": "0x10063aa4",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "A",
+      "key_code": "0x41",
+      "callback": "0x1006833a",
+      "handler": "0x1006414c",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "B",
+      "key_code": "0x42",
+      "callback": "0x10068c44",
+      "handler": "0x10068346",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "C",
+      "key_code": "0x43",
+      "callback": "0x10069515",
+      "handler": "0x10068c50",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "D",
+      "key_code": "0x44",
+      "callback": "0x100696f5",
+      "handler": "0x10069521",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "E",
+      "key_code": "0x45",
+      "callback": "0x1006aeda",
+      "handler": "0x10069701",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "F",
+      "key_code": "0x46",
+      "callback": "0x1006b53f",
+      "handler": "0x1006aee6",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x1",
+      "key": "1",
+      "key_code": "0x31",
+      "callback": "0x1006b59c",
+      "handler": "0x1006b54b",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x1",
+      "key": "2",
+      "key_code": "0x32",
+      "callback": "0x1006b5f9",
+      "handler": "0x1006b5a8",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7b",
+      "key": "1",
+      "key_code": "0x31",
+      "callback": "0x1006b85a",
+      "handler": "0x1006b605",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7b",
+      "key": "4",
+      "key_code": "0x34",
+      "callback": "0x1006c2aa",
+      "handler": "0x1006b866",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "4",
+      "key_code": "0x34",
+      "callback": "0x1006c6a7",
+      "handler": "0x1006c2b6",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "5",
+      "key_code": "0x35",
+      "callback": "0x1006d0f4",
+      "handler": "0x1006c6b3",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "6",
+      "key_code": "0x36",
+      "callback": "0x1006d262",
+      "handler": "0x1006d100",
+      "primary_global": null
+    },
+    {
+      "modifier": "0x7a",
+      "key": "7",
+      "key_code": "0x37",
+      "callback": "0x1006d4ef",
+      "handler": "0x1006d26e",
+      "primary_global": null
+    }
+  ]
+}

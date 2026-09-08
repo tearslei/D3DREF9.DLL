@@ -1,0 +1,808 @@
+{
+  "pid": 10960,
+  "process": "crossfire.exe",
+  "module": {
+    "name": "cshell.dll",
+    "base": "0x10050000",
+    "size": 43839488
+  },
+  "source_root": "E:\\game\\辅助\\2.0 TCII全套开源",
+  "read_only": true,
+  "entries": [
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "134DE00",
+      "rva": 20241920,
+      "source_pos": 4943564,
+      "nearby_features": [],
+      "address": "0x1139DE00",
+      "runtime": {
+        "readable": true,
+        "bytes": "eeed2940f3ca29401ea829406a852940",
+        "u32": [
+          "0x4029EDEE",
+          "0x4029CAF3",
+          "0x4029A81E",
+          "0x4029856A"
+        ],
+        "f32": [
+          2.655147,
+          2.653012,
+          2.650886,
+          2.648768
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "12F6EB8",
+      "rva": 19885752,
+      "source_pos": 4943848,
+      "nearby_features": [],
+      "address": "0x11346EB8",
+      "runtime": {
+        "readable": true,
+        "bytes": "923dbc3fa41cbc3fb5fbbb3fbedabb3f",
+        "u32": [
+          "0x3FBC3D92",
+          "0x3FBC1CA4",
+          "0x3FBBFBB5",
+          "0x3FBBDABE"
+        ],
+        "f32": [
+          1.470629,
+          1.469624,
+          1.468619,
+          1.467613
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "12CC50C",
+      "rva": 19711244,
+      "source_pos": 4943872,
+      "nearby_features": [],
+      "address": "0x1131C50C",
+      "runtime": {
+        "readable": true,
+        "bytes": "d76b1a3f8c101a3f20b5193fa359193f",
+        "u32": [
+          "0x3F1A6BD7",
+          "0x3F1A108C",
+          "0x3F19B520",
+          "0x3F1959A3"
+        ],
+        "f32": [
+          0.603208,
+          0.601815,
+          0.60042,
+          0.599024
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "19F1118",
+      "rva": 27201816,
+      "source_pos": 4943896,
+      "nearby_features": [],
+      "address": "0x11A41118",
+      "runtime": {
+        "readable": true,
+        "bytes": "00000000000000000000000000000000",
+        "u32": [
+          "0x00000000",
+          "0x00000000",
+          "0x00000000",
+          "0x00000000"
+        ],
+        "f32": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "1662CE8",
+      "rva": 23473384,
+      "source_pos": 4943904,
+      "nearby_features": [],
+      "address": "0x116B2CE8",
+      "runtime": {
+        "readable": true,
+        "bytes": "00000000000000000000000000000000",
+        "u32": [
+          "0x00000000",
+          "0x00000000",
+          "0x00000000",
+          "0x00000000"
+        ],
+        "f32": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "19DEE10",
+      "rva": 27127312,
+      "source_pos": 4943912,
+      "nearby_features": [],
+      "address": "0x11A2EE10",
+      "runtime": {
+        "readable": true,
+        "bytes": "00000000000000000000000000000000",
+        "u32": [
+          "0x00000000",
+          "0x00000000",
+          "0x00000000",
+          "0x00000000"
+        ],
+        "f32": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "1324D04",
+      "rva": 20073732,
+      "source_pos": 4943920,
+      "nearby_features": [],
+      "address": "0x11374D04",
+      "runtime": {
+        "readable": true,
+        "bytes": "3a926b3e594f6d3e350c6f3e10c9703e",
+        "u32": [
+          "0x3E6B923A",
+          "0x3E6D4F59",
+          "0x3E6F0C35",
+          "0x3E70C910"
+        ],
+        "f32": [
+          0.23005,
+          0.231748,
+          0.233445,
+          0.235142
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "EB35B0",
+      "rva": 15414704,
+      "source_pos": 4943928,
+      "nearby_features": [],
+      "address": "0x10F035B0",
+      "runtime": {
+        "readable": true,
+        "bytes": "8d4db090e9dcfb0c518b5424088d42bc",
+        "u32": [
+          "0x90B04D8D",
+          "0x0CFBDCE9",
+          "0x24548B51",
+          "0xBC428D08"
+        ],
+        "f32": [
+          -0.0,
+          0.0,
+          0.0,
+          -0.011874
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "12CBBE4",
+      "rva": 19708900,
+      "source_pos": 4943935,
+      "nearby_features": [],
+      "address": "0x1131BBE4",
+      "runtime": {
+        "readable": true,
+        "bytes": "70a99d1070a99d109022741070a99d10",
+        "u32": [
+          "0x109DA970",
+          "0x109DA970",
+          "0x10742290",
+          "0x109DA970"
+        ],
+        "f32": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "internal_ptrs": [
+          "0x109DA970",
+          "0x109DA970",
+          "0x10742290",
+          "0x109DA970"
+        ],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "16A6FBC",
+      "rva": 23752636,
+      "source_pos": 4943959,
+      "nearby_features": [],
+      "address": "0x116F6FBC",
+      "runtime": {
+        "readable": true,
+        "bytes": "ffffffff00000000ffffffff00000000",
+        "u32": [
+          "0xFFFFFFFF",
+          "0x00000000",
+          "0xFFFFFFFF",
+          "0x00000000"
+        ],
+        "f32": [
+          null,
+          0.0,
+          null,
+          0.0
+        ],
+        "internal_ptrs": [],
+        "float_like": false
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "1309328",
+      "rva": 19960616,
+      "source_pos": 4943967,
+      "nearby_features": [],
+      "address": "0x11359328",
+      "runtime": {
+        "readable": true,
+        "bytes": "99664a3e11a6483e47e5463e7d24453e",
+        "u32": [
+          "0x3E4A6699",
+          "0x3E48A611",
+          "0x3E46E547",
+          "0x3E45247D"
+        ],
+        "f32": [
+          0.197657,
+          0.195946,
+          0.194234,
+          0.192522
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "E822D4",
+      "rva": 15213268,
+      "source_pos": 4943975,
+      "nearby_features": [],
+      "address": "0x10ED22D4",
+      "runtime": {
+        "readable": true,
+        "bytes": "a8cd6211e9ffc0f5ffcccccc8d4dc8e9",
+        "u32": [
+          "0x1162CDA8",
+          "0xF5C0FFE9",
+          "0xCCCCCCFF",
+          "0xE9C84D8D"
+        ],
+        "f32": [
+          0.0,
+          -4.893122419186933e+32,
+          -107374584.0,
+          -3.026892339162765e+25
+        ],
+        "internal_ptrs": [
+          "0x1162CDA8"
+        ],
+        "float_like": false
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "E15FD4",
+      "rva": 14770132,
+      "source_pos": 4943982,
+      "nearby_features": [],
+      "address": "0x10E65FD4",
+      "runtime": {
+        "readable": true,
+        "bytes": "a3f8708f11c3a1f8708f1125ffff7fff",
+        "u32": [
+          "0x8F70F8A3",
+          "0xF8A1C311",
+          "0x25118F70",
+          "0xFF7FFFFF"
+        ],
+        "f32": [
+          -0.0,
+          -2.624738159298694e+34,
+          0.0,
+          -3.4028234663852886e+38
+        ],
+        "internal_ptrs": [],
+        "float_like": false
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "E8AF14",
+      "rva": 15249172,
+      "source_pos": 4943989,
+      "nearby_features": [],
+      "address": "0x10EDAF14",
+      "runtime": {
+        "readable": true,
+        "bytes": "daff8d8df0c6ffffe9dfe6daff8d8df0",
+        "u32": [
+          "0x8D8DFFDA",
+          "0xFFFFC6F0",
+          "0xDAE6DFE9",
+          "0xF08D8DFF"
+        ],
+        "f32": [
+          -0.0,
+          null,
+          -3.249271823191245e+16,
+          -3.504723930306276e+29
+        ],
+        "internal_ptrs": [],
+        "float_like": false
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "E0D418",
+      "rva": 14734360,
+      "source_pos": 4943996,
+      "nearby_features": [],
+      "address": "0x10E5D418",
+      "runtime": {
+        "readable": true,
+        "bytes": "cccccccccccccccc8b45ec50e85d0ffd",
+        "u32": [
+          "0xCCCCCCCC",
+          "0xCCCCCCCC",
+          "0x50EC458B",
+          "0xFD0F5DE8"
+        ],
+        "f32": [
+          -107374176.0,
+          -107374176.0,
+          31711844352.0,
+          -1.1910449532757172e+37
+        ],
+        "internal_ptrs": [],
+        "float_like": false
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "E9A680",
+      "rva": 15312512,
+      "source_pos": 4944003,
+      "nearby_features": [],
+      "address": "0x10EEA680",
+      "runtime": {
+        "readable": true,
+        "bytes": "8b5424088d420c8b4aec33c8e8513df4",
+        "u32": [
+          "0x0824548B",
+          "0x8B0C428D",
+          "0xC833EC4A",
+          "0xF43D51E8"
+        ],
+        "f32": [
+          0.0,
+          -0.0,
+          -184241.15625,
+          -5.999788588712656e+31
+        ],
+        "internal_ptrs": [],
+        "float_like": false
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "13129AC",
+      "rva": 19999148,
+      "source_pos": 4944025,
+      "nearby_features": [],
+      "address": "0x113629AC",
+      "runtime": {
+        "readable": true,
+        "bytes": "10f6bc1080f6bc107465782f75692f6d",
+        "u32": [
+          "0x10BCF610",
+          "0x10BCF680",
+          "0x2F786574",
+          "0x6D2F6975"
+        ],
+        "f32": [
+          0.0,
+          0.0,
+          0.0,
+          3.3929604029170887e+27
+        ],
+        "internal_ptrs": [
+          "0x10BCF610",
+          "0x10BCF680"
+        ],
+        "float_like": false
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "163CA00",
+      "rva": 23316992,
+      "source_pos": 4944049,
+      "nearby_features": [],
+      "address": "0x1168CA00",
+      "runtime": {
+        "readable": true,
+        "bytes": "576561706f6e4d617374657254444e65",
+        "u32": [
+          "0x70616557",
+          "0x614D6E6F",
+          "0x72657473",
+          "0x654E4454"
+        ],
+        "f32": [
+          2.790265582538709e+29,
+          2.368462571360653e+20,
+          4.544822125843766e+30,
+          6.087924543162865e+22
+        ],
+        "internal_ptrs": [],
+        "float_like": false
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "134E18C",
+      "rva": 20242828,
+      "source_pos": 4944057,
+      "nearby_features": [],
+      "address": "0x1139E18C",
+      "runtime": {
+        "readable": true,
+        "bytes": "83681240ca521240193d12406b271240",
+        "u32": [
+          "0x40126883",
+          "0x401252CA",
+          "0x40123D19",
+          "0x4012276B"
+        ],
+        "f32": [
+          2.287629,
+          2.286303,
+          2.284979,
+          2.283656
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "19DF768",
+      "rva": 27129704,
+      "source_pos": 4944065,
+      "nearby_features": [],
+      "address": "0x11A2F768",
+      "runtime": {
+        "readable": true,
+        "bytes": "00000000000000000000000000000000",
+        "u32": [
+          "0x00000000",
+          "0x00000000",
+          "0x00000000",
+          "0x00000000"
+        ],
+        "f32": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "134989C",
+      "rva": 20224156,
+      "source_pos": 4944073,
+      "nearby_features": [],
+      "address": "0x1139989C",
+      "runtime": {
+        "readable": true,
+        "bytes": "15728b3f1f4d8b3f20288b3f19038b3f",
+        "u32": [
+          "0x3F8B7215",
+          "0x3F8B4D1F",
+          "0x3F8B2820",
+          "0x3F8B0319"
+        ],
+        "f32": [
+          1.089419,
+          1.088291,
+          1.087162,
+          1.086032
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "19DD1EC",
+      "rva": 27120108,
+      "source_pos": 4944081,
+      "nearby_features": [],
+      "address": "0x11A2D1EC",
+      "runtime": {
+        "readable": true,
+        "bytes": "1f00000017003b000000000000000000",
+        "u32": [
+          "0x0000001F",
+          "0x003B0017",
+          "0x00000000",
+          "0x00000000"
+        ],
+        "f32": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "19F7FB8",
+      "rva": 27230136,
+      "source_pos": 4944089,
+      "nearby_features": [],
+      "address": "0x11A47FB8",
+      "runtime": {
+        "readable": true,
+        "bytes": "00000000000000000000000000000000",
+        "u32": [
+          "0x00000000",
+          "0x00000000",
+          "0x00000000",
+          "0x00000000"
+        ],
+        "f32": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "134E190",
+      "rva": 20242832,
+      "source_pos": 4944097,
+      "nearby_features": [],
+      "address": "0x1139E190",
+      "runtime": {
+        "readable": true,
+        "bytes": "ca521240193d12406b271240c7111240",
+        "u32": [
+          "0x401252CA",
+          "0x40123D19",
+          "0x4012276B",
+          "0x401211C7"
+        ],
+        "f32": [
+          2.286303,
+          2.284979,
+          2.283656,
+          2.282335
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "1359374",
+      "rva": 20288372,
+      "source_pos": 4944105,
+      "nearby_features": [],
+      "address": "0x113A9374",
+      "runtime": {
+        "readable": true,
+        "bytes": "ab233fbf84d73ebf3b8b3ebfc03e3ebf",
+        "u32": [
+          "0xBF3F23AB",
+          "0xBF3ED784",
+          "0xBF3E8B3B",
+          "0xBF3E3EC0"
+        ],
+        "f32": [
+          -0.746638,
+          -0.745476,
+          -0.744312,
+          -0.743145
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "1324CFC",
+      "rva": 20073724,
+      "source_pos": 4944113,
+      "nearby_features": [],
+      "address": "0x11374CFC",
+      "runtime": {
+        "readable": true,
+        "bytes": "3317683ed8d4693e3a926b3e594f6d3e",
+        "u32": [
+          "0x3E681733",
+          "0x3E69D4D8",
+          "0x3E6B923A",
+          "0x3E6D4F59"
+        ],
+        "f32": [
+          0.226651,
+          0.228351,
+          0.23005,
+          0.231748
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "182AD58",
+      "rva": 25341272,
+      "source_pos": 4945204,
+      "nearby_features": [],
+      "address": "0x1187AD58",
+      "runtime": {
+        "readable": true,
+        "bytes": "00000000000000000000000000000000",
+        "u32": [
+          "0x00000000",
+          "0x00000000",
+          "0x00000000",
+          "0x00000000"
+        ],
+        "f32": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "16A5648",
+      "rva": 23746120,
+      "source_pos": 4945212,
+      "nearby_features": [],
+      "address": "0x116F5648",
+      "runtime": {
+        "readable": true,
+        "bytes": "00000000ffffffff0000000000000000",
+        "u32": [
+          "0x00000000",
+          "0xFFFFFFFF",
+          "0x00000000",
+          "0x00000000"
+        ],
+        "f32": [
+          0.0,
+          null,
+          0.0,
+          0.0
+        ],
+        "internal_ptrs": [],
+        "float_like": false
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "16A8C30",
+      "rva": 23759920,
+      "source_pos": 4945220,
+      "nearby_features": [],
+      "address": "0x116F8C30",
+      "runtime": {
+        "readable": true,
+        "bytes": "00000000ffffffff0000000000000000",
+        "u32": [
+          "0x00000000",
+          "0xFFFFFFFF",
+          "0x00000000",
+          "0x00000000"
+        ],
+        "f32": [
+          0.0,
+          null,
+          0.0,
+          0.0
+        ],
+        "internal_ptrs": [],
+        "float_like": false
+      }
+    },
+    {
+      "file": "E:\\game\\辅助\\2.0 TCII全套开源\\注册宝_易语言模板.e",
+      "offset_text": "DE8FC0",
+      "rva": 14585792,
+      "source_pos": 6735903,
+      "nearby_features": [],
+      "address": "0x10E38FC0",
+      "runtime": {
+        "readable": true,
+        "bytes": "8c0000005068bc16f8106a33e8ef5d00",
+        "u32": [
+          "0x0000008C",
+          "0x16BC6850",
+          "0x336A10F8",
+          "0x005DEFE8"
+        ],
+        "f32": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "internal_ptrs": [],
+        "float_like": true
+      }
+    }
+  ],
+  "notes": [
+    "RVA 文本来自 EasyLanguage 容器，不能单独证明语义。",
+    "internal_ptrs 仅表示指向 cshell.dll 映像内的数值；代码 RVA 与数据 RVA 需进一步区分。",
+    "需通过重复运行、生命周期和可观察结果验证后，才能写入处理器适配表。"
+  ]
+}

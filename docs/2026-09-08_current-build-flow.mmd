@@ -1,0 +1,17 @@
+flowchart TD
+    load[加载 D3DREF9 ordinal 1] --> worker[后台 Worker]
+    worker --> config[读取客户端 config/d3dref9自治.ini]
+    worker --> input[键盘/鼠标路由]
+    input --> home[Home 面板]
+    input --> modes{模式}
+    modes -->|普通| gate[Alt+Z 且物理左键按住]
+    gate --> filter[存活/敌我/微型范围/骨点/障碍射线]
+    filter -->|有效| aim[写入瞄准角度]
+    aim --> click[每约 130 ms LEFTDOWN→LEFTUP]
+    modes -->|瞬狙| trigger[物理右键]
+    trigger --> target[五部位最近有效点]
+    target -->|有效| sequence[右键→左键→恢复→冷却]
+    sequence --> restore[仅恢复触发前状态]
+    input --> macro[宏 generation 状态机]
+    macro --> release[统一释放 DLL 自己按下的键]
+

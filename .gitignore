@@ -15,3 +15,13 @@ build/
 
 # Local logs
 *.log
+
+# Local generated artifacts and caches
+tools/__pycache__/
+tools/eproject_dump/bin/
+tools/eproject_dump/obj/
+*.pyc
+*.bak
+
+# Local timestamped backups
+*.bak-*

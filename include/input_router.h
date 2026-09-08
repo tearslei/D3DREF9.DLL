@@ -6,6 +6,7 @@ class InputRouter {
 public:
  static InputRouter& Instance();
  bool Install(); void Uninstall();
+ void PollFallback();
  void OnKey(DWORD vk,bool down,bool injected);
  bool Physical(DWORD vk) const;
  void KeyScan(WORD scan,bool down,InputOwner owner);

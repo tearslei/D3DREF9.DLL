@@ -2,14 +2,124 @@
 #include "input_router.h"
 #include "feature_manager.h"
 #include "aim_controller.h"
+#include "game_handlers.h"
+#include <cwctype>
+#include <algorithm>
 namespace d3dref9 {
-InstantSniper& InstantSniper::Instance(){static InstantSniper s;return s;}
+namespace {
+uint32_t ReadMs(const wchar_t* section, const wchar_t* key, uint32_t fallback,
+                const std::wstring& path) {
+    const auto v = GetPrivateProfileIntW(section, key, static_cast<INT>(fallback), path.c_str());
+    return v < 0 ? fallback : static_cast<uint32_t>(v);
+}
+bool ReadBool(const wchar_t* section, const wchar_t* key, bool fallback,
+             const std::wstring& path) {
+    wchar_t value[16]{};
+    GetPrivateProfileStringW(section, key, fallback ? L"true" : L"false",
+                             value, static_cast<DWORD>(std::size(value)), path.c_str());
+    return _wcsicmp(value, L"1") == 0 || _wcsicmp(value, L"true") == 0 ||
+           _wcsicmp(value, L"yes") == 0 || _wcsicmp(value, L"on") == 0;
+}
+void NormaliseRange(uint32_t& lo, uint32_t& hi) { if (hi < lo) std::swap(lo, hi); }
+}
+InstantSniper& InstantSniper::Instance(){static InstantSniper s;static const bool loaded=(s.LoadConfig(),true);(void)loaded;return s;}
+void InstantSniper::LoadConfig(){
+    HMODULE hm=nullptr;
+    GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
+                       reinterpret_cast<LPCWSTR>(&InstantSniper::Instance),&hm);
+    wchar_t module[MAX_PATH]{};
+    if(!hm||!GetModuleFileNameW(hm,module,MAX_PATH))return;
+    std::wstring path(module); auto slash=path.find_last_of(L"\\/");
+    if(slash==std::wstring::npos)return; path.resize(slash);
+    path+=L"\\config\\d3dref9自治.ini";
+    // 每个阶段都支持 *_min_ms / *_max_ms；若只配置单值 *_ms，则该值
+    // 同时作为上下界，便于在不改代码的情况下调参。
+    auto range = [&](const wchar_t* base, uint32_t defLo, uint32_t defHi,
+                     uint32_t& lo, uint32_t& hi) {
+        std::wstring one=std::wstring(base)+L"_ms";
+        std::wstring minKey=std::wstring(base)+L"_min_ms";
+        std::wstring maxKey=std::wstring(base)+L"_max_ms";
+        const uint32_t single=ReadMs(L"instant_sniper",one.c_str(),defLo,path);
+        lo=ReadMs(L"instant_sniper",minKey.c_str(),single,path);
+        hi=ReadMs(L"instant_sniper",maxKey.c_str(),single,path);
+        NormaliseRange(lo,hi);
+    };
+    range(L"scope_delay",15,30,scopeDelayMin_,scopeDelayMax_);
+    range(L"fire_hold",8,15,fireHoldMin_,fireHoldMax_);
+    range(L"unscope_delay",10,25,unscopeDelayMin_,unscopeDelayMax_);
+    range(L"recovery",30,80,recoveryMin_,recoveryMax_);
+    range(L"cooldown",180,300,cooldownMin_,cooldownMax_);
+    pauseAim_=ReadBool(L"instant_sniper",L"pause_aim",true,path);
+    pauseAutoFire_=ReadBool(L"instant_sniper",L"pause_auto_fire",true,path);
+}
 bool InstantSniper::AimFireEnabled()const{return Features().IsOn(Feature::AimAutoFire);}
 void InstantSniper::ToggleMode(){sniperMode_=!sniperMode_.load();}
 void InstantSniper::ToggleAimFire(){aimToggleEpoch_++;Features().Toggle(Feature::AimAutoFire);}
-void InstantSniper::OnKey(DWORD vk,bool down){auto&r=InputRouter::Instance();if(down&&vk=='L'){ToggleMode();return;}if(down&&vk=='Z'&&r.Physical(VK_LMENU)){ToggleAimFire();return;}}
-void InstantSniper::OnMouseButton(DWORD button,bool down){if(!down||!sniperMode_.load()||(button!=VK_LBUTTON&&button!=VK_RBUTTON))return;if(busy_.exchange(true))return;std::thread(&InstantSniper::Run,this).detach();}
+void InstantSniper::OnKey(DWORD vk,bool down){
+    auto& r=InputRouter::Instance();
+    if(!down)return;
+    if(vk=='L'){ToggleMode();return;}
+    // Alt+Z is the sole keyboard switch for ordinary aim/fire. Alt+1 and F6
+    // are intentionally not registered.
+    if(vk=='Z' && r.Physical(VK_LMENU)){ToggleAimFire();return;}
+}
+void InstantSniper::OnMouseButton(DWORD button,bool down){
+    // In sniper mode only the physical right button is the trigger. Ordinary
+    // mode uses the physical left button as a hold-to-enable gate.
+    if(!down||!Features().MasterEnabled()||!sniperMode_.load()||
+       button!=VK_RBUTTON)return;
+    if(busy_.exchange(true))return;
+    std::thread(&InstantSniper::Run,this).detach();
+}
 uint32_t InstantSniper::CooldownLeft()const{auto e=cooldownEnd_.load();auto n=GetTickCount64();return e>n?(uint32_t)(e-n):0;}
-void InstantSniper::Run(){auto&r=InputRouter::Instance();std::mt19937 gen((uint32_t)GetTickCount());std::uniform_int_distribution<int>dist(0,100);int r1=dist(gen),r2=dist(gen);uint64_t epoch=aimToggleEpoch_.load();bool wasAim=Features().IsOn(Feature::AimAutoFire);if(wasAim)Features().Set(Feature::AimAutoFire,false);AimBone selected=AimBone::Neck; // 运行时目标扫描器应将 selected 设置为准心最近的五个候选部位之一
-r.MouseButton(MOUSEEVENTF_RIGHTDOWN,true,InputOwner::Sniper);SleepMs((uint32_t)r1);r.MouseButton(MOUSEEVENTF_LEFTDOWN,true,InputOwner::Sniper);SleepMs((uint32_t)r2);r.KeyScan(0x004,true,InputOwner::Sniper);r.KeyScan(0x004,false,InputOwner::Sniper);SleepMs(35);r.KeyScan(0x002,true,InputOwner::Sniper);r.KeyScan(0x002,false,InputOwner::Sniper);r.MouseButton(MOUSEEVENTF_LEFTDOWN,false,InputOwner::Sniper);r.MouseButton(MOUSEEVENTF_RIGHTDOWN,false,InputOwner::Sniper);uint32_t cd=1565u-(uint32_t)r1-(uint32_t)r2;cooldownEnd_=GetTickCount64()+cd;SleepMs(cd);if(wasAim&&aimToggleEpoch_.load()==epoch)Features().Set(Feature::AimAutoFire,true);busy_=false;}
+void InstantSniper::Run(){
+    auto&r=InputRouter::Instance();
+    std::mt19937 gen((uint32_t)GetTickCount64());
+    auto delay=[&](uint32_t lo,uint32_t hi){
+        std::uniform_int_distribution<uint32_t> d(lo,hi); return d(gen);
+    };
+    // Keep every stage interruptible.  A physical right-button release must
+    // stop the sequence within a few milliseconds, including while the
+    // scope/fire/recovery delays are in progress.
+    auto held = [&]() {
+        return Features().MasterEnabled() && sniperMode_.load() &&
+               r.Physical(VK_RBUTTON);
+    };
+    auto waitHeld = [&](uint32_t ms) {
+        uint32_t left = ms;
+        while (left) {
+            if (!held()) return false;
+            const uint32_t step = (std::min)(left, 5u);
+            SleepMs(step);
+            left -= step;
+        }
+        return held();
+    };
+    while (held()) {
+        const auto now = GetTickCount64();
+        if (cooldownEnd_.load() > now) {
+            if (!waitHeld((uint32_t)(std::min<uint64_t>)(5u, cooldownEnd_.load() - now))) break;
+            continue;
+        }
+        const uint64_t epoch=aimToggleEpoch_.load();
+        const bool wasAim=Features().IsOn(Feature::AimAutoFire);
+        AimBone selected=AimBone::Neck; EntitySnapshot target{};
+        if (!GameHandlers::Instance().AcquireTarget(target, &selected, true)) { SleepMs(5); continue; }
+        GameHandlers::Instance().AimTarget(target, selected);
+        bool rightDown=false,leftDown=false;
+        auto cleanup=[&]{if(leftDown)r.MouseButton(MOUSEEVENTF_LEFTDOWN,false,InputOwner::Sniper);if(rightDown)r.MouseButton(MOUSEEVENTF_RIGHTDOWN,false,InputOwner::Sniper);if(wasAim&&(pauseAim_||pauseAutoFire_)&&aimToggleEpoch_.load()==epoch)Features().Set(Feature::AimAutoFire,true);};
+        r.MouseButton(MOUSEEVENTF_RIGHTDOWN,true,InputOwner::Sniper); rightDown=true;
+        if (!waitHeld(delay(scopeDelayMin_,scopeDelayMax_))) { cleanup(); break; }
+        if (pauseAim_ || pauseAutoFire_) Features().Set(Feature::AimAutoFire,false);
+        r.MouseButton(MOUSEEVENTF_LEFTDOWN,true,InputOwner::Sniper); leftDown=true;
+        if (!waitHeld(delay(fireHoldMin_,fireHoldMax_))) { cleanup(); break; }
+        r.MouseButton(MOUSEEVENTF_LEFTDOWN,false,InputOwner::Sniper); leftDown=false;
+        if (!waitHeld(delay(unscopeDelayMin_,unscopeDelayMax_))) { cleanup(); break; }
+        r.MouseButton(MOUSEEVENTF_RIGHTDOWN,false,InputOwner::Sniper); rightDown=false;
+        if (!waitHeld(delay(recoveryMin_,recoveryMax_))) { cleanup(); break; }
+        cleanup();
+        cooldownEnd_=GetTickCount64()+delay(cooldownMin_,cooldownMax_);
+    }
+    busy_=false;
+}
 }
