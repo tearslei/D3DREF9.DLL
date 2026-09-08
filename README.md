@@ -63,3 +63,6 @@ python .\\tools\\inspect_pe_exports.py .\\D3DREF9.DLL
 运行诊断日志位于 `%TEMP%\\d3dref9_input.log`、`d3dref9_handlers.log`、`d3dref9_entities.csv`、`d3dref9_render.log`。
 
 
+
+当前直接替换版 D3DREF9.DLL SHA-256：$hash
+
