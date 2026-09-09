@@ -12,6 +12,7 @@ public:
  void KeyScan(WORD scan,bool down,InputOwner owner);
  void MouseMove(int dx,int dy); void MouseButton(DWORD flag,bool down,InputOwner owner);
  void ReleaseOwned(InputOwner owner);
+ bool IsOwned(WORD scan, InputOwner owner) const;
  static LRESULT CALLBACK HookProc(int code,WPARAM wp,LPARAM lp); static LRESULT CALLBACK MouseHookProc(int code,WPARAM wp,LPARAM lp);
 private:
  bool HandleFeatureHotkey(DWORD vk);

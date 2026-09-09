@@ -54,6 +54,9 @@ void InstantSniper::LoadConfig(){
     range(L"switch1_delay",100,100,switch1DelayMin_,switch1DelayMax_);
     range(L"switch1_hold",25,25,switch1HoldMin_,switch1HoldMax_);
     postSwitchCooldownMs_=ReadMs(L"instant_sniper",L"post_switch_cooldown_ms",300,path);
+    movementBrakeMs_=ReadMs(L"instant_sniper",L"movement_brake_ms",25,path);
+    movementRestoreDelayMs_=ReadMs(L"instant_sniper",L"movement_restore_delay_ms",35,path);
+    movementBrake_=ReadBool(L"instant_sniper",L"movement_brake",true,path);
     pauseAim_=ReadBool(L"instant_sniper",L"pause_aim",true,path);
     pauseAutoFire_=ReadBool(L"instant_sniper",L"pause_auto_fire",true,path);
 }
@@ -77,6 +80,39 @@ void InstantSniper::OnMouseButton(DWORD button,bool down){
     std::thread(&InstantSniper::Run,this).detach();
 }
 uint32_t InstantSniper::CooldownLeft()const{auto e=cooldownEnd_.load();auto n=GetTickCount64();return e>n?(uint32_t)(e-n):0;}
+bool InstantSniper::BrakeMovement(InputRouter& r, std::array<WORD, 4>& released, size_t& count) {
+    count = 0;
+    if (!movementBrake_) return true;
+    // Release only keys physically held by the player. Macro-owned keys are
+    // not touched, so W+F/W+C cannot be corrupted by the sniper brake.
+    struct MoveKey { DWORD vk; WORD scan; };
+    static constexpr MoveKey keys[] = {{'W',0x11},{'A',0x1E},{'S',0x1F},{'D',0x20}};
+    for (const auto& k : keys) {
+        if (r.Physical(k.vk) && !r.IsOwned(k.scan, InputOwner::Macro)) {
+            r.KeyScan(k.scan, false, InputOwner::Sniper);
+            released[count++] = k.scan;
+        }
+    }
+    if (count) SleepMs(movementBrakeMs_);
+    return r.Physical(VK_RBUTTON) && Features().MasterEnabled() && sniperMode_.load();
+}
+void InstantSniper::RestoreMovement(InputRouter& r, const std::array<WORD, 4>& released, size_t count) {
+    if (!count) return;
+    if (movementRestoreDelayMs_) SleepMs(movementRestoreDelayMs_);
+    for (size_t i = 0; i < count; ++i) {
+        DWORD vk = 0;
+        switch (released[i]) {
+        case 0x11: vk = 'W'; break;
+        case 0x1E: vk = 'A'; break;
+        case 0x1F: vk = 'S'; break;
+        case 0x20: vk = 'D'; break;
+        default: break;
+        }
+        // The player may have released a movement key during the shot. Do
+        // not re-press it in that case.
+        if (vk && r.Physical(vk)) r.KeyScan(released[i], true, InputOwner::Sniper);
+    }
+}
 void InstantSniper::Run(){
     auto&r=InputRouter::Instance();
     std::mt19937 gen((uint32_t)GetTickCount64());
@@ -110,6 +146,17 @@ void InstantSniper::Run(){
         const bool wasAim=Features().IsOn(Feature::AimAutoFire);
         AimBone selected=AimBone::Neck; EntitySnapshot target{};
         if (!GameHandlers::Instance().AcquireTarget(target, &selected, true)) { SleepMs(5); continue; }
+        std::array<WORD, 4> releasedMove{}; size_t releasedCount = 0;
+        if (!BrakeMovement(r, releasedMove, releasedCount)) {
+            RestoreMovement(r, releasedMove, releasedCount);
+            break;
+        }
+        // Re-sample after braking so the angle is based on the stabilized
+        // camera/player pose rather than the pre-brake frame.
+        if (!GameHandlers::Instance().AcquireTarget(target, &selected, true)) {
+            RestoreMovement(r, releasedMove, releasedCount);
+            SleepMs(5); continue;
+        }
         GameHandlers::Instance().AimTarget(target, selected);
         bool rightDown=false,leftDown=false;
         bool pausedAim=false;
@@ -122,6 +169,8 @@ void InstantSniper::Run(){
             if(leftDown)r.MouseButton(MOUSEEVENTF_LEFTDOWN,false,InputOwner::Sniper);
             if(rightDown)r.MouseButton(MOUSEEVENTF_RIGHTDOWN,false,InputOwner::Sniper);
             restoreAim();
+            RestoreMovement(r, releasedMove, releasedCount);
+            releasedCount = 0;
         };
         r.MouseButton(MOUSEEVENTF_RIGHTDOWN,true,InputOwner::Sniper); rightDown=true;
         if (!waitHeld(delay(scopeDelayMin_,scopeDelayMax_))) { cleanup(); break; }
@@ -144,11 +193,16 @@ void InstantSniper::Run(){
         r.KeyScan(0x02, true, InputOwner::Sniper); // 1
         if (!waitHeld(delay(switch1HoldMin_,switch1HoldMax_))) { r.KeyScan(0x02,false,InputOwner::Sniper); cleanup(); break; }
         r.KeyScan(0x02, false, InputOwner::Sniper);
+        // Movement braking is only for the shot itself. Restore WASD before
+        // entering the 300 ms post-switch cooldown so the player can move
+        // during the cooldown while aim/fire remains paused.
+        RestoreMovement(r, releasedMove, releasedCount);
+        releasedCount = 0;
         // The requested cooldown starts after the 3 -> 1 chain.  Keep the
         // ordinary aim/fire feature disabled during this period.
         cooldownEnd_=GetTickCount64()+postSwitchCooldownMs_;
-        if (!waitHeld(postSwitchCooldownMs_)) { restoreAim(); break; }
-        restoreAim();
+        if (!waitHeld(postSwitchCooldownMs_)) { cleanup(); break; }
+        cleanup();
     }
     busy_=false;
 }
