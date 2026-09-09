@@ -324,6 +324,8 @@ void GameHandlers::LoadAimConfig() {
     aimConfig_.visibilityRequired = IniBool(path, L"visibility_required", true);
     aimConfig_.visibilityFailClosed = IniBool(path, L"visibility_fail_closed", true);
     aimConfig_.instantRangeDivisor = (std::max<uint32_t>)(1u, IniUint(path, L"instant_range_divisor", 8u));
+    aimConfig_.aimSettleMs = IniUint(path, L"aim_settle_ms", 35u);
+    aimConfig_.aimWriteThresholdRad = (std::max)(0.001f, IniFloat(path, L"aim_write_threshold_deg", 1.0f) * 3.14159265358979323846f / 180.0f);
     Log("aim_config_loaded", Feature::AimAutoFire, true,
         static_cast<uintptr_t>(aimConfig_.microRangeDivisor),
         static_cast<uint32_t>(aimConfig_.microRadiusPx));
@@ -408,8 +410,10 @@ bool GameHandlers::AcquireTarget(EntitySnapshot& out, AimBone* bone, bool instan
         current.worldDistanceSq = localOk ? WorldDistanceSq(local.position, candidate.position) : 0.0f;
         bool pointFound = false;
         float bestPointScore = FLT_MAX;
+        const AimBone preferred = AimController::Instance().NormalBone();
         for (size_t i = 0; i < bones.size(); ++i) {
             if (!candidate.boneValid[i] || !candidate.boneScreenValid[i]) continue;
+            if (!instantSniper && bones[i] != preferred) continue;
             const auto& p = candidate.boneScreen[i];
             if (canCheckVisibility &&
                 !IsVisible(local.position, candidate.bones[i])) {
@@ -418,7 +422,10 @@ bool GameHandlers::AcquireTarget(EntitySnapshot& out, AimBone* bone, bool instan
             }
             const float dx = p.x - window.cx;
             const float dy = p.y - window.cy;
-            const float pointScore = dx * dx + dy * dy;
+            // Normal mode qualifies on any body pixel in the micro window,
+            // then aims the explicitly selected neck/head/chest point.  The
+            // sniper path still selects the nearest point to the crosshair.
+            const float pointScore = instantSniper ? dx * dx + dy * dy : 0.0f;
             if (!pointFound || pointScore < bestPointScore) {
                 current.bone = bones[i];
                 current.boneIndex = i;
@@ -527,8 +534,20 @@ bool GameHandlers::AimTarget(const EntitySnapshot& target, AimBone bone) {
     if (!std::isfinite(yaw) || !std::isfinite(pitch)) return false;
     // Source writes angle.Y (pitch) at 鼠标Y偏移_j and angle.X (yaw) at
     // 鼠标Y偏移_j+4.  Keep that ordering for the 1.1.85.7 new-mode object.
+    const auto now = GetTickCount64();
+    const bool materiallyChanged = !aimReady_ || aimReadySlot_ != target.slot ||
+        aimReadyBone_ != bone || std::fabs(yaw - aimReadyYaw_) > aimConfig_.aimWriteThresholdRad ||
+        std::fabs(pitch - aimReadyPitch_) > aimConfig_.aimWriteThresholdRad;
     bool ok = WriteFloat(pl + 3464u, pitch) && WriteFloat(pl + 3468u, yaw);
     if (ok) {
+        if (materiallyChanged) {
+            aimReadyAt_ = now;
+            aimReadySlot_ = target.slot;
+            aimReadyBone_ = bone;
+            aimReadyYaw_ = yaw;
+            aimReadyPitch_ = pitch;
+            aimReady_ = true;
+        }
         uint32_t pitchBits = 0;
         std::memcpy(&pitchBits, &pitch, sizeof(pitchBits));
         Log("aim_write", Feature::AimAutoFire, true, pl + 3464u, pitchBits);
@@ -538,7 +557,7 @@ bool GameHandlers::AimTarget(const EntitySnapshot& target, AimBone bone) {
 
 void GameHandlers::TickAimAndFire() {
     if (!Features().IsOn(Feature::AimAutoFire) || InstantSniper::Instance().SniperMode() || InstantSniper::Instance().Busy()) {
-        targetReady_ = false; return;
+        targetReady_ = false; aimReady_ = false; return;
     }
     // Ordinary aim/fire is active only while the user physically holds LMB.
     // Use OS async state as the source of truth: injected clicks must never
@@ -547,7 +566,7 @@ void GameHandlers::TickAimAndFire() {
     // 改变物理保持状态，用户抬起左键后下一个工作 tick 立即停止。
     const bool physicalLmb = InputRouter::Instance().Physical(VK_LBUTTON);
     if (!physicalLmb) {
-        targetReady_ = false;
+        targetReady_ = false; aimReady_ = false;
         LogAimGate(7);
         return;
     }
@@ -555,8 +574,9 @@ void GameHandlers::TickAimAndFire() {
     EntitySnapshot target{}; AimBone bone{};
     if (!AcquireTarget(target, &bone)) return;
     if (!AimTarget(target, bone)) return;
-    // Alt+Z + physical LMB 普通模式为自动开枪；节流到 aim.auto_fire_interval_ms。
     const auto now = GetTickCount64();
+    if (!aimReady_ || now - aimReadyAt_ < aimConfig_.aimSettleMs) return;
+    // Alt+Z + physical LMB 普通模式为自动开枪；节流到 aim.auto_fire_interval_ms。
     if (now - lastAutoFire_ >= aimConfig_.autoFireIntervalMs) {
         lastAutoFire_ = now;
         // TCII's original path uses the legacy mouse_event API.  On this

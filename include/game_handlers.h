@@ -45,6 +45,8 @@ private:
         bool visibilityRequired{true};
         bool visibilityFailClosed{true};
         uint32_t instantRangeDivisor{8};
+        uint32_t aimSettleMs{35};
+        float aimWriteThresholdRad{0.018f};
     };
 
     GameHandlers() = default;
@@ -76,6 +78,12 @@ private:
     uint64_t lastAimTargetLog_{0};
     uint32_t lastAimTargetSlot_{0};
     uint64_t lastAutoFireLog_{0};
+    uint64_t aimReadyAt_{0};
+    uint32_t aimReadySlot_{0};
+    AimBone aimReadyBone_{AimBone::Neck};
+    float aimReadyYaw_{0.0f};
+    float aimReadyPitch_{0.0f};
+    bool aimReady_{false};
     uint64_t lastRadioPulse_{0};
     uint64_t lastStaticRetry_{0};
     bool teleportDone_{false};
