@@ -49,6 +49,11 @@ void InstantSniper::LoadConfig(){
     range(L"unscope_delay",10,25,unscopeDelayMin_,unscopeDelayMax_);
     range(L"recovery",30,80,recoveryMin_,recoveryMax_);
     range(L"cooldown",180,300,cooldownMin_,cooldownMax_);
+    range(L"switch3_delay",19,21,switch3DelayMin_,switch3DelayMax_);
+    range(L"switch3_hold",45,45,switch3HoldMin_,switch3HoldMax_);
+    range(L"switch1_delay",100,100,switch1DelayMin_,switch1DelayMax_);
+    range(L"switch1_hold",25,25,switch1HoldMin_,switch1HoldMax_);
+    postSwitchCooldownMs_=ReadMs(L"instant_sniper",L"post_switch_cooldown_ms",300,path);
     pauseAim_=ReadBool(L"instant_sniper",L"pause_aim",true,path);
     pauseAutoFire_=ReadBool(L"instant_sniper",L"pause_auto_fire",true,path);
 }
@@ -61,7 +66,7 @@ void InstantSniper::OnKey(DWORD vk,bool down){
     if(vk=='L'){ToggleMode();return;}
     // Alt+Z is the sole keyboard switch for ordinary aim/fire. Alt+1 and F6
     // are intentionally not registered.
-    if(vk=='Z' && r.Physical(VK_LMENU)){ToggleAimFire();return;}
+    if(vk=='Z' && (r.Physical(VK_LMENU) || (GetAsyncKeyState(VK_LMENU)&0x8000))){ToggleAimFire();return;}
 }
 void InstantSniper::OnMouseButton(DWORD button,bool down){
     // In sniper mode only the physical right button is the trigger. Ordinary
@@ -107,18 +112,43 @@ void InstantSniper::Run(){
         if (!GameHandlers::Instance().AcquireTarget(target, &selected, true)) { SleepMs(5); continue; }
         GameHandlers::Instance().AimTarget(target, selected);
         bool rightDown=false,leftDown=false;
-        auto cleanup=[&]{if(leftDown)r.MouseButton(MOUSEEVENTF_LEFTDOWN,false,InputOwner::Sniper);if(rightDown)r.MouseButton(MOUSEEVENTF_RIGHTDOWN,false,InputOwner::Sniper);if(wasAim&&(pauseAim_||pauseAutoFire_)&&aimToggleEpoch_.load()==epoch)Features().Set(Feature::AimAutoFire,true);};
+        bool pausedAim=false;
+        auto restoreAim=[&]{
+            if(pausedAim && wasAim && aimToggleEpoch_.load()==epoch)
+                Features().Set(Feature::AimAutoFire,true);
+            pausedAim=false;
+        };
+        auto cleanup=[&]{
+            if(leftDown)r.MouseButton(MOUSEEVENTF_LEFTDOWN,false,InputOwner::Sniper);
+            if(rightDown)r.MouseButton(MOUSEEVENTF_RIGHTDOWN,false,InputOwner::Sniper);
+            restoreAim();
+        };
         r.MouseButton(MOUSEEVENTF_RIGHTDOWN,true,InputOwner::Sniper); rightDown=true;
         if (!waitHeld(delay(scopeDelayMin_,scopeDelayMax_))) { cleanup(); break; }
-        if (pauseAim_ || pauseAutoFire_) Features().Set(Feature::AimAutoFire,false);
+        if (pauseAim_ || pauseAutoFire_) { Features().Set(Feature::AimAutoFire,false); pausedAim=true; }
         r.MouseButton(MOUSEEVENTF_LEFTDOWN,true,InputOwner::Sniper); leftDown=true;
         if (!waitHeld(delay(fireHoldMin_,fireHoldMax_))) { cleanup(); break; }
         r.MouseButton(MOUSEEVENTF_LEFTDOWN,false,InputOwner::Sniper); leftDown=false;
         if (!waitHeld(delay(unscopeDelayMin_,unscopeDelayMax_))) { cleanup(); break; }
         r.MouseButton(MOUSEEVENTF_RIGHTDOWN,false,InputOwner::Sniper); rightDown=false;
         if (!waitHeld(delay(recoveryMin_,recoveryMax_))) { cleanup(); break; }
-        cleanup();
-        cooldownEnd_=GetTickCount64()+delay(cooldownMin_,cooldownMax_);
+        // Legacy TCII firing chain: after the scoped shot, switch to weapon 3,
+        // then back to weapon 1.  This is part of the shot transaction, not a
+        // separate macro, so the ordinary aim/fire loop stays paused until it
+        // has completed.
+        if (!waitHeld(delay(switch3DelayMin_,switch3DelayMax_))) { cleanup(); break; }
+        r.KeyScan(0x04, true, InputOwner::Sniper); // 3
+        if (!waitHeld(delay(switch3HoldMin_,switch3HoldMax_))) { r.KeyScan(0x04,false,InputOwner::Sniper); cleanup(); break; }
+        r.KeyScan(0x04, false, InputOwner::Sniper);
+        if (!waitHeld(delay(switch1DelayMin_,switch1DelayMax_))) { cleanup(); break; }
+        r.KeyScan(0x02, true, InputOwner::Sniper); // 1
+        if (!waitHeld(delay(switch1HoldMin_,switch1HoldMax_))) { r.KeyScan(0x02,false,InputOwner::Sniper); cleanup(); break; }
+        r.KeyScan(0x02, false, InputOwner::Sniper);
+        // The requested cooldown starts after the 3 -> 1 chain.  Keep the
+        // ordinary aim/fire feature disabled during this period.
+        cooldownEnd_=GetTickCount64()+postSwitchCooldownMs_;
+        if (!waitHeld(postSwitchCooldownMs_)) { restoreAim(); break; }
+        restoreAim();
     }
     busy_=false;
 }

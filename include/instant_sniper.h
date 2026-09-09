@@ -9,6 +9,11 @@ private: InstantSniper()=default; std::atomic<bool> busy_{false},sniperMode_{fal
  uint32_t unscopeDelayMin_{10}, unscopeDelayMax_{25};
  uint32_t recoveryMin_{30}, recoveryMax_{80};
  uint32_t cooldownMin_{180}, cooldownMax_{300};
+ uint32_t switch3DelayMin_{19}, switch3DelayMax_{21};
+ uint32_t switch3HoldMin_{45}, switch3HoldMax_{45};
+ uint32_t switch1DelayMin_{100}, switch1DelayMax_{100};
+ uint32_t switch1HoldMin_{25}, switch1HoldMax_{25};
+ uint32_t postSwitchCooldownMs_{300};
  bool pauseAim_{true};
  bool pauseAutoFire_{true};
  void LoadConfig();

@@ -58,3 +58,9 @@ python .\\tools\\inspect_pe_exports.py .\\D3DREF9.DLL
 - 瞬狙准心改为中型范围（`instant_range_divisor=8`，普通模式仍为 `16`）。`W+Ctrl`/Ctrl 单次循环宏已删除。
 - 面板总按键由 `Home` 改为 `F9+H`；`Home` 不再被 DLL 注册或拦截。
 
+### 2026-09-09 瞬狙切枪链与 Alt+Z 双向切换
+- 瞬狙每次有效射击后恢复为 TCII 链：等待约 19–21 ms → `3` 按下 45 ms → 等待 100 ms → `1` 按下 25 ms。
+- `3→1` 完成后再等待 `post_switch_cooldown_ms=300`，之后才恢复瞬狙前原本开启的普通自瞄/自动开火状态。
+- `Alt+Z` 由 `FeatureManager::Toggle` 双向切换：第一次开启，第二次关闭；普通模式仍必须物理按住左键才会运行。
+- 新增配置项：`switch3_*`、`switch1_*`、`post_switch_cooldown_ms`。
+
