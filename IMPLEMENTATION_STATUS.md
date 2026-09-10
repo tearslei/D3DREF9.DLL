@@ -58,6 +58,12 @@ python .\\tools\\inspect_pe_exports.py .\\D3DREF9.DLL
 - 瞬狙准心改为中型范围（`instant_range_divisor=8`，普通模式仍为 `16`）。`W+Ctrl`/Ctrl 单次循环宏已删除。
 - 面板总按键由 `Home` 改为 `F9+H`；`Home` 不再被 DLL 注册或拦截。
 
+### 2026-09-10 实机坐标链修正
+- 实机读取确认：`cshell.dll` 基址为 `0x10050000`，`cshell+0x166AD00` 得到玩家根表；坐标 Hook 地址 `crossfire+0x23567F` 的 6 字节签名与 TCII 源码一致。
+- 旧实现错误地从 `entity+0x2098` 推断坐标，导致 `d3dref9_entities.csv` 中 `pos_valid/bone_mask` 全为 0；瞄准角度虽被写入，但目标坐标不可靠。
+- 已改回 TCII 源链：Hook 捕获 `坐标指针[1]` → `数据指针` → `*(数据指针+(slot-1)*4)` → `+12+64*部位`，坐标字段为 `X@0/Z@16/Y@32`。
+- 已启用 Hook 初始化与切图重试。新 DLL 尚未部署到正在运行的客户端；退出 `crossfire.exe` 后再部署。
+
 ### 2026-09-09 瞬狙切枪链与 Alt+Z 双向切换
 - 瞬狙每次有效射击后恢复为 TCII 链：等待约 19–21 ms → `3` 按下 45 ms → 等待 100 ms → `1` 按下 25 ms。
 - `3→1` 完成后再等待 `post_switch_cooldown_ms=300`，之后才恢复瞬狙前原本开启的普通自瞄/自动开火状态。
