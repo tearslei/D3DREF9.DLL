@@ -236,12 +236,16 @@ void GameHandlers::Run() {
     entities_.EnsureCoordinateHook();
     uint64_t heartbeat = 0;
     while (!stop_) {
+        entities_.RefreshCoordinateCapture();
         entities_.EnsureCoordinateHook();
         RenderAdapter::Instance().Start();
         Tick();
         const auto now = GetTickCount64();
         if (now - heartbeat >= 1000) { heartbeat = now; Log("heartbeat", Feature::Count, true); }
-        SleepMs(10);
+        // Entity sampling is support work, not a render hook. 50 Hz is
+        // sufficient for target tracking and avoids competing with the
+        // client's render thread.
+        SleepMs(20);
     }
 }
 void GameHandlers::Log(const char* event, Feature f, bool on, uintptr_t addr, uint32_t value) {

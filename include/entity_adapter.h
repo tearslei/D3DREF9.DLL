@@ -86,6 +86,7 @@ public:
     void SetCoordinateTable(uintptr_t table);
     uintptr_t CoordinateTable() const { return coordinateTable_.load(); }
     bool EnsureCoordinateHook();
+    void RefreshCoordinateCapture();
     void SetRenderFrame(const Matrix4& view, const Matrix4& projection, const Viewport& viewport);
 
     static bool WorldToScreen(const Vec3& world, const Matrix4& view,
@@ -119,6 +120,11 @@ private:
     // pointer chain instead of treating ECX as the table itself.
     std::atomic<uintptr_t> coordinatePointer_{0};
     mutable std::atomic<uintptr_t> coordinateTable_{0};
+    // The hook runs on the game's render/update thread.  Only publish the
+    // two raw arguments there; pointer validation and slot matching happen on
+    // the worker thread to keep the game thread out of VirtualQuery/loops.
+    std::atomic<uintptr_t> pendingHookTable_{0};
+    std::atomic<uintptr_t> pendingHookObject_{0};
     // TCII keeps one coordinate-pointer per player slot.  The shared data
     // pointer used by取敌人坐标_ing is specifically 坐标指针[1], so retaining
     // only the last callback would occasionally bind the table to another

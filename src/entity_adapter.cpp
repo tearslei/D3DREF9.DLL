@@ -97,6 +97,8 @@ Vec4 Transform(const Vec4& v, const Matrix4& m) {
 bool EntityAdapter::Initialize() {
     shell_ = Shell();
     coordinateTable_ = 0;
+    pendingHookTable_ = 0;
+    pendingHookObject_ = 0;
     g_activeAdapter.store(this, std::memory_order_release);
     if (!shell_) return false;
     // The source-compatible coordinate hook is installed lazily once the
@@ -122,6 +124,8 @@ void EntityAdapter::Shutdown() {
         g_activeAdapter.store(nullptr, std::memory_order_release);
     coordinatePointer_.store(0, std::memory_order_release);
     coordinateTable_.store(0, std::memory_order_release);
+    pendingHookTable_.store(0, std::memory_order_release);
+    pendingHookObject_.store(0, std::memory_order_release);
     for (auto& p : coordinatePointers_) p.store(0, std::memory_order_release);
 }
 
@@ -191,14 +195,19 @@ void EntityAdapter::RemoveCoordinateHook() {
 }
 
 void __cdecl EntityAdapter::CoordinateHookCallback(uintptr_t table, uintptr_t object) {
-    const auto n = g_coordinateCallbacks.fetch_add(1, std::memory_order_relaxed) + 1;
-    // Keep the first calls and sparse heartbeat as raw evidence.  This runs in
-    // the game thread, so avoid dereferencing untrusted arguments here.
-    if (n <= 64 || (n % 1000) == 0)
-        HookLog("event=callback n=%llu table=0x%08Ix object=0x%08Ix",
-                static_cast<unsigned long long>(n), static_cast<size_t>(table), static_cast<size_t>(object));
+    g_coordinateCallbacks.fetch_add(1, std::memory_order_relaxed);
     auto* adapter = g_activeAdapter.load(std::memory_order_acquire);
-    if (adapter) adapter->CaptureCoordinatePointer(object, table);
+    // No VirtualQuery, file I/O, or slot loops on the game thread.
+    if (adapter) {
+        adapter->pendingHookTable_.store(table, std::memory_order_release);
+        adapter->pendingHookObject_.store(object, std::memory_order_release);
+    }
+}
+
+void EntityAdapter::RefreshCoordinateCapture() {
+    const auto table = pendingHookTable_.exchange(0, std::memory_order_acq_rel);
+    const auto object = pendingHookObject_.exchange(0, std::memory_order_acq_rel);
+    if (table && object) CaptureCoordinatePointer(object, table);
 }
 
 void EntityAdapter::CaptureCoordinatePointer(uintptr_t object, uintptr_t pointer) {
@@ -392,9 +401,27 @@ std::vector<EntitySnapshot> EntityAdapter::Snapshot() const {
         // +0x400 byte is not stable across this client build, so do not let a
         // coincidental 0/1 value override the source-compatible fallback.
         s.enemy = IsEnemy(slot, count, local, localZombie, s.zombieState);
-        s.positionValid = ReadPosition(slot, 0, s.position);
-        for (size_t i = 0; i < kAimParts.size(); ++i)
-            s.boneValid[i] = ReadPosition(slot, kAimParts[i], s.bones[i]);
+        // Read the complete coordinate block once per slot.  The previous
+        // path called ReadFloat/VirtualQuery up to 18 times per slot and was
+        // sampled every 5–10 ms, which consumed noticeable frame time.
+        const auto table = coordinateTable_.load(std::memory_order_acquire);
+        uint32_t coordinate = 0;
+        std::array<uint8_t, 428> raw{};
+        if (table && Read32(table + (slot - 1u) * sizeof(uint32_t), coordinate) &&
+            coordinate && ReadBytes(static_cast<uintptr_t>(coordinate) + kCoordBase,
+                                    raw.data(), raw.size())) {
+            auto readPart = [&](uint32_t part, Vec3& out) {
+                const size_t off = static_cast<size_t>(part) * kCoordStride;
+                std::memcpy(&out.x, raw.data() + off + 0, sizeof(float));
+                std::memcpy(&out.z, raw.data() + off + 16, sizeof(float));
+                std::memcpy(&out.y, raw.data() + off + 32, sizeof(float));
+                return std::isfinite(out.x) && std::isfinite(out.y) &&
+                       std::isfinite(out.z) && out.x != 0.0f && out.x != -100000.0f;
+            };
+            s.positionValid = readPart(0, s.position);
+            for (size_t i = 0; i < kAimParts.size(); ++i)
+                s.boneValid[i] = readPart(kAimParts[i], s.bones[i]);
+        }
         if (frameReady_) {
             Vec3 source = s.position;
             if (!s.positionValid) {
