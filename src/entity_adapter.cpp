@@ -99,10 +99,10 @@ bool EntityAdapter::Initialize() {
     coordinateTable_ = 0;
     g_activeAdapter.store(this, std::memory_order_release);
     if (!shell_) return false;
-    // Coordinate inline hook is opt-in while validating the call site.
-    // The current client reaches this address during early startup with a
-    // different register contract; leaving it disabled prevents startup
-    // crashes and keeps the read-only entity path alive.
+    // The source-compatible coordinate hook is installed lazily once the
+    // client has mapped its game code.  The live 1.1.85.7 bytes at
+    // crossfire+0x23567F match kCoordinateHookBytes; without this hook
+    // coordinateTable_ remains zero and every bone read is empty.
     return true;
 }
 
@@ -337,24 +337,17 @@ bool EntityAdapter::ReadPosition(uint32_t slot, uint32_t part, Vec3& out) const 
     out = {};
     if (slot == 0 || slot > 16) return false;
 
-    // Direct runtime chain verified in the live 1.1.85.7 client:
-    // playersRoot -> +0x210 -> record[(slot-1)*0xD80] ->
-    // renderObject[0] -> +0x2098 -> coordinate block.
-    // The previous implementation waited for an optional inline callback to
-    // populate coordinateTable_, so the adapter returned zero positions
-    // whenever that callback had not fired (which is the normal case here).
-    const auto root = EntityRoot();
-    if (!root) return false;
-    const auto record = root + (slot - 1u) * kSlotStride;
-    uint32_t renderObject = 0;
-    if (!Read32(record, renderObject) || !renderObject) return false;
+    // TCII source chain (取敌人坐标WW):
+    // data = *(坐标指针[1]); xx = *(data + (slot-1)*4);
+    // x/z/y = xx + 12 + 64*part at offsets 0/16/32.
+    // The table is populated by the coordinate hook at 0x63567F.  Do not
+    // infer a coordinate block from entity+0x2098; that chain is unrelated in
+    // this client and produced zero/invalid aim points.
+    const auto table = coordinateTable_.load(std::memory_order_acquire);
+    if (!table) return false;
     uint32_t coordinate = 0;
-    if (!Read32(static_cast<uintptr_t>(renderObject) + 0x2098u, coordinate) || !coordinate)
+    if (!Read32(table + (slot - 1u) * sizeof(uint32_t), coordinate) || !coordinate)
         return false;
-    // Keep the diagnostic accessor useful without making it the source of
-    // truth for reads.  Slot 1 is the source-compatible shared sample.
-    if (slot == 1)
-        coordinateTable_.store(static_cast<uintptr_t>(coordinate), std::memory_order_release);
     const auto base = static_cast<uintptr_t>(coordinate) + kCoordBase + kCoordStride * part;
     if (!ReadFloat(base + 0, out.x) || !ReadFloat(base + 16, out.z) || !ReadFloat(base + 32, out.y)) return false;
     if (out.x == 0.0f || out.x == -100000.0f) return false;

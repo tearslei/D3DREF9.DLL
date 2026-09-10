@@ -230,8 +230,13 @@ void GameHandlers::Run() {
     // has finished mapping cshell.dll.  This is read-only and safe in lobby or
     // in a match; missing pointers simply produce an empty snapshot.
     entities_.Initialize();
+    // Source workflow calls HOOK初始化/获取数据x before each sampling pass.
+    // The live signature is validated in EntityAdapter; install once here
+    // and retry after a map transition if the code page was not ready yet.
+    entities_.EnsureCoordinateHook();
     uint64_t heartbeat = 0;
     while (!stop_) {
+        entities_.EnsureCoordinateHook();
         RenderAdapter::Instance().Start();
         Tick();
         const auto now = GetTickCount64();
