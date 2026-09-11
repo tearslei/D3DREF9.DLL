@@ -45,6 +45,7 @@ void InstantSniper::LoadConfig(){
         NormaliseRange(lo,hi);
     };
     range(L"scope_delay",15,30,scopeDelayMin_,scopeDelayMax_);
+    fireExtraDelayMs_=ReadMs(L"instant_sniper",L"fire_extra_delay_ms",70,path);
     range(L"fire_hold",8,15,fireHoldMin_,fireHoldMax_);
     range(L"unscope_delay",10,25,unscopeDelayMin_,unscopeDelayMax_);
     range(L"recovery",30,80,recoveryMin_,recoveryMax_);
@@ -174,6 +175,11 @@ void InstantSniper::Run(){
         };
         r.MouseButton(MOUSEEVENTF_RIGHTDOWN,true,InputOwner::Sniper); rightDown=true;
         if (!waitHeld(delay(scopeDelayMin_,scopeDelayMax_))) { cleanup(); break; }
+        // Give the aim write time to be consumed by the game after the
+        // physical scope button is pressed.  This is intentionally separate
+        // from scope_delay so it can be tuned without changing the original
+        // random scope timing.  Default: an additional 70 ms before firing.
+        if (!waitHeld(fireExtraDelayMs_)) { cleanup(); break; }
         if (pauseAim_ || pauseAutoFire_) { Features().Set(Feature::AimAutoFire,false); pausedAim=true; }
         r.MouseButton(MOUSEEVENTF_LEFTDOWN,true,InputOwner::Sniper); leftDown=true;
         if (!waitHeld(delay(fireHoldMin_,fireHoldMax_))) { cleanup(); break; }

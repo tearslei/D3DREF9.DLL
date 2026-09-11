@@ -75,3 +75,17 @@ python .\\tools\\inspect_pe_exports.py .\\D3DREF9.DLL
 - `Alt+Z` 由 `FeatureManager::Toggle` 双向切换：第一次开启，第二次关闭；普通模式仍必须物理按住左键才会运行。
 - 新增配置项：`switch3_*`、`switch1_*`、`post_switch_cooldown_ms`。
 
+
+### 2026-09-11 部署与冒烟验证（待实战对局）
+- 已确认 `crossfire.exe` 退出后，将坐标链修复构建部署到客户端正式文件 `E:\game\已加速- CF2.0搭建（使用2012系统）\客户端\10.4CrossFire\D3DREF9.DLL`。
+- 新正式 DLL SHA-256：`532A101C3C451D916E4458581EE33599787920FF472E538F30B83757F51BD195`。
+- 原正式 DLL 已备份为同目录 `D3DREF9.DLL.before-coordinate-capture-20260911-222609.bak`，SHA-256：`453E42998B4F8C9CA009A4D2166C11127E573B5A1C71C9E4D0AB947DE1CF75BC`。
+- 启动冒烟中确认坐标 Hook 安装：`event=installed target=0x0063567f relay=0x17200000`；D3D9 设备包装器正常创建。
+- 本次启动约 18 秒后客户端自行退出，日志只包含大厅/初始化快照：`local_ok=1` 但 `entity_slot=0`、`pos_valid=0`，没有 `capture`、`aim_target`、`aim_write`、`auto_fire_sent`。因此尚未获得实际对局坐标证据，不能据此判断修复后的瞄准链是否已在对局生效。
+- 下一步：保持服务器和客户端在线，进入实际对局后再读取 `%TEMP%\d3dref9_entity_hook.log`、`%TEMP%\d3dref9_entities.csv`、`%TEMP%\d3dref9_handlers.log`，重点核对 `capture`、`pos_valid/bone_mask`、`aim_target`、`aim_write`、`auto_fire_sent`。
+
+### 2026-09-11 实际对局实时证据
+- PID `20360` 在 22:48:39 启动，实际对局快照已出现 `mode=26`、`local_slot=1`、`local_alive=1`、`spectating=1`。
+- 新坐标链已成功捕获多个槽位：例如 slot 1/9/10/11/12/13/14/15/16，坐标指针均为有效地址；实体快照出现 `pos_valid=1`、`bone_mask=31`。
+- 目标筛选已运行：日志出现 55 次 `aim_target`，目标槽位包含 9、10、11、12、13、14、15；同时出现 40 次 `aim_write`，写入地址 `0x599a2b48`（玩家角度字段）。
+- 当前窗口未出现 `auto_fire_sent`；`aim_gate` 主要为 4/5（候选点/障碍可见性筛选状态），没有证据表明普通模式实际发送了 130 ms 点击。进程随后退出，需下一次在保持左键按住的可控测试中确认普通自动开火。
