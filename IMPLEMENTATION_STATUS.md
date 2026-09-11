@@ -89,3 +89,10 @@ python .\\tools\\inspect_pe_exports.py .\\D3DREF9.DLL
 - 新坐标链已成功捕获多个槽位：例如 slot 1/9/10/11/12/13/14/15/16，坐标指针均为有效地址；实体快照出现 `pos_valid=1`、`bone_mask=31`。
 - 目标筛选已运行：日志出现 55 次 `aim_target`，目标槽位包含 9、10、11、12、13、14、15；同时出现 40 次 `aim_write`，写入地址 `0x599a2b48`（玩家角度字段）。
 - 当前窗口未出现 `auto_fire_sent`；`aim_gate` 主要为 4/5（候选点/障碍可见性筛选状态），没有证据表明普通模式实际发送了 130 ms 点击。进程随后退出，需下一次在保持左键按住的可控测试中确认普通自动开火。
+
+### 2026-09-11 瞬狙开火延迟调整
+- 新增 `instant_sniper.fire_extra_delay_ms` 配置项，默认 `70`。
+- 时序由 `右键按下 → 15–30 ms → 左键开火` 改为 `右键按下 → 15–30 ms → 额外 70 ms → 左键开火`，总开镜后等待约 `85–100 ms`。
+- 已重新编译、通过 ordinal-1 PE 验证并部署到客户端。
+- 新 DLL SHA-256：`4E5771849490CBDCBBFDA456E0DA3C3FC2BB4FEF180A793A902BD3FA08742596`。
+- 客户端配置已备份为 `config\d3dref9自治.ini.before-fire-extra-delay-20260911-230405.bak`。
