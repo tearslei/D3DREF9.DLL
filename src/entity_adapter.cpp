@@ -41,7 +41,6 @@ constexpr uintptr_t kCoordinateHookAbsolute = 0x0063567Fu;
 constexpr std::array<uint8_t, 6> kCoordinateHookBytes{{0x89, 0x8D, 0x20, 0xFF, 0xFF, 0xFF}};
 
 std::atomic<EntityAdapter*> g_activeAdapter{nullptr};
-std::atomic<uint64_t> g_coordinateCallbacks{0};
 
 HMODULE Shell() { return GetModuleHandleW(L"cshell.dll"); }
 
@@ -97,14 +96,19 @@ Vec4 Transform(const Vec4& v, const Matrix4& m) {
 bool EntityAdapter::Initialize() {
     shell_ = Shell();
     coordinateTable_ = 0;
-    pendingHookTable_ = 0;
-    pendingHookObject_ = 0;
+    hookWriteSequence_.store(0, std::memory_order_release);
+    hookReadSequence_ = 0;
+    for (auto& capture : hookCaptures_) {
+        capture.table.store(0, std::memory_order_relaxed);
+        capture.object.store(0, std::memory_order_relaxed);
+        capture.sequence.store(0, std::memory_order_relaxed);
+    }
     g_activeAdapter.store(this, std::memory_order_release);
     if (!shell_) return false;
     // The source-compatible coordinate hook is installed lazily once the
     // client has mapped its game code.  The live 1.1.85.7 bytes at
     // crossfire+0x23567F match kCoordinateHookBytes; without this hook
-    // coordinateTable_ remains zero and every bone read is empty.
+    // coordinatePointers_ remains empty and every bone read is empty.
     return true;
 }
 
@@ -124,9 +128,15 @@ void EntityAdapter::Shutdown() {
         g_activeAdapter.store(nullptr, std::memory_order_release);
     coordinatePointer_.store(0, std::memory_order_release);
     coordinateTable_.store(0, std::memory_order_release);
-    pendingHookTable_.store(0, std::memory_order_release);
-    pendingHookObject_.store(0, std::memory_order_release);
+    hookWriteSequence_.store(0, std::memory_order_release);
+    hookReadSequence_ = 0;
+    for (auto& capture : hookCaptures_) {
+        capture.table.store(0, std::memory_order_relaxed);
+        capture.object.store(0, std::memory_order_relaxed);
+        capture.sequence.store(0, std::memory_order_relaxed);
+    }
     for (auto& p : coordinatePointers_) p.store(0, std::memory_order_release);
+    for (auto& p : coordinateObjects_) p.store(0, std::memory_order_release);
 }
 
 bool EntityAdapter::InstallCoordinateHook() {
@@ -195,49 +205,119 @@ void EntityAdapter::RemoveCoordinateHook() {
 }
 
 void __cdecl EntityAdapter::CoordinateHookCallback(uintptr_t table, uintptr_t object) {
-    g_coordinateCallbacks.fetch_add(1, std::memory_order_relaxed);
     auto* adapter = g_activeAdapter.load(std::memory_order_acquire);
-    // No VirtualQuery, file I/O, or slot loops on the game thread.
+    // No VirtualQuery, file I/O, or slot loops on the game thread.  Publishing
+    // a short ring entry costs only atomic stores and prevents a valid player
+    // callback from being overwritten by the next unrelated object.
     if (adapter) {
-        adapter->pendingHookTable_.store(table, std::memory_order_release);
-        adapter->pendingHookObject_.store(object, std::memory_order_release);
+        const auto sequence = adapter->hookWriteSequence_.fetch_add(1, std::memory_order_relaxed);
+        auto& capture = adapter->hookCaptures_[sequence % kHookCaptureQueueSize];
+        capture.table.store(table, std::memory_order_relaxed);
+        capture.object.store(object, std::memory_order_relaxed);
+        capture.sequence.store(sequence + 1, std::memory_order_release);
     }
 }
 
 void EntityAdapter::RefreshCoordinateCapture() {
-    const auto table = pendingHookTable_.exchange(0, std::memory_order_acq_rel);
-    const auto object = pendingHookObject_.exchange(0, std::memory_order_acq_rel);
-    if (table && object) CaptureCoordinatePointer(object, table);
+    const auto end = hookWriteSequence_.load(std::memory_order_acquire);
+    if (end > hookReadSequence_ + kHookCaptureQueueSize)
+        hookReadSequence_ = end - kHookCaptureQueueSize;
+    // Snapshot OBJECT_uup once per worker tick.  Do not run a 16-slot
+    // VirtualQuery loop for every one of the thousands of hook callbacks.
+    std::array<uint32_t, 16> objects{};
+    const auto root = EntityRoot();
+    if (root) {
+        for (uint32_t slot = 1; slot <= objects.size(); ++slot)
+            Read32(root + (slot - 1u) * kSlotStride, objects[slot - 1u]);
+    }
+    while (hookReadSequence_ < end) {
+        const auto sequence = hookReadSequence_;
+        auto& capture = hookCaptures_[sequence % kHookCaptureQueueSize];
+        if (capture.sequence.load(std::memory_order_acquire) != sequence + 1)
+            break;
+        const auto table = capture.table.load(std::memory_order_relaxed);
+        const auto object = capture.object.load(std::memory_order_relaxed);
+        ++hookReadSequence_;
+        if (!table || !object) continue;
+        for (uint32_t slot = 1; slot <= objects.size(); ++slot) {
+            if (objects[slot - 1u] == object) {
+                CaptureCoordinatePointer(object, table, slot);
+                break;
+            }
+        }
+    }
 }
 
-void EntityAdapter::CaptureCoordinatePointer(uintptr_t object, uintptr_t pointer) {
+void EntityAdapter::CaptureCoordinatePointer(uintptr_t object, uintptr_t pointer, uint32_t knownSlot) {
     if (!object || object < 0x10000u || !pointer || pointer < 0x10000u) return;
     const auto root = EntityRoot();
     if (!root) return;
-    uint32_t matchedSlot = 0;
-    for (uint32_t slot = 1; slot <= 16; ++slot) {
+    uint32_t matchedSlot = knownSlot <= 16 ? knownSlot : 0;
+    if (matchedSlot) {
         uint32_t candidate = 0;
-        if (Read32(root + kSlotTableOffset + (slot - 1) * kSlotStride, candidate) && candidate == object) {
+        if (!Read32(root + (matchedSlot - 1u) * kSlotStride, candidate) || candidate != object)
+            return;
+    } else for (uint32_t slot = 1; slot <= 16; ++slot) {
+        uint32_t candidate = 0;
+        // TCII 判断比较 stores OBJECT_uup[n] from *(OBJECT + stride*n),
+        // whereas the alive/entity pointer is *(OBJECT + 20 + stride*n).
+        // Comparing EAX against the +20 entity pointer can never match.
+        if (Read32(root + (slot - 1) * kSlotStride, candidate) && candidate == object) {
             matchedSlot = slot;
             break;
         }
     }
-    if (!matchedSlot || !Committed(pointer, sizeof(uint32_t))) return;
-    // Source: 数据指针 = 汇编取变量_整数型 (坐标指针[1]).  ECX is
-    // therefore a pointer-to-table, not the table base itself.
-    uint32_t table = 0;
-    if (!Read32(pointer, table) || !table || !Committed(table, 16 * sizeof(uint32_t))) return;
-    uint32_t first = 0;
-    if (!Read32(table, first) || !first || !Committed(first, 4)) return;
-    coordinatePointers_[matchedSlot].store(pointer, std::memory_order_release);
-    coordinatePointer_.store(pointer, std::memory_order_release);
-    // The source's 数据指针 is loaded from 坐标指针[1].  Do not replace the
-    // active table with a callback for another slot.
-    if (matchedSlot == 1) {
-        const auto old = coordinateTable_.exchange(static_cast<uintptr_t>(table), std::memory_order_acq_rel);
-        if (old != table)
-            HookLog("event=capture slot=%u object=0x%08Ix pointer=0x%08Ix table=0x%08Ix", matchedSlot, static_cast<size_t>(object), static_cast<size_t>(pointer), static_cast<size_t>(table));
+    if (!matchedSlot) return;
+
+    // One OBJECT_uup can pass this hook with several transient ECX values.
+    // Accept only a skeleton-shaped coordinate block: root plus all five aim
+    // bones must be finite, close to the root, and not all identical.
+    std::array<uint8_t, 428> raw{};
+    if (!ReadBytes(pointer + kCoordBase, raw.data(), raw.size())) return;
+    auto readPart = [&](uint32_t part, Vec3& out) {
+        const size_t off = static_cast<size_t>(part) * kCoordStride;
+        std::memcpy(&out.x, raw.data() + off + 0, sizeof(float));
+        std::memcpy(&out.z, raw.data() + off + 16, sizeof(float));
+        std::memcpy(&out.y, raw.data() + off + 32, sizeof(float));
+        return std::isfinite(out.x) && std::isfinite(out.y) && std::isfinite(out.z) &&
+               out.x != 0.0f && out.x != -100000.0f &&
+               std::fabs(out.x) < 1000000.0f && std::fabs(out.y) < 1000000.0f &&
+               std::fabs(out.z) < 1000000.0f;
+    };
+    Vec3 rootPoint{};
+    if (!readPart(0, rootPoint)) return;
+    bool haveSpread = false;
+    // A real CF body block has modest root-to-bone distances.  Tightening
+    // this rejects matrices/animation scratch blocks that also contain
+    // finite floats but are not world-space skeleton coordinates.
+    constexpr float kMaxBoneDistanceSq = 200.0f * 200.0f;
+    constexpr float kMaxBoneStepSq = 120.0f * 120.0f;
+    Vec3 previous = rootPoint;
+    for (const auto part : kAimParts) {
+        Vec3 bone{};
+        if (!readPart(part, bone)) return;
+        const float dx = bone.x - rootPoint.x;
+        const float dy = bone.y - rootPoint.y;
+        const float dz = bone.z - rootPoint.z;
+        const float distanceSq = dx * dx + dy * dy + dz * dz;
+        if (!std::isfinite(distanceSq) || distanceSq > kMaxBoneDistanceSq) return;
+        if (distanceSq > 0.25f * 0.25f) haveSpread = true;
+        const float sx = bone.x - previous.x;
+        const float sy = bone.y - previous.y;
+        const float sz = bone.z - previous.z;
+        const float stepSq = sx * sx + sy * sy + sz * sz;
+        if (!std::isfinite(stepSq) || stepSq > kMaxBoneStepSq) return;
+        previous = bone;
     }
+    if (!haveSpread) return;
+
+    coordinatePointers_[matchedSlot].store(pointer, std::memory_order_release);
+    coordinateObjects_[matchedSlot].store(object, std::memory_order_release);
+    coordinatePointer_.store(pointer, std::memory_order_release);
+    const auto old = coordinateTable_.exchange(pointer, std::memory_order_acq_rel);
+    if (old != pointer)
+        HookLog("event=capture slot=%u object=0x%08Ix coordinate=0x%08Ix",
+                matchedSlot, static_cast<size_t>(object), static_cast<size_t>(pointer));
 }
 
 bool EntityAdapter::ReadBytes(uintptr_t address, void* out, size_t size) {
@@ -346,18 +426,16 @@ bool EntityAdapter::ReadPosition(uint32_t slot, uint32_t part, Vec3& out) const 
     out = {};
     if (slot == 0 || slot > 16) return false;
 
-    // TCII source chain (取敌人坐标WW):
-    // data = *(坐标指针[1]); xx = *(data + (slot-1)*4);
-    // x/z/y = xx + 12 + 64*part at offsets 0/16/32.
-    // The table is populated by the coordinate hook at 0x63567F.  Do not
-    // infer a coordinate block from entity+0x2098; that chain is unrelated in
-    // this client and produced zero/invalid aim points.
-    const auto table = coordinateTable_.load(std::memory_order_acquire);
-    if (!table) return false;
-    uint32_t coordinate = 0;
-    if (!Read32(table + (slot - 1u) * sizeof(uint32_t), coordinate) || !coordinate)
-        return false;
-    const auto base = static_cast<uintptr_t>(coordinate) + kCoordBase + kCoordStride * part;
+    // TCII source chain (取敌人坐标WW): 数据指针 is &坐标指针[1],
+    // therefore *(数据指针+(slot-1)*4) is the captured ECX itself.
+    const auto coordinate = coordinatePointers_[slot].load(std::memory_order_acquire);
+    const auto capturedObject = coordinateObjects_[slot].load(std::memory_order_acquire);
+    uint32_t currentObject = 0;
+    const auto root = EntityRoot();
+    if (!coordinate || !capturedObject || !root ||
+        !Read32(root + (slot - 1u) * kSlotStride, currentObject) ||
+        currentObject != capturedObject) return false;
+    const auto base = coordinate + kCoordBase + kCoordStride * part;
     if (!ReadFloat(base + 0, out.x) || !ReadFloat(base + 16, out.z) || !ReadFloat(base + 32, out.y)) return false;
     if (out.x == 0.0f || out.x == -100000.0f) return false;
     return std::isfinite(out.x) && std::isfinite(out.y) && std::isfinite(out.z);
@@ -404,12 +482,14 @@ std::vector<EntitySnapshot> EntityAdapter::Snapshot() const {
         // Read the complete coordinate block once per slot.  The previous
         // path called ReadFloat/VirtualQuery up to 18 times per slot and was
         // sampled every 5–10 ms, which consumed noticeable frame time.
-        const auto table = coordinateTable_.load(std::memory_order_acquire);
-        uint32_t coordinate = 0;
+        const auto coordinate = coordinatePointers_[slot].load(std::memory_order_acquire);
+        const auto capturedObject = coordinateObjects_[slot].load(std::memory_order_acquire);
+        uint32_t currentObject = 0;
         std::array<uint8_t, 428> raw{};
-        if (table && Read32(table + (slot - 1u) * sizeof(uint32_t), coordinate) &&
-            coordinate && ReadBytes(static_cast<uintptr_t>(coordinate) + kCoordBase,
-                                    raw.data(), raw.size())) {
+        if (coordinate && capturedObject &&
+            Read32(root + (slot - 1u) * kSlotStride, currentObject) &&
+            currentObject == capturedObject &&
+            ReadBytes(coordinate + kCoordBase, raw.data(), raw.size())) {
             auto readPart = [&](uint32_t part, Vec3& out) {
                 const size_t off = static_cast<size_t>(part) * kCoordStride;
                 std::memcpy(&out.x, raw.data() + off + 0, sizeof(float));

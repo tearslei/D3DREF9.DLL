@@ -98,7 +98,7 @@ public:
 private:
     bool InstallCoordinateHook();
     void RemoveCoordinateHook();
-    void CaptureCoordinatePointer(uintptr_t object, uintptr_t table);
+    void CaptureCoordinatePointer(uintptr_t object, uintptr_t pointer, uint32_t knownSlot = 0);
     static void __cdecl CoordinateHookCallback(uintptr_t table, uintptr_t object);
     static bool ReadBytes(uintptr_t address, void* out, size_t size);
     static bool Read32(uintptr_t address, uint32_t& out);
@@ -114,23 +114,35 @@ private:
                  uint8_t localZombie, uint8_t targetZombie) const;
 
     HMODULE shell_{};
-    // ECX captured by the coordinate hook is a per-object pointer.  The
-    // source stores it in 坐标指针[n] and dereferences it once to obtain the
-    // shared table (数据指针).  Keep both values so diagnostics can prove the
-    // pointer chain instead of treating ECX as the table itself.
+    // ECX captured by the coordinate hook is the coordinate block pointer
+    // stored in source array 坐标指针[n].  数据指针 is the address of that
+    // source array (汇编取变量_整数型 takes its argument by reference); it is
+    // not *坐标指针[1] and there is no shared-table dereference.
     std::atomic<uintptr_t> coordinatePointer_{0};
+    // Retained as a diagnostic "last valid coordinate block" value for the
+    // existing CSV/API name CoordinateTable().
     mutable std::atomic<uintptr_t> coordinateTable_{0};
-    // The hook runs on the game's render/update thread.  Only publish the
-    // two raw arguments there; pointer validation and slot matching happen on
-    // the worker thread to keep the game thread out of VirtualQuery/loops.
-    std::atomic<uintptr_t> pendingHookTable_{0};
-    std::atomic<uintptr_t> pendingHookObject_{0};
-    // TCII keeps one coordinate-pointer per player slot.  The shared data
-    // pointer used by取敌人坐标_ing is specifically 坐标指针[1], so retaining
-    // only the last callback would occasionally bind the table to another
-    // player and return mismatched bones.  Keep all 16 pointers and publish
-    // the slot-1 table as the active snapshot source.
+    // The hook runs on the game's render/update thread.  Pointer validation
+    // and slot matching must stay on the worker, but a single "latest pair"
+    // loses the player callback when a later non-player callback overwrites
+    // it before the 20 ms worker tick.  Preserve a bounded stream instead.
+    static constexpr size_t kHookCaptureQueueSize = 512;
+    struct HookCapture {
+        std::atomic<uintptr_t> table{0};
+        std::atomic<uintptr_t> object{0};
+        std::atomic<uint32_t> sequence{0};
+    };
+    std::array<HookCapture, kHookCaptureQueueSize> hookCaptures_{};
+    std::atomic<uint32_t> hookWriteSequence_{0};
+    uint32_t hookReadSequence_{0};
+    // TCII keeps one coordinate pointer per player slot.  Retaining only the
+    // last callback would bind every slot to whichever object rendered last,
+    // so keep each validated slot pointer independently.
     std::array<std::atomic<uintptr_t>, 21> coordinatePointers_{};
+    // Bind every captured coordinate block to the exact OBJECT_uup pointer
+    // that produced it.  This rejects stale blocks after death/respawn/map
+    // transitions before they can be used for target selection.
+    std::array<std::atomic<uintptr_t>, 21> coordinateObjects_{};
     Matrix4 view_{};
     Matrix4 projection_{};
     Viewport viewport_{};
