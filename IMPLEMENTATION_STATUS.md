@@ -96,3 +96,9 @@ python .\\tools\\inspect_pe_exports.py .\\D3DREF9.DLL
 - 已重新编译、通过 ordinal-1 PE 验证并部署到客户端。
 - 新 DLL SHA-256：`4E5771849490CBDCBBFDA456E0DA3C3FC2BB4FEF180A793A902BD3FA08742596`。
 - 客户端配置已备份为 `config\d3dref9自治.ini.before-fire-extra-delay-20260911-230405.bak`。
+
+### 2026-09-11 瞬狙先瞄准后开火修正
+- 调整 `InstantSniper::Run()`：不再要求未开镜状态先获取目标；先按下右键并等待原 scope_delay，再在开镜状态重新筛选目标并写入瞄准角度，之后再等待 `fire_extra_delay_ms=70` 才发送左键。
+- 这样瞬狙流程明确变为：右键激活 → 开镜后自瞄 → 等待 70 ms → 自动开火。
+- 新构建 SHA-256：`18E0BBB73BADC326DEBB47D8AFD41D5B02FCBE26B23569EFCB64626559B5A7DC`。
+- 当前 `crossfire.exe` PID 8464 正在运行，已将新 DLL 暂存为客户端 `D3DREF9.DLL.next`；退出游戏后再替换正式 DLL，避免覆盖正在使用的文件。

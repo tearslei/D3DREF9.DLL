@@ -145,20 +145,12 @@ void InstantSniper::Run(){
         }
         const uint64_t epoch=aimToggleEpoch_.load();
         const bool wasAim=Features().IsOn(Feature::AimAutoFire);
-        AimBone selected=AimBone::Neck; EntitySnapshot target{};
-        if (!GameHandlers::Instance().AcquireTarget(target, &selected, true)) { SleepMs(5); continue; }
         std::array<WORD, 4> releasedMove{}; size_t releasedCount = 0;
         if (!BrakeMovement(r, releasedMove, releasedCount)) {
             RestoreMovement(r, releasedMove, releasedCount);
             break;
         }
-        // Re-sample after braking so the angle is based on the stabilized
-        // camera/player pose rather than the pre-brake frame.
-        if (!GameHandlers::Instance().AcquireTarget(target, &selected, true)) {
-            RestoreMovement(r, releasedMove, releasedCount);
-            SleepMs(5); continue;
-        }
-        GameHandlers::Instance().AimTarget(target, selected);
+        AimBone selected=AimBone::Neck; EntitySnapshot target{};
         bool rightDown=false,leftDown=false;
         bool pausedAim=false;
         auto restoreAim=[&]{
@@ -175,6 +167,15 @@ void InstantSniper::Run(){
         };
         r.MouseButton(MOUSEEVENTF_RIGHTDOWN,true,InputOwner::Sniper); rightDown=true;
         if (!waitHeld(delay(scopeDelayMin_,scopeDelayMax_))) { cleanup(); break; }
+        // Scope first, then acquire and write the aim angle from the scoped
+        // camera/player pose.  The extra delay below gives the game time to
+        // consume that angle before the synthetic left click is sent.
+        if (!GameHandlers::Instance().AcquireTarget(target, &selected, true) ||
+            !GameHandlers::Instance().AimTarget(target, selected)) {
+            cleanup();
+            SleepMs(5);
+            continue;
+        }
         // Give the aim write time to be consumed by the game after the
         // physical scope button is pressed.  This is intentionally separate
         // from scope_delay so it can be tuned without changing the original
