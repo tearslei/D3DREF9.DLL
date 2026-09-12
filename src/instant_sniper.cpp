@@ -180,7 +180,7 @@ void InstantSniper::Run(){
                 target = candidate; selected = candidateBone; aimed = true;
                 break;
             }
-            if (!waitHeld(3u)) break;
+            if (!waitHeld(5u)) break;
         } while (held());
         if (!aimed || !held()) break;
 
@@ -195,7 +195,7 @@ void InstantSniper::Run(){
             }
             const uint64_t pollNow = GetTickCount64();
             if (!fireExtraDelayMs_ || pollNow >= aimDeadline) break;
-            if (!waitHeld((std::min<uint32_t>)(2u,
+            if (!waitHeld((std::min<uint32_t>)(5u,
                     static_cast<uint32_t>(aimDeadline - pollNow)))) break;
         } while (held());
         if (!held()) break;
