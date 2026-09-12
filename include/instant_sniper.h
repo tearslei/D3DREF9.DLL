@@ -15,7 +15,7 @@ private: InstantSniper()=default; std::atomic<bool> busy_{false},sniperMode_{fal
  uint32_t switch3HoldMin_{45}, switch3HoldMax_{45};
  uint32_t switch1DelayMin_{100}, switch1DelayMax_{100};
  uint32_t switch1HoldMin_{25}, switch1HoldMax_{25};
- uint32_t postSwitchCooldownMs_{300};
+ uint32_t postSwitchCooldownMs_{400};
  uint32_t movementBrakeMs_{25};
  uint32_t movementRestoreDelayMs_{35};
  bool movementBrake_{true};

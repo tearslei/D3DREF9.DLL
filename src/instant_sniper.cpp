@@ -54,7 +54,7 @@ void InstantSniper::LoadConfig(){
     range(L"switch3_hold",45,45,switch3HoldMin_,switch3HoldMax_);
     range(L"switch1_delay",100,100,switch1DelayMin_,switch1DelayMax_);
     range(L"switch1_hold",25,25,switch1HoldMin_,switch1HoldMax_);
-    postSwitchCooldownMs_=ReadMs(L"instant_sniper",L"post_switch_cooldown_ms",300,path);
+    postSwitchCooldownMs_=ReadMs(L"instant_sniper",L"post_switch_cooldown_ms",400,path);
     movementBrakeMs_=ReadMs(L"instant_sniper",L"movement_brake_ms",25,path);
     movementRestoreDelayMs_=ReadMs(L"instant_sniper",L"movement_restore_delay_ms",35,path);
     movementBrake_=ReadBool(L"instant_sniper",L"movement_brake",true,path);
@@ -168,21 +168,36 @@ void InstantSniper::Run(){
         };
         r.MouseButton(MOUSEEVENTF_RIGHTDOWN,true,InputOwner::Sniper); rightDown=true;
         if (!waitHeld(delay(scopeDelayMin_,scopeDelayMax_))) { cleanup(); break; }
-        // Scope first, then acquire and write the aim angle from the scoped
-        // camera/player pose.  The extra delay below gives the game time to
-        // consume that angle before the synthetic left click is sent.
+        // Scope first, then keep reacquiring the nearest visible target while
+        // the scoped camera settles.  A single snapshot here was too stale:
+        // if the enemy moved during the fire delay, the shot used the old
+        // angle (or no longer matched the crosshair).  Polling also lets a
+        // target that enters the medium sniper window during this period be
+        // acquired before the click is sent.
+        const uint64_t aimDeadline = GetTickCount64() + fireExtraDelayMs_;
+        bool aimed = false;
+        do {
+            EntitySnapshot candidate{}; AimBone candidateBone = AimBone::Neck;
+            if (GameHandlers::Instance().AcquireTarget(candidate, &candidateBone, true) &&
+                GameHandlers::Instance().AimTarget(candidate, candidateBone)) {
+                target = candidate;
+                selected = candidateBone;
+                aimed = true;
+            }
+            const uint64_t pollNow = GetTickCount64();
+            if (!fireExtraDelayMs_ || pollNow >= aimDeadline) break;
+            if (!waitHeld((std::min<uint32_t>)(2u,
+                    static_cast<uint32_t>(aimDeadline - pollNow)))) {
+                cleanup(); break;
+            }
+        } while (held());
+        if (!aimed || !held()) { cleanup(); break; }
+        // Final reacquisition immediately before firing rejects stale targets
+        // that left the window or became occluded during the last poll.
         if (!GameHandlers::Instance().AcquireTarget(target, &selected, true) ||
             !GameHandlers::Instance().AimTarget(target, selected)) {
-            cleanup();
-            SleepMs(5);
-            busy_ = false;
-            return;
+            cleanup(); break;
         }
-        // Give the aim write time to be consumed by the game after the
-        // physical scope button is pressed.  This is intentionally separate
-        // from scope_delay so it can be tuned without changing the original
-        // random scope timing.  Default: an additional 70 ms before firing.
-        if (!waitHeld(fireExtraDelayMs_)) { cleanup(); break; }
         if (pauseAim_ || pauseAutoFire_) { Features().Set(Feature::AimAutoFire,false); pausedAim=true; }
         r.MouseButton(MOUSEEVENTF_LEFTDOWN,true,InputOwner::Sniper); leftDown=true;
         if (!waitHeld(delay(fireHoldMin_,fireHoldMax_))) { cleanup(); break; }
