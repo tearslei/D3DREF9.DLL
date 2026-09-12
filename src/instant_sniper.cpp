@@ -137,12 +137,13 @@ void InstantSniper::Run(){
         }
         return held();
     };
-    while (held()) {
-        const auto now = GetTickCount64();
-        if (cooldownEnd_.load() > now) {
-            if (!waitHeld((uint32_t)(std::min<uint64_t>)(5u, cooldownEnd_.load() - now))) break;
-            continue;
-        }
+    // One physical RMB press starts exactly one scope/fire transaction.  Do
+    // not loop while RMB remains held: repeating RIGHTDOWN/RIGHTUP after the
+    // shot makes CF toggle the scope magnification back and forth.
+    if (!held()) { busy_ = false; return; }
+    const auto now = GetTickCount64();
+    if (cooldownEnd_.load() > now) { busy_ = false; return; }
+    do {
         const uint64_t epoch=aimToggleEpoch_.load();
         const bool wasAim=Features().IsOn(Feature::AimAutoFire);
         std::array<WORD, 4> releasedMove{}; size_t releasedCount = 0;
@@ -174,7 +175,8 @@ void InstantSniper::Run(){
             !GameHandlers::Instance().AimTarget(target, selected)) {
             cleanup();
             SleepMs(5);
-            continue;
+            busy_ = false;
+            return;
         }
         // Give the aim write time to be consumed by the game after the
         // physical scope button is pressed.  This is intentionally separate
@@ -210,7 +212,7 @@ void InstantSniper::Run(){
         cooldownEnd_=GetTickCount64()+postSwitchCooldownMs_;
         if (!waitHeld(postSwitchCooldownMs_)) { cleanup(); break; }
         cleanup();
-    }
+    } while (false);
     busy_=false;
 }
 }
