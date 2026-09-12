@@ -137,78 +137,85 @@ void InstantSniper::Run(){
         }
         return held();
     };
-    // One physical RMB press starts exactly one scope/fire transaction.  Do
-    // not loop while RMB remains held: repeating RIGHTDOWN/RIGHTUP after the
-    // shot makes CF toggle the scope magnification back and forth.
+    // A physical RMB hold represents one continuous sniper session.  Send
+    // exactly one synthetic RIGHTDOWN at session start and keep it held while
+    // polling for a visible target.  Releasing/re-pressing RIGHT between
+    // shots toggles CF's scope magnification and was the cause of the old
+    // flashing-scope behaviour.
     if (!held()) { busy_ = false; return; }
-    const auto now = GetTickCount64();
-    if (cooldownEnd_.load() > now) { busy_ = false; return; }
-    do {
-        const uint64_t epoch=aimToggleEpoch_.load();
-        const bool wasAim=Features().IsOn(Feature::AimAutoFire);
-        std::array<WORD, 4> releasedMove{}; size_t releasedCount = 0;
-        if (!BrakeMovement(r, releasedMove, releasedCount)) {
-            RestoreMovement(r, releasedMove, releasedCount);
-            break;
+    const uint64_t epoch=aimToggleEpoch_.load();
+    const bool wasAim=Features().IsOn(Feature::AimAutoFire);
+    std::array<WORD, 4> releasedMove{}; size_t releasedCount = 0;
+    AimBone selected=AimBone::Neck; EntitySnapshot target{};
+    bool rightDown=false,leftDown=false,pausedAim=false;
+    auto restoreAim=[&]{
+        if(pausedAim && wasAim && aimToggleEpoch_.load()==epoch)
+            Features().Set(Feature::AimAutoFire,true);
+        pausedAim=false;
+    };
+    auto cleanup=[&]{
+        if(leftDown)r.MouseButton(MOUSEEVENTF_LEFTDOWN,false,InputOwner::Sniper);
+        if(rightDown)r.MouseButton(MOUSEEVENTF_RIGHTDOWN,false,InputOwner::Sniper);
+        restoreAim();
+        RestoreMovement(r, releasedMove, releasedCount);
+        releasedCount = 0;
+    };
+    r.MouseButton(MOUSEEVENTF_RIGHTDOWN,true,InputOwner::Sniper); rightDown=true;
+    if (!waitHeld(delay(scopeDelayMin_,scopeDelayMax_))) { cleanup(); busy_=false; return; }
+
+    while (held()) {
+        const uint64_t cooldown = CooldownLeft();
+        if (cooldown) {
+            if (!waitHeld((std::min<uint64_t>)(5u, cooldown))) break;
+            continue;
         }
-        AimBone selected=AimBone::Neck; EntitySnapshot target{};
-        bool rightDown=false,leftDown=false;
-        bool pausedAim=false;
-        auto restoreAim=[&]{
-            if(pausedAim && wasAim && aimToggleEpoch_.load()==epoch)
-                Features().Set(Feature::AimAutoFire,true);
-            pausedAim=false;
-        };
-        auto cleanup=[&]{
-            if(leftDown)r.MouseButton(MOUSEEVENTF_LEFTDOWN,false,InputOwner::Sniper);
-            if(rightDown)r.MouseButton(MOUSEEVENTF_RIGHTDOWN,false,InputOwner::Sniper);
-            restoreAim();
-            RestoreMovement(r, releasedMove, releasedCount);
-            releasedCount = 0;
-        };
-        r.MouseButton(MOUSEEVENTF_RIGHTDOWN,true,InputOwner::Sniper); rightDown=true;
-        if (!waitHeld(delay(scopeDelayMin_,scopeDelayMax_))) { cleanup(); break; }
-        // Scope first, then keep reacquiring the nearest visible target while
-        // the scoped camera settles.  A single snapshot here was too stale:
-        // if the enemy moved during the fire delay, the shot used the old
-        // angle (or no longer matched the crosshair).  Polling also lets a
-        // target that enters the medium sniper window during this period be
-        // acquired before the click is sent.
-        const uint64_t aimDeadline = GetTickCount64() + fireExtraDelayMs_;
+
+        // No target is not an error: remain scoped and keep sampling until an
+        // enemy enters the medium window and passes the visibility test.
         bool aimed = false;
         do {
             EntitySnapshot candidate{}; AimBone candidateBone = AimBone::Neck;
             if (GameHandlers::Instance().AcquireTarget(candidate, &candidateBone, true) &&
                 GameHandlers::Instance().AimTarget(candidate, candidateBone)) {
-                target = candidate;
-                selected = candidateBone;
-                aimed = true;
+                target = candidate; selected = candidateBone; aimed = true;
+                break;
+            }
+            if (!waitHeld(3u)) break;
+        } while (held());
+        if (!aimed || !held()) break;
+
+        // Keep updating the angle during the configured pre-fire delay so a
+        // moving target cannot leave the aim point between scope and click.
+        const uint64_t aimDeadline = GetTickCount64() + fireExtraDelayMs_;
+        do {
+            EntitySnapshot candidate{}; AimBone candidateBone = AimBone::Neck;
+            if (GameHandlers::Instance().AcquireTarget(candidate, &candidateBone, true) &&
+                GameHandlers::Instance().AimTarget(candidate, candidateBone)) {
+                target = candidate; selected = candidateBone;
             }
             const uint64_t pollNow = GetTickCount64();
             if (!fireExtraDelayMs_ || pollNow >= aimDeadline) break;
             if (!waitHeld((std::min<uint32_t>)(2u,
-                    static_cast<uint32_t>(aimDeadline - pollNow)))) {
-                cleanup(); break;
-            }
+                    static_cast<uint32_t>(aimDeadline - pollNow)))) break;
         } while (held());
-        if (!aimed || !held()) { cleanup(); break; }
-        // Final reacquisition immediately before firing rejects stale targets
-        // that left the window or became occluded during the last poll.
+        if (!held()) break;
+
+        // Brake movement only for the actual shot, then reacquire once more
+        // after the brake so the written angle corresponds to the final pose.
+        releasedCount = 0;
+        if (!BrakeMovement(r, releasedMove, releasedCount)) break;
         if (!GameHandlers::Instance().AcquireTarget(target, &selected, true) ||
             !GameHandlers::Instance().AimTarget(target, selected)) {
-            cleanup(); break;
+            RestoreMovement(r, releasedMove, releasedCount); releasedCount=0; continue;
         }
         if (pauseAim_ || pauseAutoFire_) { Features().Set(Feature::AimAutoFire,false); pausedAim=true; }
         r.MouseButton(MOUSEEVENTF_LEFTDOWN,true,InputOwner::Sniper); leftDown=true;
         if (!waitHeld(delay(fireHoldMin_,fireHoldMax_))) { cleanup(); break; }
         r.MouseButton(MOUSEEVENTF_LEFTDOWN,false,InputOwner::Sniper); leftDown=false;
         if (!waitHeld(delay(unscopeDelayMin_,unscopeDelayMax_))) { cleanup(); break; }
-        r.MouseButton(MOUSEEVENTF_RIGHTDOWN,false,InputOwner::Sniper); rightDown=false;
         if (!waitHeld(delay(recoveryMin_,recoveryMax_))) { cleanup(); break; }
         // Legacy TCII firing chain: after the scoped shot, switch to weapon 3,
-        // then back to weapon 1.  This is part of the shot transaction, not a
-        // separate macro, so the ordinary aim/fire loop stays paused until it
-        // has completed.
+        // then back to weapon 1.  RIGHT remains held; no scope toggle is sent.
         if (!waitHeld(delay(switch3DelayMin_,switch3DelayMax_))) { cleanup(); break; }
         r.KeyScan(0x04, true, InputOwner::Sniper); // 3
         if (!waitHeld(delay(switch3HoldMin_,switch3HoldMax_))) { r.KeyScan(0x04,false,InputOwner::Sniper); cleanup(); break; }
@@ -217,17 +224,12 @@ void InstantSniper::Run(){
         r.KeyScan(0x02, true, InputOwner::Sniper); // 1
         if (!waitHeld(delay(switch1HoldMin_,switch1HoldMax_))) { r.KeyScan(0x02,false,InputOwner::Sniper); cleanup(); break; }
         r.KeyScan(0x02, false, InputOwner::Sniper);
-        // Movement braking is only for the shot itself. Restore WASD before
-        // entering the 300 ms post-switch cooldown so the player can move
-        // during the cooldown while aim/fire remains paused.
-        RestoreMovement(r, releasedMove, releasedCount);
-        releasedCount = 0;
-        // The requested cooldown starts after the 3 -> 1 chain.  Keep the
-        // ordinary aim/fire feature disabled during this period.
+        RestoreMovement(r, releasedMove, releasedCount); releasedCount=0;
         cooldownEnd_=GetTickCount64()+postSwitchCooldownMs_;
-        if (!waitHeld(postSwitchCooldownMs_)) { cleanup(); break; }
-        cleanup();
-    } while (false);
+        // Keep the scope session alive through the cooldown.  If RMB is still
+        // held, the loop resumes target acquisition without another RIGHTDOWN.
+    }
+    cleanup();
     busy_=false;
 }
 }
