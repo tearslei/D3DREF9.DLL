@@ -78,6 +78,8 @@ private:
     uint64_t lastEntityLog_{0};
     uint64_t lastAutoFire_{0};
     uint32_t nextAutoFireIntervalMs_{130};
+    bool ordinaryLmbDown_{false};
+    bool ordinaryFirstShot_{true};
     uint64_t lastAimGateLog_{0};
     uint32_t lastAimGateCode_{0};
     uint64_t lastAimTargetLog_{0};

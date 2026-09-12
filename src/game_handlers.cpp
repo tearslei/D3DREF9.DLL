@@ -586,8 +586,18 @@ void GameHandlers::TickAimAndFire() {
     const bool physicalLmb = InputRouter::Instance().Physical(VK_LBUTTON);
     if (!physicalLmb) {
         targetReady_ = false; aimReady_ = false;
+        ordinaryLmbDown_ = false;
+        ordinaryFirstShot_ = true;
         LogAimGate(7);
         return;
+    }
+    // A new physical LMB press starts a fresh ordinary-mode session.  The
+    // first valid target is fired as soon as aim_settle_ms has elapsed; the
+    // 85-100 ms random interval is applied only between subsequent shots.
+    if (!ordinaryLmbDown_) {
+        ordinaryLmbDown_ = true;
+        ordinaryFirstShot_ = true;
+        lastAutoFire_ = 0;
     }
     if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) return;
     EntitySnapshot target{}; AimBone bone{};
@@ -596,8 +606,9 @@ void GameHandlers::TickAimAndFire() {
     const auto now = GetTickCount64();
     if (!aimReady_ || now - aimReadyAt_ < aimConfig_.aimSettleMs) return;
     // Alt+Z + physical LMB 普通模式为自动开枪；节流到 aim.auto_fire_interval_ms。
-    if (now - lastAutoFire_ >= nextAutoFireIntervalMs_) {
+    if (ordinaryFirstShot_ || now - lastAutoFire_ >= nextAutoFireIntervalMs_) {
         lastAutoFire_ = now;
+        ordinaryFirstShot_ = false;
         // TCII's original path uses the legacy mouse_event API.  On this
         // client it reaches the DirectInput mouse queue more reliably than a
         // pure SendInput pair.
