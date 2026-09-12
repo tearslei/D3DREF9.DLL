@@ -9,6 +9,7 @@
 #include <cfloat>
 #include <cwchar>
 #include <tlhelp32.h>
+#include <random>
 
 namespace d3dref9 {
 namespace {
@@ -329,7 +330,14 @@ void GameHandlers::LoadAimConfig() {
     aimConfig_.bodyPaddingPx = (std::max)(0.0f, IniFloat(path, L"body_padding_px", 4.0f));
     aimConfig_.lockHoldMs = IniUint(path, L"lock_hold_ms", 80u);
     aimConfig_.switchMarginPx = (std::max)(0.0f, IniFloat(path, L"switch_margin_px", 3.0f));
-    aimConfig_.autoFireIntervalMs = (std::max<uint32_t>)(1u, IniUint(path, L"auto_fire_interval_ms", 130u));
+    // New configuration uses an inclusive random interval.  Keep the old
+    // single-value key as a fallback for existing installations.
+    const uint32_t legacyInterval = (std::max<uint32_t>)(1u, IniUint(path, L"auto_fire_interval_ms", 130u));
+    aimConfig_.autoFireIntervalMinMs = (std::max<uint32_t>)(1u, IniUint(path, L"auto_fire_interval_min_ms", legacyInterval));
+    aimConfig_.autoFireIntervalMaxMs = (std::max<uint32_t>)(1u, IniUint(path, L"auto_fire_interval_max_ms", legacyInterval));
+    if (aimConfig_.autoFireIntervalMaxMs < aimConfig_.autoFireIntervalMinMs)
+        std::swap(aimConfig_.autoFireIntervalMaxMs, aimConfig_.autoFireIntervalMinMs);
+    nextAutoFireIntervalMs_ = aimConfig_.autoFireIntervalMinMs;
     aimConfig_.visibilityRequired = IniBool(path, L"visibility_required", true);
     aimConfig_.visibilityFailClosed = IniBool(path, L"visibility_fail_closed", true);
     aimConfig_.instantRangeDivisor = (std::max<uint32_t>)(1u, IniUint(path, L"instant_range_divisor", 8u));
@@ -588,7 +596,7 @@ void GameHandlers::TickAimAndFire() {
     const auto now = GetTickCount64();
     if (!aimReady_ || now - aimReadyAt_ < aimConfig_.aimSettleMs) return;
     // Alt+Z + physical LMB 普通模式为自动开枪；节流到 aim.auto_fire_interval_ms。
-    if (now - lastAutoFire_ >= aimConfig_.autoFireIntervalMs) {
+    if (now - lastAutoFire_ >= nextAutoFireIntervalMs_) {
         lastAutoFire_ = now;
         // TCII's original path uses the legacy mouse_event API.  On this
         // client it reaches the DirectInput mouse queue more reliably than a
@@ -603,6 +611,11 @@ void GameHandlers::TickAimAndFire() {
             InputRouter::Instance().Physical(VK_LBUTTON)) {
             InputRouter::Instance().MouseMove(0, aimConfig_.antiRecoilPixels);
         }
+        static thread_local std::mt19937 rng(
+            static_cast<uint32_t>(GetTickCount64()) ^ GetCurrentThreadId());
+        std::uniform_int_distribution<uint32_t> dist(
+            aimConfig_.autoFireIntervalMinMs, aimConfig_.autoFireIntervalMaxMs);
+        nextAutoFireIntervalMs_ = dist(rng);
         const UINT sent = 1u; // one legacy click dispatched (down + up)
         if (now - lastAutoFireLog_ >= 250u) {
             lastAutoFireLog_ = now;

@@ -42,7 +42,8 @@ private:
         float bodyPaddingPx{4.0f};
         uint32_t lockHoldMs{80};
         float switchMarginPx{3.0f};
-        uint32_t autoFireIntervalMs{130};
+        uint32_t autoFireIntervalMinMs{85};
+        uint32_t autoFireIntervalMaxMs{130};
         bool visibilityRequired{true};
         bool visibilityFailClosed{true};
         uint32_t instantRangeDivisor{8};
@@ -76,6 +77,7 @@ private:
     uint64_t lastRoomPulse_{0};
     uint64_t lastEntityLog_{0};
     uint64_t lastAutoFire_{0};
+    uint32_t nextAutoFireIntervalMs_{130};
     uint64_t lastAimGateLog_{0};
     uint32_t lastAimGateCode_{0};
     uint64_t lastAimTargetLog_{0};
