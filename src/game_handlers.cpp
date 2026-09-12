@@ -335,6 +335,8 @@ void GameHandlers::LoadAimConfig() {
     aimConfig_.instantRangeDivisor = (std::max<uint32_t>)(1u, IniUint(path, L"instant_range_divisor", 8u));
     aimConfig_.aimSettleMs = IniUint(path, L"aim_settle_ms", 35u);
     aimConfig_.aimWriteThresholdRad = (std::max)(0.001f, IniFloat(path, L"aim_write_threshold_deg", 1.0f) * 3.14159265358979323846f / 180.0f);
+    aimConfig_.antiRecoilEnabled = IniBool(path, L"anti_recoil_enabled", true);
+    aimConfig_.antiRecoilPixels = static_cast<int>(IniUint(path, L"anti_recoil_pixels", 1u));
     Log("aim_config_loaded", Feature::AimAutoFire, true,
         static_cast<uintptr_t>(aimConfig_.microRangeDivisor),
         static_cast<uint32_t>(aimConfig_.microRadiusPx));
@@ -593,6 +595,14 @@ void GameHandlers::TickAimAndFire() {
         // pure SendInput pair.
         mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
         mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+        // Apply only a tiny downward correction after the click.  The next
+        // aim tick immediately rewrites the target angle, so this does not
+        // compete with the memory-based aim write and is limited to ordinary
+        // rifle mode (sniper mode never enters this function).
+        if (aimConfig_.antiRecoilEnabled && aimConfig_.antiRecoilPixels > 0 &&
+            InputRouter::Instance().Physical(VK_LBUTTON)) {
+            InputRouter::Instance().MouseMove(0, aimConfig_.antiRecoilPixels);
+        }
         const UINT sent = 1u; // one legacy click dispatched (down + up)
         if (now - lastAutoFireLog_ >= 250u) {
             lastAutoFireLog_ = now;

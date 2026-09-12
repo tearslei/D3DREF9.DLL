@@ -208,6 +208,12 @@ void InstantSniper::Run(){
             !GameHandlers::Instance().AimTarget(target, selected)) {
             RestoreMovement(r, releasedMove, releasedCount); releasedCount=0; continue;
         }
+        // Let at least one game-frame consume the post-brake angle before the
+        // trigger is sent.  This prevents a moving player's last WASD update
+        // from winning over the freshly written pitch/yaw.
+        if (!waitHeld(GameHandlers::Instance().AimSettleMs())) {
+            cleanup(); break;
+        }
         if (pauseAim_ || pauseAutoFire_) { Features().Set(Feature::AimAutoFire,false); pausedAim=true; }
         r.MouseButton(MOUSEEVENTF_LEFTDOWN,true,InputOwner::Sniper); leftDown=true;
         if (!waitHeld(delay(fireHoldMin_,fireHoldMax_))) { cleanup(); break; }

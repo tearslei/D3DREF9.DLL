@@ -25,6 +25,7 @@ public:
     bool AcquireTarget(EntitySnapshot& out, AimBone* bone = nullptr,
                        bool instantSniper = false);
     bool AimTarget(const EntitySnapshot& target, AimBone bone);
+    uint32_t AimSettleMs() const { return aimConfig_.aimSettleMs; }
     // Source-compatible ray visibility test. Returns true when the client
     // reports no blocking hit. Missing/invalid engine state returns false so
     // the obstacle filter is fail-closed.
@@ -47,6 +48,8 @@ private:
         uint32_t instantRangeDivisor{8};
         uint32_t aimSettleMs{35};
         float aimWriteThresholdRad{0.018f};
+        bool antiRecoilEnabled{true};
+        int antiRecoilPixels{1};
     };
 
     GameHandlers() = default;
