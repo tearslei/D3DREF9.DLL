@@ -9,6 +9,25 @@ constexpr WORD SC_W=0x011, SC_S=0x01F, SC_A=0x01E, SC_D=0x020;
 constexpr WORD SC_SPACE=0x039, SC_CTRL=0x01D, SC_SHIFT=0x02A;
 void MacroLog(const char*,uint32_t=0,uint32_t=0) {}
 bool FeatureModifierHeld(const InputRouter& r){return r.Physical(VK_F7)||r.Physical(VK_F9)||r.Physical(VK_F10);}
+std::wstring ConfigPath(){
+ HMODULE module=nullptr;
+ if(!GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
+     reinterpret_cast<LPCWSTR>(&MacroEngine::Instance),&module))return {};
+ wchar_t file[MAX_PATH]{};
+ if(!GetModuleFileNameW(module,file,MAX_PATH))return {};
+ std::wstring path(file);const auto slash=path.find_last_of(L"\\/");
+ if(slash==std::wstring::npos)return {};path.resize(slash);
+ return path+L"\\config\\d3dref9自治.ini";
+}
+bool ConfigEnabled(){
+ const auto path=ConfigPath();
+ if(path.empty())return false;
+ wchar_t value[16]{};
+ GetPrivateProfileStringW(L"macro",L"enabled",L"false",value,
+     static_cast<DWORD>(std::size(value)),path.c_str());
+ return _wcsicmp(value,L"1")==0||_wcsicmp(value,L"true")==0||
+        _wcsicmp(value,L"yes")==0||_wcsicmp(value,L"on")==0;
+}
 void MoveRelativeSmooth(int logicalDx,int logicalDy){
  HDC dc=GetDC(nullptr); int dpi=dc?GetDeviceCaps(dc,LOGPIXELSX):96; if(dc)ReleaseDC(nullptr,dc);
  double scale=96.0/(double)(std::max)(dpi,96); int dx=(int)std::lround(logicalDx*scale); int dy=(int)std::lround(logicalDy*scale);
@@ -20,9 +39,13 @@ void MoveRelativeSmooth(int logicalDx,int logicalDy){
 }
 }
 MacroEngine& MacroEngine::Instance(){static MacroEngine m;return m;}
-void MacroEngine::Start(){emergency_=false;enabled_=true;MacroLog("start");}
+void MacroEngine::Start(){
+ emergency_=false;enabled_=ConfigEnabled();action_=0;running_=false;generation_++;
+ if(!enabled_)InputRouter::Instance().ReleaseOwned(InputOwner::Macro);
+ MacroLog(enabled_?"start":"start_disabled");
+}
 void MacroEngine::Stop(){emergency_=true;enabled_=false;generation_++;action_=0;running_=false;InputRouter::Instance().ReleaseOwned(InputOwner::Macro);MacroLog("stop");}
-void MacroEngine::Toggle(){if(enabled_){enabled_=false;emergency_=false;generation_++;action_=0;running_=false;InputRouter::Instance().ReleaseOwned(InputOwner::Macro);MacroLog("pause");}else Start();}
+void MacroEngine::Toggle(){if(enabled_){enabled_=false;emergency_=false;generation_++;action_=0;running_=false;InputRouter::Instance().ReleaseOwned(InputOwner::Macro);MacroLog("pause");}else{emergency_=false;enabled_=true;action_=0;running_=false;generation_++;MacroLog("resume");}}
 void MacroEngine::EmergencyStop(){Stop();}
 bool MacroEngine::Alive(uint32_t a,uint64_t g)const{return enabled_&&!emergency_&&running_&&action_==a&&generation_==g;}
 bool MacroEngine::Wait(uint32_t a,uint64_t g,double ms){auto ns=(uint64_t)((std::max)(0.0,ms)*1000000.0);auto deadline=std::chrono::steady_clock::now()+std::chrono::nanoseconds(ns);for(;;){if(!Alive(a,g))return false;auto left=deadline-std::chrono::steady_clock::now();if(left<=std::chrono::nanoseconds::zero())return true;if(left>std::chrono::milliseconds(2))::Sleep(1);else std::this_thread::yield();}}
