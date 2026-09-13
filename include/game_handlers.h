@@ -25,7 +25,11 @@ public:
     bool AcquireTarget(EntitySnapshot& out, AimBone* bone = nullptr,
                        bool instantSniper = false);
     bool AimTarget(const EntitySnapshot& target, AimBone bone);
+    // True only after the screen-space assist has reached the configured
+    // confirmation radius.  Fire paths use this as a hard gate.
+    bool AimReadyForFire() const { return aimReady_ && aimErrorPx_.load() <= aimConfig_.fireConfirmRadiusPx; }
     uint32_t AimSettleMs() const { return aimConfig_.aimSettleMs; }
+    float AimErrorPx() const { return aimErrorPx_.load(); }
     // Source-compatible ray visibility test. Returns true when the client
     // reports no blocking hit. Missing/invalid engine state returns false so
     // the obstacle filter is fail-closed.
@@ -51,6 +55,20 @@ private:
         float aimWriteThresholdRad{0.018f};
         bool antiRecoilEnabled{true};
         int antiRecoilPixels{1};
+        // YOLO-style screen-space assist.  Targets are first accepted in the
+        // visual window, then the mouse is moved in bounded smooth steps until
+        // the aim-confirm radius is reached.  Memory angle writes remain an
+        // explicit opt-in fallback for older clients.
+        float visualRangePx{320.0f};
+        float aimRangePx{120.0f};
+        float aimDeadzonePx{1.0f};
+        float mouseSmooth{0.55f};
+        float mouseMoveGain{0.95f};
+        float mouseMaxStepPx{127.0f};
+        float fireConfirmRadiusPx{8.0f};
+        bool mouseAssistEnabled{true};
+        bool memoryAimEnabled{false};
+        uint32_t fireConfirmFrames{2};
     };
 
     GameHandlers() = default;
@@ -91,6 +109,8 @@ private:
     float aimReadyYaw_{0.0f};
     float aimReadyPitch_{0.0f};
     bool aimReady_{false};
+    uint32_t aimConfirmFrames_{0};
+    std::atomic<float> aimErrorPx_{1.0e9f};
     uint64_t lastRadioPulse_{0};
     uint64_t lastStaticRetry_{0};
     bool teleportDone_{false};

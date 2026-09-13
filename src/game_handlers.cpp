@@ -345,6 +345,16 @@ void GameHandlers::LoadAimConfig() {
     aimConfig_.aimWriteThresholdRad = (std::max)(0.001f, IniFloat(path, L"aim_write_threshold_deg", 1.0f) * 3.14159265358979323846f / 180.0f);
     aimConfig_.antiRecoilEnabled = IniBool(path, L"anti_recoil_enabled", true);
     aimConfig_.antiRecoilPixels = static_cast<int>(IniUint(path, L"anti_recoil_pixels", 1u));
+    aimConfig_.visualRangePx = (std::max)(1.0f, IniFloat(path, L"visual_range_px", 320.0f));
+    aimConfig_.aimRangePx = (std::max)(1.0f, IniFloat(path, L"aim_range_px", 120.0f));
+    aimConfig_.aimDeadzonePx = (std::max)(0.0f, IniFloat(path, L"aim_deadzone_px", 1.0f));
+    aimConfig_.mouseSmooth = (std::clamp)(IniFloat(path, L"mouse_smoothing", 0.82f), 0.0f, 0.99f);
+    aimConfig_.mouseMoveGain = (std::max)(0.01f, IniFloat(path, L"mouse_move_gain", 0.95f));
+    aimConfig_.mouseMaxStepPx = (std::max)(1.0f, IniFloat(path, L"mouse_max_step_px", 127.0f));
+    aimConfig_.fireConfirmRadiusPx = (std::max)(0.5f, IniFloat(path, L"fire_confirm_radius_px", 8.0f));
+    aimConfig_.mouseAssistEnabled = IniBool(path, L"mouse_assist_enabled", true);
+    aimConfig_.memoryAimEnabled = IniBool(path, L"memory_aim_enabled", false);
+    aimConfig_.fireConfirmFrames = (std::max<uint32_t>)(1u, IniUint(path, L"fire_confirm_frames", 2u));
     Log("aim_config_loaded", Feature::AimAutoFire, true,
         static_cast<uintptr_t>(aimConfig_.microRangeDivisor),
         static_cast<uint32_t>(aimConfig_.microRadiusPx));
@@ -352,28 +362,36 @@ void GameHandlers::LoadAimConfig() {
 
 bool GameHandlers::AcquireTarget(EntitySnapshot& out, AimBone* bone, bool instantSniper) {
     out = {};
+    const auto resetAimConfirmation = [this] {
+        aimReady_ = false;
+        aimConfirmFrames_ = 0;
+        aimErrorPx_ = 1.0e9f;
+        aimReadyAt_ = 0;
+    };
     const auto list = entities_.Snapshot();
-    if (list.empty()) { LogAimGate(1); targetReady_ = false; return false; }
+    if (list.empty()) { LogAimGate(1); targetReady_ = false; resetAimConfirmation(); return false; }
     Matrix4 view{}; Matrix4 projection{}; Viewport vp{};
     if (!RenderAdapter::Instance().ReadFrame(view, projection, vp) ||
         vp.width <= 0.0f || vp.height <= 0.0f) {
         LogAimGate(2);
         lockedSlot_ = 0;
         targetReady_ = false;
+        resetAimConfirmation();
         return false;
     }
     const uint32_t rangeDivisor = instantSniper ? aimConfig_.instantRangeDivisor
                                                 : aimConfig_.microRangeDivisor;
-    const AimWindow window{
+    const float legacyRx = vp.width / static_cast<float>(1u + rangeDivisor);
+    const float legacyRy = vp.height / static_cast<float>(1u + rangeDivisor);
+    const float visualRadius = aimConfig_.visualRangePx > 0.0f
+        ? aimConfig_.visualRangePx : (std::max)(legacyRx, legacyRy);
+    const AimWindow visualWindow{
         vp.x + vp.width * 0.5f,
         vp.y + vp.height * 0.5f,
-        aimConfig_.microRadiusPx > 0.0f
-            ? aimConfig_.microRadiusPx
-            : vp.width / static_cast<float>(1u + rangeDivisor),
-        aimConfig_.microRadiusPx > 0.0f
-            ? aimConfig_.microRadiusPx
-            : vp.height / static_cast<float>(1u + rangeDivisor)
+        visualRadius, visualRadius
     };
+    const AimWindow aimWindow{visualWindow.cx, visualWindow.cy,
+                              aimConfig_.aimRangePx, aimConfig_.aimRangePx};
 
     // The ray test is fail-closed.  A missing local pawn or an unavailable
     // engine intersection entry must never turn the obstacle filter into a
@@ -384,6 +402,7 @@ bool GameHandlers::AcquireTarget(EntitySnapshot& out, AimBone* bone, bool instan
         LogAimGate(3);
         lockedSlot_ = 0;
         targetReady_ = false;
+        resetAimConfirmation();
         return false;
     }
     // The source implementation calls IsVisible only when the local pawn is
@@ -418,14 +437,14 @@ bool GameHandlers::AcquireTarget(EntitySnapshot& out, AimBone* bone, bool instan
         // AABB is deliberately used as the pixel proxy: a rendered torso can
         // intersect the window between two sampled joints even when neither
         // joint center lands inside the tiny radius.
-        if (!BodyIntersectsAimWindow(candidate, window, aimConfig_.bodyPaddingPx,
-                                     aimConfig_.microRadiusPx > 0.0f))
+        if (!BodyIntersectsAimWindow(candidate, visualWindow, aimConfig_.bodyPaddingPx,
+                                     true))
             continue;
         ++bodyCandidates;
 
         Candidate current{};
         current.entity = &candidate;
-        current.score = DistanceToBody(candidate, window, aimConfig_.bodyPaddingPx);
+        current.score = DistanceToBody(candidate, aimWindow, aimConfig_.bodyPaddingPx);
         current.worldDistanceSq = localOk ? WorldDistanceSq(local.position, candidate.position) : 0.0f;
         bool pointFound = false;
         float bestPointScore = FLT_MAX;
@@ -439,12 +458,19 @@ bool GameHandlers::AcquireTarget(EntitySnapshot& out, AimBone* bone, bool instan
                 ++blockedPoints;
                 continue;
             }
-            const float dx = p.x - window.cx;
-            const float dy = p.y - window.cy;
+            const float dx = p.x - visualWindow.cx;
+            const float dy = p.y - visualWindow.cy;
+            const float aimDx = p.x - aimWindow.cx;
+            const float aimDy = p.y - aimWindow.cy;
+            // Visual range finds candidates.  The aim range is an assist
+            // radius, not a hard rejection: targets in the visual window
+            // are eligible for bounded mouse convergence, and fire remains
+            // gated by fire_confirm_radius_px after convergence.
             // Normal mode qualifies on any body pixel in the micro window,
             // then aims the explicitly selected neck/head/chest point.  The
             // sniper path still selects the nearest point to the crosshair.
-            const float pointScore = instantSniper ? dx * dx + dy * dy : 0.0f;
+            const float pointScore = instantSniper ? dx * dx + dy * dy :
+                aimDx * aimDx + aimDy * aimDy;
             if (!pointFound || pointScore < bestPointScore) {
                 current.bone = bones[i];
                 current.boneIndex = i;
@@ -457,7 +483,7 @@ bool GameHandlers::AcquireTarget(EntitySnapshot& out, AimBone* bone, bool instan
         // the body AABB intersection above is what grants pixel-level
         // qualification when the nearest joint itself is just outside the
         // radius.
-        current.score = DistanceToBody(candidate, window, aimConfig_.bodyPaddingPx);
+        current.score = DistanceToBody(candidate, aimWindow, aimConfig_.bodyPaddingPx);
 
         const auto better = [](const Candidate& a, const Candidate& b) {
             if (!a.entity) return false;
@@ -472,6 +498,7 @@ bool GameHandlers::AcquireTarget(EntitySnapshot& out, AimBone* bone, bool instan
         LogAimGate(blockedPoints ? 5u : (bodyCandidates ? 6u : 4u));
         lockedSlot_ = 0;
         targetReady_ = false;
+        resetAimConfirmation();
         return false;
     }
 
@@ -530,13 +557,60 @@ bool GameHandlers::IsVisible(const Vec3& me, const Vec3& target) const {
 
 bool GameHandlers::AimTarget(const EntitySnapshot& target, AimBone bone) {
     auto pl = CurrentPlayer();
-    if (!pl || !target.alive) return false;
+    if (!target.alive) return false;
     size_t idx = 1;
     switch (bone) { case AimBone::Head: idx=0; break; case AimBone::Neck: idx=1; break;
     case AimBone::Chest: idx=2; break; case AimBone::Waist: idx=3; break; case AimBone::Butt: idx=4; break; }
     Vec3 p = target.boneValid[idx] ? target.bones[idx] : target.position;
     if (!std::isfinite(p.x) || !std::isfinite(p.y) || !std::isfinite(p.z)) return false;
-    LocalSnapshot local{}; if (!entities_.ReadLocal(local)) return false;
+    const auto now = GetTickCount64();
+    const bool targetChanged = aimReadySlot_ != target.slot || aimReadyBone_ != bone;
+    if (targetChanged) {
+        aimConfirmFrames_ = 0;
+        aimReady_ = false;
+    }
+
+    // Primary path: operate in exactly the same screen coordinate space as
+    // the visual detector.  A relative move is deliberately bounded and
+    // smoothed; the following frame reprojects the bone and the fire gate is
+    // opened only when the reprojection is within fire_confirm_radius_px.
+    bool screenPath = false;
+    if (aimConfig_.mouseAssistEnabled && target.boneScreenValid[idx]) {
+        Matrix4 view{}; Matrix4 projection{}; Viewport vp{};
+        if (RenderAdapter::Instance().ReadFrame(view, projection, vp) &&
+            vp.width > 0.0f && vp.height > 0.0f) {
+            const auto& screen = target.boneScreen[idx];
+            const float dx = screen.x - (vp.x + vp.width * 0.5f);
+            const float dy = screen.y - (vp.y + vp.height * 0.5f);
+            const float error = std::sqrt(dx * dx + dy * dy);
+            aimErrorPx_ = error;
+            if (error <= aimConfig_.fireConfirmRadiusPx) {
+                if (targetChanged) aimReadyAt_ = now;
+                ++aimConfirmFrames_;
+            } else {
+                aimConfirmFrames_ = 0;
+                if (targetChanged) aimReadyAt_ = now;
+                if (error > aimConfig_.aimDeadzonePx) {
+                    // smoothing is the retained portion of the remaining
+                    // error (YOLO's 0.82 => move about 18% per tick).
+                    const float stepScale = (1.0f - aimConfig_.mouseSmooth) * aimConfig_.mouseMoveGain;
+                    const float sx = (std::clamp)(dx * stepScale, -aimConfig_.mouseMaxStepPx, aimConfig_.mouseMaxStepPx);
+                    const float sy = (std::clamp)(dy * stepScale, -aimConfig_.mouseMaxStepPx, aimConfig_.mouseMaxStepPx);
+                    const int mx = static_cast<int>(std::lround(sx));
+                    const int my = static_cast<int>(std::lround(sy));
+                    if (mx || my) InputRouter::Instance().MouseMove(mx, my);
+                }
+            }
+            aimReadySlot_ = target.slot;
+            aimReadyBone_ = bone;
+            aimReady_ = aimConfirmFrames_ >= aimConfig_.fireConfirmFrames;
+            screenPath = true;
+        }
+    }
+
+    if (screenPath && !aimConfig_.memoryAimEnabled) return true;
+    if (!pl) return screenPath;
+    LocalSnapshot local{}; if (!entities_.ReadLocal(local)) return screenPath;
     // TCII 新型模式的鼠标角度位于人物对象 +3464/+3468（源码中的
     // 鼠标Y偏移_j）；旧版 +1328 仅在旧模式使用。当前客户端签名是
     // 1.1.85.7，新型路径优先写入 +3464/+3468。
@@ -553,11 +627,10 @@ bool GameHandlers::AimTarget(const EntitySnapshot& target, AimBone bone) {
     if (!std::isfinite(yaw) || !std::isfinite(pitch)) return false;
     // Source writes angle.Y (pitch) at 鼠标Y偏移_j and angle.X (yaw) at
     // 鼠标Y偏移_j+4.  Keep that ordering for the 1.1.85.7 new-mode object.
-    const auto now = GetTickCount64();
     const bool materiallyChanged = !aimReady_ || aimReadySlot_ != target.slot ||
         aimReadyBone_ != bone || std::fabs(yaw - aimReadyYaw_) > aimConfig_.aimWriteThresholdRad ||
         std::fabs(pitch - aimReadyPitch_) > aimConfig_.aimWriteThresholdRad;
-    bool ok = WriteFloat(pl + 3464u, pitch) && WriteFloat(pl + 3468u, yaw);
+    bool ok = aimConfig_.memoryAimEnabled && WriteFloat(pl + 3464u, pitch) && WriteFloat(pl + 3468u, yaw);
     if (ok) {
         if (materiallyChanged) {
             aimReadyAt_ = now;
@@ -566,6 +639,8 @@ bool GameHandlers::AimTarget(const EntitySnapshot& target, AimBone bone) {
             aimReadyYaw_ = yaw;
             aimReadyPitch_ = pitch;
             aimReady_ = true;
+            aimConfirmFrames_ = aimConfig_.fireConfirmFrames;
+            aimErrorPx_ = 0.0f;
         }
         uint32_t pitchBits = 0;
         std::memcpy(&pitchBits, &pitch, sizeof(pitchBits));
@@ -603,6 +678,7 @@ void GameHandlers::TickAimAndFire() {
     EntitySnapshot target{}; AimBone bone{};
     if (!AcquireTarget(target, &bone)) return;
     if (!AimTarget(target, bone)) return;
+    if (!AimReadyForFire()) return;
     const auto now = GetTickCount64();
     if (!aimReady_ || now - aimReadyAt_ < aimConfig_.aimSettleMs) return;
     // Alt+Z + physical LMB 普通模式为自动开枪；节流到 aim.auto_fire_interval_ms。

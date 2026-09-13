@@ -208,6 +208,9 @@ void InstantSniper::Run(){
             !GameHandlers::Instance().AimTarget(target, selected)) {
             RestoreMovement(r, releasedMove, releasedCount); releasedCount=0; continue;
         }
+        if (!GameHandlers::Instance().AimReadyForFire()) {
+            RestoreMovement(r, releasedMove, releasedCount); releasedCount=0; continue;
+        }
         // Let at least one game-frame consume the post-brake angle before the
         // trigger is sent.  This prevents a moving player's last WASD update
         // from winning over the freshly written pitch/yaw.
